@@ -277,6 +277,7 @@ Enbart admins
 > ```typescript
 > {[
 >   {
+>     id: number,
 >     customerId: number,
 >     scooterId: number,
 >     bestParkingZone: number,
@@ -317,6 +318,7 @@ Enbart admins
 > ⬅️ Response body:
 > ```typescript
 > {
+>   id: number,
 >   customerId: number,
 >   scooterId: number,
 >   bestParkingZone: number,
@@ -383,12 +385,12 @@ Enbart admins
 
 > __DELETE__
 >
+> Ta bort resa med id `tripId`.
+>
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins]
 > ``` 
->
-> Ta bort resa med id `tripId`.
 
 ### /scooter
 
@@ -435,7 +437,7 @@ Enbart admins
 > }
 > ```
 
-> POST
+> __POST__
 >
 > Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
 >
@@ -486,19 +488,101 @@ Enbart admins
 
 ### /zone
 
-> GET Hämta alla zoner.
+> __GET__
+>
+> Hämta alla zoner.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {[
+>   {
+>     id: number,
+>     type: string,
+>     area: [[number, number], ...],
+>     colour: string,
+>     name: string,
+>     description: string,
+>     parkingValue: number
+>   },
+>   ...
+> ]}
+> ```
 
-> DELETE Ta bort alla zoner.
+> __DELETE__
+>
+> Ta bort alla zoner.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /zone/{zoneId}
 
-> GET Hämta zon med id `zoneId`.
+> __GET__
+>
+> Hämta zon med id `zoneId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
 
-> POST Lägg till zon med id `zoneId`. Ange zoneId 0 för att få ett automatiskt tilldelat id.
+> __POST__
+>
+> Lägg till zon med id `zoneId`. Ange zoneId 0 för att få ett automatiskt tilldelat id.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+> 
+> ⬅️ Response body:
+> ```typescript
+> {
+>   type: string,
+>   area: [[number, number], ...],
+>   colour: string,
+>   name: string,
+>   description: string,
+>   parkingValue: number
+> }
+> ```
 
-> PUT Uppdatera zon med id `zoneId`. Förutom zoneId är de andra fälten optionella.
+> __PUT__
+>
+> Uppdatera zon med id `zoneId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+> 
+> > ⬅️ Response body:
+> ```typescript
+> {
+>   type?: string,
+>   area?: [[number, number], ...],
+>   colour?: string,
+>   name?: string,
+>   description?: string,
+>   parkingValue?: number
+> }
+> ```
 
-> DELETE Ta bort zon med id `zoneId`.
+> __DELETE__
+> 
+> Ta bort zon med id `zoneId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 ### /parking
 
