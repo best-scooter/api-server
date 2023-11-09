@@ -23,42 +23,57 @@ REST API server till best-scooter.
 
 ### /customer
 
-> GET
+> __GET__
 >
-> Hämta alla kunder. Enbart admins.
+> Hämta alla kunder.
+>
+> _Request header:_
+> ```
+> X-Access-Token: [admins]
+> ```
 > 
 > _Response body:_
 > ```javascript
->  [
->    {
->      customerId: number,
->      name: string,
->      email: string,
->      password: string,
->      positionX: number,
->      positionY: number,
->      balance: number    
->    }
->    ...
->  ]
+> {[
+>   {
+>     id: number,
+>     name: string,
+>     email: string,
+>     password: string,
+>     positionX: number,
+>     positionY: number,
+>     balance: number    
+>   }
+>   ...
+> ]}
 >```
 
-> DELETE
+> __DELETE__
 >
-> Ta bort alla kunder. Enbart admins.
+> _Request header:_
+> ```
+> X-Access-Token: [admin]
+> ```
+>
+> Ta bort alla kunder.
 
 Enbart admins
 
 #### /customer/{customerId}
 
-> GET
+> __GET__
 >
-> Hämta en kund med id `customerId`. Enbart admins och kunden själv.
+> Hämta en kund med id `customerId`.
+>
+> _Request header:_
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
 >
 > _Response body:_
-> ```javascript
+> ```typescript
 > {
->   customerId: number,
+>   id: number,
 >   name: string,
 >   email: string,
 >   password: string,
@@ -68,27 +83,85 @@ Enbart admins
 > }
 >```
 
-> POST
+> __POST__
 >
-> Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id. Enbart admins.
+> _Request body:_
+> ```typescript
+> {
+>   name: string,
+>   email: string,
+>   password: string
+> }
+> ```
+>
+> Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
 
-> PUT
+> __PUT__
+>
 > 
-> Uppdatera kund med id `customerId`. Förutom customerId är de andra fälten optionella. Enbart admins och kunden själv.
-
-> DELETE
+> Uppdatera kund med id `customerId`.
 >
-> Ta bort kund med id `customerId`. Enbart admins och kunden själv.
+> _Request header:_
+> ```typescript
+> X-Access-Token: [admins|kunden själv]
+> ```
+> 
+> _Request body:_
+> ```typescript
+> {
+>   name?: string,
+>   email?: string,
+>   password?: string,
+>   positionX?: number,
+>   positionY?: number,
+>   balance?: number
+> }
+> ```
 
-#### /customer/login
+> __DELETE__
+>
+> _Response header:_
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
+>
+> Ta bort kund med id `customerId`.
 
-> GET Autentiserar användaren och checkar ut en token.
+#### /customer/token
 
-> DELETE Sätt ut den aktuella tokenen.
+> __GET__
+>
+> Autentiserar kunden och checkar ut en token.
+>
+> _Request body:_
+> ```typescript
+> {
+>   email: string,
+>   password: string
+> }
+> ```
+>
+> _Response body:_
+> ```typescript
+> {
+>   token: string
+> }
+> ```
+
+> __DELETE__
+>
+> _Response header:_
+> ```typescript
+> X-Access-Token: [kunden]
+> ```
+>
+> Sätt ut den aktuella tokenen.
 
 ### /admin
 
-> GET Hämta alla admins
+> GET
+>
+> Hämta alla admins. Enbart admins.
 
 > DELETE Ta bort alla admins
 
@@ -102,7 +175,7 @@ Enbart admins
 
 > DELETE Ta bort admin med id `adminId`.
 
-#### /admin/login
+#### /admin/token
 
 > GET Autentiserar admin och checkar ut en token.
 
