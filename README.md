@@ -13,7 +13,7 @@ REST API server for best-scooter.
 - [/trip](#trip)
   - [/trip/{tripId}](#triptripid)
 - [/scooter](#scooter)
-  - [/scooter/{scooterId}](#scooternscooterid)
+  - [/scooter/{scooterId}](#scooterscooterid)
 - [/zone](#zone)
   - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
