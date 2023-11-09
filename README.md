@@ -135,6 +135,6 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 
 > GET Hämta alla parkeringar för cykel med id `scooterId`.
 
-> POST Lägg till parkeringar för cykeln med id `parkingId` i alla aktuella zoner.
+> POST Lägg till parkeringar för cykeln med id `scooterId` i alla aktuella zoner.
 
 > DELETE Ta bort alla parkeringar för cykel med id `scooterId`.
