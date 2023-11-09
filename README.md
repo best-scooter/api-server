@@ -54,7 +54,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```
-> X-Access-Token: [admin]
+> X-Access-Token: [admins]
 > ```
 
 Enbart admins
@@ -158,7 +158,7 @@ Enbart admins
 
 ### /admin
 
-> GET
+> __GET__
 >
 > Hämta alla admins.
 > 
@@ -167,7 +167,7 @@ Enbart admins
 > X-Access-Token: [admins]
 > ```
 
-> DELETE
+> __DELETE__
 >
 > Ta bort alla admins
 >
@@ -178,7 +178,7 @@ Enbart admins
 
 #### /admin/{adminId}
 
-> GET
+> __GET__
 >
 > Hämta admin med id `adminId`.
 >
@@ -187,13 +187,13 @@ Enbart admins
 > X-Access-Token: [admins]
 > ```
 
-> POST
+> __POST__
 >
 > Lägg till admin med id `adminId`. Ange adminId `0` för att få ett automatiskt tilldelat id.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: [superadmins]
 > ```
 > 
 > ➡️ Request body:
@@ -205,13 +205,13 @@ Enbart admins
 > }
 > ```
 
-> PUT
+> __PUT__
 >
 > Uppdatera admin med id `adminId`. Enbart superadmins kan ange `level` = `superadmin`.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [superadmins|adminen själv]
+> X-Access-Token: [superadmins|adminen]
 > ```
 > 
 > ➡️ Request body:
@@ -223,29 +223,157 @@ Enbart admins
 > }
 > ```
 
-> DELETE
+> __DELETE__
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [superadmins]
+> ```
 >
 > Ta bort admin med id `adminId`.
 
 #### /admin/token
 
-> GET Autentiserar admin och checkar ut en token.
+> __GET__
+>
+> Autentiserar admin och checkar ut en token.
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   username: string,
+>   password: string
+> }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   token: string
+> }
+> ```
 
-> DELETE Sätt ut den aktuella tokenen.
+> __DELETE__
+>
+> Sätt ut den aktuella tokenen.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [adminen]
+> ```
 
 ### /trip
 
-> GET Hämta alla resor.
+> __GET__
+>
+> Hämta alla resor.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {[
+>   {
+>     customerId: number,
+>     scooterId: number,
+>     bestParkingZone: number,
+>     bestPickupZone: number,
+>     parkedCharging: boolean,
+>     timeStarted: string,
+>     timeEnded: string,
+>     distance: number,
+>     route: [[number, number], ...],
+>     priceInitial: number,
+>     priceTime: number,
+>     priceDistance: number
+>   },
+>   ...
+> ]}
+> ```
 
-> DELETE Ta bort alla resor.
+> __DELETE__
+>
+> Ta bort alla resor.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /trip/{tripId}
 
-> GET Hämta resa med id `tripId`.
+> __GET__
+>
+> Hämta resa med id `tripId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   customerId: number,
+>   scooterId: number,
+>   bestParkingZone: number,
+>   bestPickupZone: number,
+>   parkedCharging: boolean,
+>   timeStarted: string,
+>   timeEnded: string,
+>   distance: number,
+>   route: [[number, number], ...],
+>   priceInitial: number,
+>   priceTime: number,
+>   priceDistance: number
+> }
+> ```
 
-> POST Lägg till ny resa med id `tripId`. Ange tripId `0` för att få ett automatiskt tilldelat id.
+> __POST__
+>
+> Lägg till ny resa med id `tripId`. Ange tripId `0` för att få ett automatiskt tilldelat id.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   customerId: number,
+>   scooterId: number,
+>   bestPickupZone: number,
+>   startPosition: [number, number],
+>   priceInitial: number,
+>   priceTime: number,
+>   priceDistance: number
+> }
+> ```
 
-> PUT Uppdatera trip med id `tripId`. Förutom adminId är de andra fälten optionella.
+> __PUT__
+>
+> Uppdatera trip med id `tripId`. `routeAddition` lägger till nya punkter till resans `route`, `route` ersätter hela resans rutt. använd inte `routeAddition` och `route` i samma PUT, det kan få oförutsedda resultat.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
+>
+> ⬅️ Request body:
+> ```typescript
+> {
+>   bestParkingZone?: number,
+>   parkedCharging?: boolean,
+>   timeEnded?: string,
+>   distance?: number,
+>   route?: [[number, number], ...],
+>   routeAddition?: [[number, number], ...]
+> }
+> ```
 
 > DELETE Ta bort resa med id `tripId`.
 
