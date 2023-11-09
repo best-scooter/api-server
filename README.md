@@ -27,12 +27,12 @@ REST API server till best-scooter.
 >
 > Hämta alla kunder.
 >
-> _Request header:_
+> ➡️ Request header:
 > ```
 > X-Access-Token: [admins]
 > ```
 > 
-> _Response body:_
+> ⬅️ Response body:
 > ```javascript
 > {[
 >   {
@@ -50,12 +50,12 @@ REST API server till best-scooter.
 
 > __DELETE__
 >
-> _Request header:_
+> Ta bort alla kunder.
+>
+> ➡️ Request header:
 > ```
 > X-Access-Token: [admin]
 > ```
->
-> Ta bort alla kunder.
 
 Enbart admins
 
@@ -65,12 +65,12 @@ Enbart admins
 >
 > Hämta en kund med id `customerId`.
 >
-> _Request header:_
+> ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins|kunden]
 > ```
 >
-> _Response body:_
+> ⬅️ Response body:
 > ```typescript
 > {
 >   id: number,
@@ -87,7 +87,7 @@ Enbart admins
 >
 > Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
 >
-> _Request body:_
+> ➡️ Request body:
 > ```typescript
 > {
 >   name: string,
@@ -100,12 +100,12 @@ Enbart admins
 >
 > Uppdatera kund med id `customerId`.
 >
-> _Request header:_
+> ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins|kunden själv]
 > ```
 > 
-> _Request body:_
+> ➡️ Request body:
 > ```typescript
 > {
 >   name?: string,
@@ -119,7 +119,7 @@ Enbart admins
 
 > __DELETE__
 >
-> _Request header:_
+> ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins|kunden]
 > ```
@@ -132,7 +132,7 @@ Enbart admins
 >
 > Autentiserar kunden och checkar ut en token.
 >
-> _Request body:_
+> ➡️ Request body:
 > ```typescript
 > {
 >   email: string,
@@ -140,7 +140,7 @@ Enbart admins
 > }
 > ```
 >
-> _Response body:_
+> ⬅️ Response body:
 > ```typescript
 > {
 >   token: string
@@ -149,7 +149,7 @@ Enbart admins
 
 > __DELETE__
 >
-> _Request header:_
+> ➡️ Request header:
 > ```typescript
 > X-Access-Token: [kunden]
 > ```
@@ -162,22 +162,70 @@ Enbart admins
 >
 > Hämta alla admins.
 > 
-> _Request header:_
+> ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins]
 > ```
 
-> DELETE Ta bort alla admins
+> DELETE
+>
+> Ta bort alla admins
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /admin/{adminId}
 
-> GET Hämta admin med id `adminId`.
+> GET
+>
+> Hämta admin med id `adminId`.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
-> POST Lägg till admin med id `adminId`. Ange adminId `0` för att få ett automatiskt tilldelat id.
+> POST
+>
+> Lägg till admin med id `adminId`. Ange adminId `0` för att få ett automatiskt tilldelat id.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+> 
+> ➡️ Request body:
+> ```typescript
+> {
+>   username: string,
+>   password: string,
+>   level: string
+> }
+> ```
 
-> PUT Uppdatera admin med id `adminId`. Förutom adminId är de andra fälten optionella.
+> PUT
+>
+> Uppdatera admin med id `adminId`. Enbart superadmins kan ange `level` = `superadmin`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [superadmins|adminen själv]
+> ```
+> 
+> ➡️ Request body:
+> ```typescript
+> {
+>   username?: string,
+>   password?: string,
+>   level?: string
+> }
+> ```
 
-> DELETE Ta bort admin med id `adminId`.
+> DELETE
+>
+> Ta bort admin med id `adminId`.
 
 #### /admin/token
 
