@@ -23,19 +23,62 @@ REST API server till best-scooter.
 
 ### /customer
 
-> GET Hämta alla kunder
+> GET
+>
+> Hämta alla kunder. Enbart admins.
+> 
+> _Response body:_
+> ```javascript
+>  [
+>    {
+>      customerId: number,
+>      name: string,
+>      email: string,
+>      password: string,
+>      positionX: number,
+>      positionY: number,
+>      balance: number    
+>    }
+>    ...
+>  ]
+>```
 
-> DELETE Ta bort alla kunder
+> DELETE
+>
+> Ta bort alla kunder. Enbart admins.
+
+Enbart admins
 
 #### /customer/{customerId}
 
-> GET Hämta en kund med id `customerId`
+> GET
+>
+> Hämta en kund med id `customerId`. Enbart admins och kunden själv.
+>
+> _Response body:_
+> ```javascript
+> {
+>   customerId: number,
+>   name: string,
+>   email: string,
+>   password: string,
+>   positionX: number,
+>   positionY: number,
+>   balance: number    
+> }
+>```
 
-> POST Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
+> POST
+>
+> Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id. Enbart admins.
 
-> PUT Uppdatera kund med id `customerId`. Förutom customerId är de andra fälten optionella.
+> PUT
+> 
+> Uppdatera kund med id `customerId`. Förutom customerId är de andra fälten optionella. Enbart admins och kunden själv.
 
-> DELETE Ta bort kund med id `customerId`.
+> DELETE
+>
+> Ta bort kund med id `customerId`. Enbart admins och kunden själv.
 
 #### /customer/login
 
@@ -122,6 +165,8 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > DELETE Ta bort alla parkeringar.
 
 #### /parking/{parkingId}
+
+> GET Hämta parkering med id `parkingId`.
 
 > DELETE Ta bort parkering med id `parkingId`.
 
