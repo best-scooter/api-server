@@ -25,43 +25,43 @@ REST API server for best-scooter.
 
 GET, DELETE
 
-#### /customer/{customerId} {#customer-one}
+#### /customer/{customerId}
 
 GET, POST, PUT, DELETE
 
-#### /customer/login {#customer-login}
+#### /customer/login
 
 GET, POST, DELETE
 
-### /admin {#admin}
+### /admin
 
 GET, DELETE
 
-#### /admin/{adminId} {#admin-one}
+#### /admin/{adminId}
 
 GET, POST, PUT, DELETE
 
-#### /admin/login {#admin-login}
+#### /admin/login
 
 GET, POST, DELETE
 
-### /trip {#trip}
+### /trip
 
 GET, DELETE
 
-#### /trip/{tripId} {#trip-one}
+#### /trip/{tripId}
 
 GET, POST, PUT, DELETE
 
-### /scooter {#scooter}
+### /scooter
 
 GET, DELETE
 
-#### /scooter/{scooterId} {#scooter-one}
+#### /scooter/{scooterId}
 
 GET, POST, PUT, DELETE
 
-### /zone {#zone}
+### /zone
 
 GET, DELETE
 
@@ -69,18 +69,18 @@ GET, DELETE
 
 GET, POST, PUT, DELETE
 
-### /parking {#parking}
+### /parking
 
 GET, DELETE
 
-#### /parking/{parkingId} {#parking-one}
+#### /parking/{parkingId}
 
 POST, DELETE
 
-#### /parking/zone/{zoneId} {#parking-zone}
+#### /parking/zone/{zoneId}
 
 GET
 
-#### /parking/scooter/{scooterId} {#parking-scooter}
+#### /parking/scooter/{scooterId}
 
 GET, DELETE
