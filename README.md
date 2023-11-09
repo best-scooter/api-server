@@ -41,7 +41,7 @@ REST API server till best-scooter.
 
 > GET Autentiserar användaren och checkar ut en token.
 
-> DELETE Sätt ut den utcheckade tokenen.
+> DELETE Sätt ut den aktuella tokenen.
 
 ### /admin
 
@@ -61,43 +61,75 @@ REST API server till best-scooter.
 
 #### /admin/login
 
-GET, POST, DELETE
+> GET Autentiserar admin och checkar ut en token.
+
+> DELETE Sätt ut den aktuella tokenen.
 
 ### /trip
 
-GET, DELETE
+> GET Hämta alla resor.
+
+> DELETE Ta bort alla resor.
 
 #### /trip/{tripId}
 
-GET, POST, PUT, DELETE
+> GET Hämta resa med id `tripId`.
+
+> POST Lägg till ny resa med id `tripId`. Ange tripId `0` för att få ett automatiskt tilldelat id.
+
+> PUT Uppdatera trip med id `tripId`. Förutom adminId är de andra fälten optionella.
+
+> DELETE Ta bort resa med id `tripId`.
 
 ### /scooter
 
-GET, DELETE
+> GET Hämta alla elsparkcyklar.
+
+> DELETE Ta bort alla elsparkcyklar.
 
 #### /scooter/{scooterId}
 
-GET, POST, PUT, DELETE
+> GET Hämta elsparkcykel med id `scooterId`.
+
+> POST Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
+
+> PUT Uppdatera elsparkcykel med id `scooterId`. Förutom scooterId är de andra fälten optionella.
+
+> DELETE Ta bort elsparkcykel med id `scooterId`.
 
 ### /zone
 
-GET, DELETE
+> GET Hämta alla zoner.
+
+> DELETE Ta bort alla zoner.
 
 #### /zone/{zoneId}
 
-GET, POST, PUT, DELETE
+> GET Hämta zon med id `zoneId`.
+
+> POST Lägg till zon med id `zoneId`. Ange zoneId 0 för att få ett automatiskt tilldelat id.
+
+> PUT Uppdatera zon med id `zoneId`. Förutom zoneId är de andra fälten optionella.
+
+> DELETE Ta bort zon med id `zoneId`.
 
 ### /parking
 
-GET, DELETE
+Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera zoner kommer cykeln ha många rader i datasetet.
+
+> GET Hämta alla parkeringar.
+
+> DELETE Ta bort alla parkeringar.
 
 #### /parking/{parkingId}
 
-POST, DELETE
+> POST Lägg till en parkering med id `parkingId`.
+
+> DELETE Ta bort parkering med id `parkingId`.
 
 #### /parking/zone/{zoneId}
 
-GET
+> GET 
 
 #### /parking/scooter/{scooterId}
 
