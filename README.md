@@ -85,6 +85,8 @@ Enbart admins
 
 > __POST__
 >
+> Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
+>
 > _Request body:_
 > ```typescript
 > {
@@ -93,12 +95,9 @@ Enbart admins
 >   password: string
 > }
 > ```
->
-> Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
 
 > __PUT__
 >
-> 
 > Uppdatera kund med id `customerId`.
 >
 > _Request header:_
@@ -120,7 +119,7 @@ Enbart admins
 
 > __DELETE__
 >
-> _Response header:_
+> _Request header:_
 > ```typescript
 > X-Access-Token: [admins|kunden]
 > ```
@@ -150,7 +149,7 @@ Enbart admins
 
 > __DELETE__
 >
-> _Response header:_
+> _Request header:_
 > ```typescript
 > X-Access-Token: [kunden]
 > ```
@@ -161,7 +160,12 @@ Enbart admins
 
 > GET
 >
-> Hämta alla admins. Enbart admins.
+> Hämta alla admins.
+> 
+> _Request header:_
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 > DELETE Ta bort alla admins
 
