@@ -1,6 +1,6 @@
 # api-server
 
-REST API server for best-scooter.
+REST API server till best-scooter.
 
 ## API reference
 
@@ -23,23 +23,41 @@ REST API server for best-scooter.
 
 ### /customer
 
-GET, DELETE
+> GET Hämta alla kunder
+
+> DELETE Ta bort alla kunder
 
 #### /customer/{customerId}
 
-GET, POST, PUT, DELETE
+> GET Hämta en kund med id `customerId`
+
+> POST Lägg till kund med id `customerId`. Ange customerId `0` för att få ett automatiskt tilldelat id.
+
+> PUT Uppdatera kund med id `customerId`. Förutom customerId är de andra fälten optionella.
+
+> DELETE Ta bort kund med id `customerId`.
 
 #### /customer/login
 
-GET, POST, DELETE
+> GET Autentiserar användaren och checkar ut en token.
+
+> DELETE Sätt ut den utcheckade tokenen.
 
 ### /admin
 
-GET, DELETE
+> GET Hämta alla admins
+
+> DELETE Ta bort alla admins
 
 #### /admin/{adminId}
 
-GET, POST, PUT, DELETE
+> GET Hämta admin med id `adminId`.
+
+> POST Lägg till admin med id `adminId`. Ange adminId `0` för att få ett automatiskt tilldelat id.
+
+> PUT Uppdatera admin med id `adminId`. Förutom adminId är de andra fälten optionella.
+
+> DELETE Ta bort admin med id `adminId`.
 
 #### /admin/login
 
@@ -65,7 +83,7 @@ GET, POST, PUT, DELETE
 
 GET, DELETE
 
-#### /zone/{zoneId} {#zone-one}
+#### /zone/{zoneId}
 
 GET, POST, PUT, DELETE
 
