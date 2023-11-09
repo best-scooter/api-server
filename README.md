@@ -129,8 +129,10 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 
 #### /parking/zone/{zoneId}
 
-> GET 
+> GET Hämta alla parkeringar i zon med id `zoneId`.
 
 #### /parking/scooter/{scooterId}
 
-GET, DELETE
+> GET Hämta alla parkeringar för cykel med id `scooterId`.
+
+> DELETE Ta bort alla parkeringar för cykel med id `scooterId`.
