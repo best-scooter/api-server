@@ -356,7 +356,7 @@ Enbart admins
 
 > __PUT__
 >
-> Uppdatera trip med id `tripId`. `routeAddition` lägger till nya punkter till resans `route`, `route` ersätter hela resans rutt. använd inte `routeAddition` och `route` i samma PUT, det kan få oförutsedda resultat.
+> Uppdatera trip med id `tripId`.
 >
 > ➡️ Request header:
 > ```typescript
@@ -364,6 +364,12 @@ Enbart admins
 > ```
 >
 > ⬅️ Request body:
+> 
+> `routeAddition` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
+>
+> > [!WARNING]
+> > Använd inte `routeAddition` och `route` i samma PUT, det kan få oförutsedda resultat.
+> 
 > ```typescript
 > {
 >   bestParkingZone?: number,
@@ -375,23 +381,108 @@ Enbart admins
 > }
 > ```
 
-> DELETE Ta bort resa med id `tripId`.
+> __DELETE__
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ``` 
+>
+> Ta bort resa med id `tripId`.
 
 ### /scooter
 
-> GET Hämta alla elsparkcyklar.
+> __GET__
+>
+> Hämta alla elsparkcyklar.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
 
-> DELETE Ta bort alla elsparkcyklar.
+> __DELETE__
+>
+> Ta bort alla elsparkcyklar.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /scooter/{scooterId}
 
-> GET Hämta elsparkcykel med id `scooterId`.
+> __GET__
+>
+> Hämta elsparkcykel med id `scooterId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   id: number,
+>   positionX: number,
+>   positionY: number,
+>   battery: number,
+>   max_speed: number,
+>   status: string,
+>   charging: boolean,
+>   connected: boolean
+> }
+> ```
 
-> POST Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
+> POST
+>
+> Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   max_speed: number,
+>   status: string
+> }
+> ```
 
-> PUT Uppdatera elsparkcykel med id `scooterId`. Förutom scooterId är de andra fälten optionella.
+> __PUT__
+>
+> Uppdatera elsparkcykel med id `scooterId`.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [scootrar]
+> ```
+> 
+> ➡️ Request body:
+> ```typescript
+> {
+>   max_speed?: number,
+>   status?: string,
+>   positionX?: number,
+>   positionY?: number,
+>   battery?: number,
+>   charging?: boolean,
+>   connected?: boolean
+> }
+> ```
 
-> DELETE Ta bort elsparkcykel med id `scooterId`.
+
+> __DELETE__
+>
+> Ta bort elsparkcykel med id `scooterId`.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 ### /zone
 
