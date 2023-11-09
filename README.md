@@ -5,21 +5,21 @@ REST API server for best-scooter.
 ## API reference
 
 - [/customer](#customer)
-  - [/customer/{customerId}](#customer-one)
-  - [/customer/login](#customer-login)
+  - [/customer/{customerId}](#customercustomerid)
+  - [/customer/login](#customerlogin)
 - [/admin](#admin)
-  - [/admin/{adminId}](#admin-one)
-  - [/admin/login](#admin-login)
+  - [/admin/{adminId}](#adminadminid)
+  - [/admin/login](#adminlogin)
 - [/trip](#trip)
-  - [/trip/{tripId}](#trip-one)
+  - [/trip/{tripId}](#triptripid)
 - [/scooter](#scooter)
-  - [/scooter/{scooterId}](#scooter-one)
+  - [/scooter/{scooterId}](#scooternscooterid)
 - [/zone](#zone)
-  - [/zone/{zoneId}](#zone-one)
+  - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
-  - [/parking/{parkingId}](#parking-one)
-  - [/parking/zone/{zoneId}](#parking-zone)
-  - [/parking/scooter/{zoneId}](#parking-scooter)
+  - [/parking/{parkingId}](#parkingparkingid)
+  - [/parking/zone/{zoneId}](#parkingzonezoneid)
+  - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
 
 ### /customer
 
