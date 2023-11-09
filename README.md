@@ -21,7 +21,7 @@ REST API server for best-scooter.
   - [/parking/zone/{zoneId}](#parking-zone)
   - [/parking/scooter/{zoneId}](#parking-scooter)
 
-### /customer {#customer}
+### /customer
 
 GET, DELETE
 
