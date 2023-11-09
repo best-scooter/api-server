@@ -123,16 +123,18 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 
 #### /parking/{parkingId}
 
-> POST Lägg till en parkering med id `parkingId`.
-
 > DELETE Ta bort parkering med id `parkingId`.
 
 #### /parking/zone/{zoneId}
 
 > GET Hämta alla parkeringar i zon med id `zoneId`.
 
+> DELETE Ta bort alla parkeringar i zon med id `zoneId`.
+
 #### /parking/scooter/{scooterId}
 
 > GET Hämta alla parkeringar för cykel med id `scooterId`.
+
+> POST Lägg till parkeringar för cykeln med id `parkingId` i alla aktuella zoner.
 
 > DELETE Ta bort alla parkeringar för cykel med id `scooterId`.
