@@ -104,7 +104,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden själv]
+> X-Access-Token: [admins|kunden]
 > ```
 > 
 > ➡️ Request body:
