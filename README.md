@@ -57,8 +57,6 @@ REST API server till best-scooter.
 > X-Access-Token: [admins]
 > ```
 
-Enbart admins
-
 #### /customer/{customerId}
 
 > __GET__
@@ -588,26 +586,114 @@ Enbart admins
 
 Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera zoner kommer cykeln ha många rader i datasetet.
 
-> GET Hämta alla parkeringar.
+> __GET__
+>
+> Hämta alla parkeringar.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {[
+>   {
+>     customerId: number,
+>     scooterId: number
+>   },
+>   ...
+> ]}
+> ```
 
-> DELETE Ta bort alla parkeringar.
+> __DELETE__
+>
+> Ta bort alla parkeringar.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /parking/{parkingId}
 
-> GET Hämta parkering med id `parkingId`.
+> __GET__
+>
+> Hämta parkering med id `parkingId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   customerId: number,
+>   scooterId: number
+> }
+> ```
 
 > DELETE Ta bort parkering med id `parkingId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /parking/zone/{zoneId}
 
-> GET Hämta alla parkeringar i zon med id `zoneId`.
+>  __GET__
+>
+> Hämta alla parkeringar i zon med id `zoneId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ⬅️ Response body:
+>
+> Se [/parking](#parking)
 
-> DELETE Ta bort alla parkeringar i zon med id `zoneId`.
+> __DELETE__
+>
+> Ta bort alla parkeringar i zon med id `zoneId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
 
 #### /parking/scooter/{scooterId}
 
-> GET Hämta alla parkeringar för cykel med id `scooterId`.
+> __GET__
+>
+> Hämta alla parkeringar för cykel med id `scooterId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ⬅️ Response body:
+>
+> Se [/parking](#parking)
 
-> POST Lägg till parkeringar för cykeln med id `scooterId` i alla aktuella zoner.
+> __POST__
+>
+> Lägg till parkeringar för cykeln med id `scooterId` i alla aktuella zoner.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
 
-> DELETE Ta bort alla parkeringar för cykel med id `scooterId`.
+> __DELETE__
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunden]
+> ```
+>
+> Ta bort alla parkeringar för cykel med id `scooterId`.
