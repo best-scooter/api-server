@@ -2,7 +2,7 @@
 
 REST API server till best-scooter.
 
-## API reference
+## API-referens
 
 - [/customer](#customer)
   - [/customer/{customerId}](#customercustomerid)
