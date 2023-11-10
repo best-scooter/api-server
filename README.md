@@ -6,15 +6,18 @@ REST API server till best-scooter.
 
 - [/customer](#customer)
   - [/customer/{customerId}](#customercustomerid)
-  - [/customer/login](#customerlogin)
+  - [/customer/login](#customertoken)
+  - [/customer/token/verification](#customertokenverification)
 - [/admin](#admin)
   - [/admin/{adminId}](#adminadminid)
-  - [/admin/token](#adminlogin)
-- [/trip](#trip)
-  - [/trip/{tripId}](#triptripid)
+  - [/admin/token](#admintoken)
+  - [/admin/token/verification](#admintokenverification)
 - [/scooter](#scooter)
   - [/scooter/{scooterId}](#scooterscooterid)
   - [/scooter/token](#scootertoken)
+  - [/scooter/token/verification](#scootertokenverification)
+- [/trip](#trip)
+  - [/trip/{tripId}](#triptripid)
 - [/zone](#zone)
   - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
@@ -155,6 +158,22 @@ REST API server till best-scooter.
 >
 > Sätt ut den aktuella tokenen.
 
+#### /customer/token/verification
+
+> __GET__
+>
+> Verifierar en kunds token.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [kunden]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> confirmVerification: boolean
+> ```
+
 ### /admin
 
 > __GET__
@@ -259,6 +278,163 @@ REST API server till best-scooter.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: [adminen]
+> ```
+
+#### /admin/token/verification
+
+> __GET__
+>
+> Verifierar en admins token.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [adminen]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> confirmVerification: boolean
+> ```
+
+### /scooter
+
+> __GET__
+>
+> Hämta alla elsparkcyklar.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
+
+> __DELETE__
+>
+> Ta bort alla elsparkcyklar.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+
+#### /scooter/{scooterId}
+
+> __GET__
+>
+> Hämta elsparkcykel med id `scooterId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins|kunder]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   id: number,
+>   positionX: number,
+>   positionY: number,
+>   battery: number,
+>   max_speed: number,
+>   status: string,
+>   charging: boolean,
+>   connected: boolean
+> }
+> ```
+
+> __POST__
+>
+> Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   max_speed: number,
+>   status: string,
+>   password: string
+> }
+> ```
+
+> __PUT__
+>
+> Uppdatera elsparkcykel med id `scooterId`.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [scootrar]
+> ```
+> 
+> ➡️ Request body:
+> ```typescript
+> {
+>   max_speed?: number,
+>   status?: string,
+>   positionX?: number,
+>   positionY?: number,
+>   battery?: number,
+>   charging?: boolean,
+>   connected?: boolean,
+>   password? string
+> }
+> ```
+
+> __DELETE__
+>
+> Ta bort elsparkcykel med id `scooterId`.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [admins]
+> ```
+
+#### /scooter/token
+
+> __GET__
+>
+> Autentiserar elsparkcykeln och checkar ut en token.
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   scooterId: number,
+>   password: string
+> }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   token: string
+> }
+> ```
+
+> __DELETE__
+>
+> Sätt ut den aktuella tokenen.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [scootern]
+> ```
+
+#### /scooter/token/verification
+
+> __GET__
+>
+> Verifierar en kunds token.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [scootern]
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> confirmVerification: boolean
 > ```
 
 ### /trip
@@ -390,131 +566,6 @@ REST API server till best-scooter.
 > ```typescript
 > X-Access-Token: [admins]
 > ``` 
-
-### /scooter
-
-> __GET__
->
-> Hämta alla elsparkcyklar.
-> 
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [admins|kunder]
-> ```
-
-> __DELETE__
->
-> Ta bort alla elsparkcyklar.
-> 
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [admins]
-> ```
-
-#### /scooter/{scooterId}
-
-> __GET__
->
-> Hämta elsparkcykel med id `scooterId`.
-> 
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [admins|kunder]
-> ```
->
-> ⬅️ Response body:
-> ```typescript
-> {
->   id: number,
->   positionX: number,
->   positionY: number,
->   battery: number,
->   max_speed: number,
->   status: string,
->   charging: boolean,
->   connected: boolean
-> }
-> ```
-
-> __POST__
->
-> Lägg till ny elsparkcykel med id `scooterId`. Ange scooterId `0` för att få ett automatiskt tilldelat id.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [admins]
-> ```
->
-> ➡️ Request body:
-> ```typescript
-> {
->   max_speed: number,
->   status: string,
->   password: string
-> }
-> ```
-
-> __PUT__
->
-> Uppdatera elsparkcykel med id `scooterId`.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [scootrar]
-> ```
-> 
-> ➡️ Request body:
-> ```typescript
-> {
->   max_speed?: number,
->   status?: string,
->   positionX?: number,
->   positionY?: number,
->   battery?: number,
->   charging?: boolean,
->   connected?: boolean,
->   password? string
-> }
-> ```
-
-> __DELETE__
->
-> Ta bort elsparkcykel med id `scooterId`.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [admins]
-> ```
-
-#### /scooter/token
-
-> __GET__
->
-> Autentiserar elsparkcykeln och checkar ut en token.
->
-> ➡️ Request body:
-> ```typescript
-> {
->   scooterId: number,
->   password: string
-> }
-> ```
->
-> ⬅️ Response body:
-> ```typescript
-> {
->   token: string
-> }
-> ```
-
-> __DELETE__
->
-> Sätt ut den aktuella tokenen.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: [scootern]
-> ```
 
 ### /zone
 
