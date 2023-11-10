@@ -6,7 +6,7 @@ REST API server till best-scooter.
 
 - [/customer](#customer)
   - [/customer/{customerId}](#customercustomerid)
-  - [/customer/login](#customertoken)
+  - [/customer/token](#customertoken)
   - [/customer/token/verification](#customertokenverification)
 - [/admin](#admin)
   - [/admin/{adminId}](#adminadminid)
