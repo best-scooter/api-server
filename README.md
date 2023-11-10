@@ -33,7 +33,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 > 
 > ⬅️ Response body:
@@ -58,7 +58,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /customer/{customerId}
@@ -69,7 +69,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > ⬅️ Response body:
@@ -81,7 +81,7 @@ REST API server till best-scooter.
 >   password: string,
 >   positionX: number,
 >   positionY: number,
->   balance: number    
+>   balance: number
 > }
 >```
 
@@ -104,7 +104,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 > 
 > ➡️ Request body:
@@ -123,7 +123,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > Ta bort kund med id `customerId`.
@@ -153,7 +153,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [kunden]
+> X-Access-Token: string <kunden>
 > ```
 >
 > Sätt ut den aktuella tokenen.
@@ -166,7 +166,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [kunden]
+> X-Access-Token: string <kunden>
 > ```
 >
 > ⬅️ Response body:
@@ -182,7 +182,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 > __DELETE__
@@ -191,7 +191,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /admin/{adminId}
@@ -202,7 +202,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 > __POST__
@@ -211,7 +211,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [superadmins]
+> X-Access-Token: string <superadmins>
 > ```
 > 
 > ➡️ Request body:
@@ -229,7 +229,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [superadmins|adminen]
+> X-Access-Token: string <superadmins|adminen>
 > ```
 > 
 > ➡️ Request body:
@@ -245,7 +245,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [superadmins]
+> X-Access-Token: string <superadmins>
 > ```
 >
 > Ta bort admin med id `adminId`.
@@ -277,7 +277,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [adminen]
+> X-Access-Token: string <adminen>
 > ```
 
 #### /admin/token/verification
@@ -288,7 +288,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [adminen]
+> X-Access-Token: string <adminen>
 > ```
 >
 > ⬅️ Response body:
@@ -304,7 +304,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunder]
+> X-Access-Token: string <admins|kunder>
 > ```
 
 > __DELETE__
@@ -313,7 +313,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /scooter/{scooterId}
@@ -324,7 +324,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunder]
+> X-Access-Token: string <admins|kunder>
 > ```
 >
 > ⬅️ Response body:
@@ -347,7 +347,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ➡️ Request body:
@@ -365,7 +365,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [scootrar]
+> X-Access-Token: string <scootrar>
 > ```
 > 
 > ➡️ Request body:
@@ -388,7 +388,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /scooter/token
@@ -418,7 +418,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [scootern]
+> X-Access-Token: string <scootern>
 > ```
 
 #### /scooter/token/verification
@@ -429,7 +429,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [scootern]
+> X-Access-Token: string <scootern>
 > ```
 >
 > ⬅️ Response body:
@@ -445,7 +445,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ⬅️ Response body:
@@ -461,7 +461,7 @@ REST API server till best-scooter.
 >     timeStarted: string,
 >     timeEnded: string,
 >     distance: number,
->     route: [[number, number], ...],
+>     route: [number, number][],
 >     priceInitial: number,
 >     priceTime: number,
 >     priceDistance: number
@@ -476,7 +476,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /trip/{tripId}
@@ -487,7 +487,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > ⬅️ Response body:
@@ -502,7 +502,7 @@ REST API server till best-scooter.
 >   timeStarted: string,
 >   timeEnded: string,
 >   distance: number,
->   route: [[number, number], ...],
+>   route: [number, number][],
 >   priceInitial: number,
 >   priceTime: number,
 >   priceDistance: number
@@ -515,7 +515,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > ➡️ Request body:
@@ -537,15 +537,15 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > ⬅️ Request body:
 > 
-> `routeAddition` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
+> `routeAppend` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
 >
 > > [!WARNING]
-> > Använd inte `routeAddition` och `route` i samma PUT, det kan få oförutsedda resultat.
+> > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
 > ```typescript
 > {
@@ -553,8 +553,8 @@ REST API server till best-scooter.
 >   parkedCharging?: boolean,
 >   timeEnded?: string,
 >   distance?: number,
->   route?: [[number, number], ...],
->   routeAddition?: [[number, number], ...]
+>   route?: [number, number][],
+>   routeAppend?: [number, number][]
 > }
 > ```
 
@@ -564,7 +564,7 @@ REST API server till best-scooter.
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ``` 
 
 ### /zone
@@ -575,7 +575,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunder]
+> X-Access-Token: string <admins|kunder>
 > ```
 >
 > ⬅️ Response body:
@@ -584,7 +584,7 @@ REST API server till best-scooter.
 >   {
 >     id: number,
 >     type: string,
->     area: [[number, number], ...],
+>     area: [number, number][],
 >     colour: string,
 >     name: string,
 >     description: string,
@@ -600,7 +600,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /zone/{zoneId}
@@ -611,7 +611,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunder]
+> X-Access-Token: string <admins|kunder>
 > ```
 
 > __POST__
@@ -620,14 +620,14 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 > 
 > ⬅️ Response body:
 > ```typescript
 > {
 >   type: string,
->   area: [[number, number], ...],
+>   area: [number, number][],
 >   colour: string,
 >   name: string,
 >   description: string,
@@ -641,14 +641,14 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 > 
 > > ⬅️ Response body:
 > ```typescript
 > {
 >   type?: string,
->   area?: [[number, number], ...],
+>   area?: [number, number][],
 >   colour?: string,
 >   name?: string,
 >   description?: string,
@@ -662,7 +662,7 @@ REST API server till best-scooter.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 ### /parking
@@ -675,7 +675,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ⬅️ Response body:
@@ -695,7 +695,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /parking/{parkingId}
@@ -706,7 +706,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ⬅️ Response body:
@@ -721,7 +721,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /parking/zone/{zoneId}
@@ -732,7 +732,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ⬅️ Response body:
@@ -745,7 +745,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 
 #### /parking/scooter/{scooterId}
@@ -756,7 +756,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins]
+> X-Access-Token: string <admins>
 > ```
 >
 > ⬅️ Response body:
@@ -769,14 +769,14 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 
 > __DELETE__
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: [admins|kunden]
+> X-Access-Token: string <admins|kunden>
 > ```
 >
 > Ta bort alla parkeringar för cykel med id `scooterId`.
