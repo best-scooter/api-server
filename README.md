@@ -9,11 +9,12 @@ REST API server till best-scooter.
   - [/customer/login](#customerlogin)
 - [/admin](#admin)
   - [/admin/{adminId}](#adminadminid)
-  - [/admin/login](#adminlogin)
+  - [/admin/token](#adminlogin)
 - [/trip](#trip)
   - [/trip/{tripId}](#triptripid)
 - [/scooter](#scooter)
   - [/scooter/{scooterId}](#scooterscooterid)
+  - [/scooter/token](#scootertoken)
 - [/zone](#zone)
   - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
@@ -448,7 +449,8 @@ REST API server till best-scooter.
 > ```typescript
 > {
 >   max_speed: number,
->   status: string
+>   status: string,
+>   password: string
 > }
 > ```
 
@@ -470,10 +472,10 @@ REST API server till best-scooter.
 >   positionY?: number,
 >   battery?: number,
 >   charging?: boolean,
->   connected?: boolean
+>   connected?: boolean,
+>   password? string
 > }
 > ```
-
 
 > __DELETE__
 >
@@ -482,6 +484,36 @@ REST API server till best-scooter.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: [admins]
+> ```
+
+#### /scooter/token
+
+> __GET__
+>
+> Autentiserar elsparkcykeln och checkar ut en token.
+>
+> ➡️ Request body:
+> ```typescript
+> {
+>   scooterId: number,
+>   password: string
+> }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   token: string
+> }
+> ```
+
+> __DELETE__
+>
+> Sätt ut den aktuella tokenen.
+>
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: [scootern]
 > ```
 
 ### /zone
