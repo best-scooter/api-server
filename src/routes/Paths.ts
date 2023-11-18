@@ -7,6 +7,8 @@ export default {
   Customer: {
     Base: '/customer',
     One: '/:customerId',
+    AuthUrl: '/authurl',
+    Auth: '/auth',
     Token: '/token',
     Verification: '/token/verification'
   },

@@ -9,12 +9,12 @@ class Customer extends Model<
     declare id: CreationOptional<number>;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
-    declare customerName: string;
+    declare customerName: string | null;
     declare email: string;
     declare password: string;
-    declare positionX: number;
-    declare positionY: number;
-    declare balance: number;
+    declare positionX: number | null;
+    declare positionY: number | null;
+    declare balance: number | null;
 }
 
 Customer.init({
@@ -35,9 +35,18 @@ Customer.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    positionX: DataTypes.FLOAT,
-    positionY: DataTypes.FLOAT,
-    balance: DataTypes.DECIMAL(10,2)
+    positionX: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0.0
+    },
+    positionY: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0.0
+    },
+    balance: {
+        type: DataTypes.DECIMAL(10,2),
+        defaultValue: 0.0
+    }
 }, {
     // Other model options go here
     sequelize,
