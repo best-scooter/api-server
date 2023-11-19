@@ -848,9 +848,9 @@ Samma sorts tokens används till all auktorisering. Tokenens payload har denna s
 ```typescript
 {
   type: string,
-  email?: string,
-  id?: number,
-  username?: string,
+  customerEmail?: string,
+  scooterId?: number,
+  adminUsername?: string,
   adminLevel?: string
 }
 ```
@@ -861,7 +861,7 @@ Customer:
 ```typescript
 {
   type: "customer",
-  email: "epost@adress.se"
+  customerEmail: "epost@adress.se"
 }
 ```
 
@@ -869,7 +869,7 @@ Scooter:
 ```typescript
 {
   type: "scooter",
-  id: 5
+  scooterId: 5
 }
 ```
 
@@ -877,7 +877,7 @@ Admin:
 ```typescript
 {
   type: "admin",
-  username: "chefen",
+  adminUsername: "chefen",
   adminLevel: "superadmin"
 }
 ```
