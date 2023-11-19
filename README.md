@@ -71,7 +71,7 @@ Kör production-builden med en annan .env-fil.
 > 
 > ⬅️ Response body:
 > ```javascript
-> data: [
+> { data: [
 >   {
 >     id: number,
 >     name: string,
@@ -82,7 +82,7 @@ Kör production-builden med en annan .env-fil.
 >     balance: number    
 >   }
 >   ...
-> ]
+> ]}
 >```
 
 > __DELETE__
@@ -107,7 +107,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   id: number,
 >   name: string,
 >   email: string,
@@ -115,7 +115,7 @@ Kör production-builden med en annan .env-fil.
 >   positionX: number,
 >   positionY: number,
 >   balance: number
-> }
+> }}
 >```
 
 > __POST__
@@ -124,9 +124,11 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> name: string,
-> email: string,
-> password: string
+> {
+>   name: string,
+>   email: string,
+>   password: string
+> }
 > ```
 
 > __PUT__
@@ -146,6 +148,7 @@ Kör production-builden med en annan .env-fil.
 > positionX?: number,
 > positionY?: number,
 > balance?: number
+> }
 > ```
 
 > __DELETE__
@@ -165,9 +168,9 @@ Kör production-builden med en annan .env-fil.
 > 
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   url: string
-> }
+> }}
 > ```
 
 > __POST__
@@ -181,9 +184,9 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   oAuthToken: string
-> }
+> }}
 > ```
 
 #### /customer/token
@@ -195,13 +198,14 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request body:
 > ```typescript
 > oAuthToken: string
+> }
 > ```
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   token: string
-> }
+> }}
 > ```
 
 > __DELETE__
@@ -255,9 +259,11 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> username: string,
-> password: string,
-> level: string
+> {
+>   username: string,
+>   password: string,
+>   level: string
+> }
 > ```
 
 > __PUT__
@@ -293,15 +299,17 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> username: string,
-> password: string
+> {
+>   username: string,
+>   password: string
+> }
 > ```
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   token: string
-> }
+> }}
 > ```
 
 > __DELETE__
@@ -346,7 +354,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   id: number,
 >   positionX: number,
 >   positionY: number,
@@ -355,7 +363,7 @@ Kör production-builden med en annan .env-fil.
 >   status: string,
 >   charging: boolean,
 >   connected: boolean
-> }
+> }}
 > ```
 
 > __POST__
@@ -369,9 +377,11 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> max_speed: number,
-> status: string,
-> password: string
+> {
+>   max_speed: number,
+>   status: string,
+>   password: string
+> }
 > ```
 
 > __PUT__
@@ -385,14 +395,16 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> max_speed?: number,
-> status?: string,
-> positionX?: number,
-> positionY?: number,
-> battery?: number,
-> charging?: boolean,
-> connected?: boolean,
-> password? string
+> {
+>   max_speed?: number,
+>   status?: string,
+>   positionX?: number,
+>   positionY?: number,
+>   battery?: number,
+>   charging?: boolean,
+>   connected?: boolean,
+>   password? string
+> }
 > ```
 
 > __DELETE__
@@ -412,15 +424,17 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> scooterId: number,
-> password: string
+> {
+>   scooterId: number,
+>   password: string
+> }
 > ```
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   token: string
-> }
+> }}
 > ```
 
 > __DELETE__
@@ -445,7 +459,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: [
+> { data: [
 >   {
 >     id: number,
 >     customerId: number,
@@ -462,7 +476,7 @@ Kör production-builden med en annan .env-fil.
 >     priceDistance: number
 >   },
 >   ...
-> ]
+> ]}
 > ```
 
 > __DELETE__
@@ -487,7 +501,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   id: number,
 >   customerId: number,
 >   scooterId: number,
@@ -501,7 +515,7 @@ Kör production-builden med en annan .env-fil.
 >   priceInitial: number,
 >   priceTime: number,
 >   priceDistance: number
-> }
+> }}
 > ```
 
 > __POST__
@@ -522,6 +536,7 @@ Kör production-builden med en annan .env-fil.
 > priceInitial: number,
 > priceTime: number,
 > priceDistance: number
+> }
 > ```
 
 > __PUT__
@@ -547,6 +562,7 @@ Kör production-builden med en annan .env-fil.
 > distance?: number,
 > route?: [number, number][],
 > routeAppend?: [number, number][]
+> }
 > ```
 
 > __DELETE__
@@ -571,7 +587,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: [
+> { data: [
 >   {
 >     id: number,
 >     type: string,
@@ -582,7 +598,7 @@ Kör production-builden med en annan .env-fil.
 >     parkingValue: number
 >   },
 >   ...
-> ]
+> ]}
 > ```
 
 > __DELETE__
@@ -616,14 +632,14 @@ Kör production-builden med en annan .env-fil.
 > 
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   type: string,
 >   area: [number, number][],
 >   colour: string,
 >   name: string,
 >   description: string,
 >   parkingValue: number
-> }
+> }}
 > ```
 
 > __PUT__
@@ -643,6 +659,7 @@ Kör production-builden med en annan .env-fil.
 > name?: string,
 > description?: string,
 > parkingValue?: number
+> }
 > ```
 
 > __DELETE__
@@ -669,13 +686,13 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 > ```typescript
-> data: [
+> { data: [
 >   {
 >     customerId: number,
 >     scooterId: number
 >   },
 >   ...
-> ]
+> ]}
 > ```
 
 > __DELETE__
@@ -700,10 +717,10 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 > ```typescript
-> data: {
+> { data: {
 >   customerId: number,
 >   scooterId: number
-> }
+> }}
 > ```
 
 > DELETE Ta bort parkering med id `parkingId`.
