@@ -41,16 +41,14 @@ Kör production-builden med en annan .env-fil.
 
 - [/customer](#customer)
   - [/customer/{customerId}](#customercustomerid)
+  - [/customer/auth](#customerauth)
   - [/customer/token](#customertoken)
-  - [/customer/token/verification](#customertokenverification)
 - [/admin](#admin)
   - [/admin/{adminId}](#adminadminid)
   - [/admin/token](#admintoken)
-  - [/admin/token/verification](#admintokenverification)
 - [/scooter](#scooter)
   - [/scooter/{scooterId}](#scooterscooterid)
   - [/scooter/token](#scootertoken)
-  - [/scooter/token/verification](#scootertokenverification)
 - [/trip](#trip)
   - [/trip/{tripId}](#triptripid)
 - [/zone](#zone)
@@ -73,7 +71,7 @@ Kör production-builden med en annan .env-fil.
 > 
 > ⬅️ Response body:
 > ```javascript
-> {[
+> data: [
 >   {
 >     id: number,
 >     name: string,
@@ -84,7 +82,7 @@ Kör production-builden med en annan .env-fil.
 >     balance: number    
 >   }
 >   ...
-> ]}
+> ]
 >```
 
 > __DELETE__
@@ -109,7 +107,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   id: number,
 >   name: string,
 >   email: string,
@@ -163,23 +161,53 @@ Kör production-builden med en annan .env-fil.
 >
 > Ta bort kund med id `customerId`.
 
-#### /customer/token
+#### /customer/auth
 
 > __GET__
+>
+> Hämtar url för autentisering
+> 
+> ⬅️ Response body:
+> ```typescript
+> data: {
+>   url: string
+> }
+> ```
+
+> __POST__
+>
+> Byter ut `code` från autentiseringen mot en oAuthToken
+>
+> > ➡️ Request body:
+> ```typescript
+> {
+>   code: string
+> }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> data: {
+>   oAuthToken: string
+> }
+> ```
+
+#### /customer/token
+
+> __POST__
 >
 > Autentiserar kunden och checkar ut en token.
 >
 > ➡️ Request body:
 > ```typescript
 > {
->   email: string,
->   password: string
+>   oAuthToken: string
 > }
 > ```
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   token: string
 > }
 > ```
@@ -192,22 +220,6 @@ Kör production-builden med en annan .env-fil.
 > ```
 >
 > Sätt ut den aktuella tokenen.
-
-#### /customer/token/verification
-
-> __GET__
->
-> Verifierar en kunds token.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <kunden>
-> ```
->
-> ⬅️ Response body:
-> ```typescript
-> confirmVerification: boolean
-> ```
 
 ### /admin
 
@@ -287,7 +299,7 @@ Kör production-builden med en annan .env-fil.
 
 #### /admin/token
 
-> __GET__
+> __POST__
 >
 > Autentiserar admin och checkar ut en token.
 >
@@ -301,7 +313,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   token: string
 > }
 > ```
@@ -313,22 +325,6 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <adminen>
-> ```
-
-#### /admin/token/verification
-
-> __GET__
->
-> Verifierar en admins token.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <adminen>
-> ```
->
-> ⬅️ Response body:
-> ```typescript
-> confirmVerification: boolean
 > ```
 
 ### /scooter
@@ -364,7 +360,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   id: number,
 >   positionX: number,
 >   positionY: number,
@@ -428,7 +424,7 @@ Kör production-builden med en annan .env-fil.
 
 #### /scooter/token
 
-> __GET__
+> __POST__
 >
 > Autentiserar elsparkcykeln och checkar ut en token.
 >
@@ -442,7 +438,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   token: string
 > }
 > ```
@@ -454,22 +450,6 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <scootern>
-> ```
-
-#### /scooter/token/verification
-
-> __GET__
->
-> Verifierar en kunds token.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <scootern>
-> ```
->
-> ⬅️ Response body:
-> ```typescript
-> confirmVerification: boolean
 > ```
 
 ### /trip
@@ -485,7 +465,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {[
+> data: 7[
 >   {
 >     id: number,
 >     customerId: number,
@@ -502,7 +482,7 @@ Kör production-builden med en annan .env-fil.
 >     priceDistance: number
 >   },
 >   ...
-> ]}
+> ]
 > ```
 
 > __DELETE__
@@ -527,7 +507,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   id: number,
 >   customerId: number,
 >   scooterId: number,
@@ -615,7 +595,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> {[
+> data: [
 >   {
 >     id: number,
 >     type: string,
@@ -626,7 +606,7 @@ Kör production-builden med en annan .env-fil.
 >     parkingValue: number
 >   },
 >   ...
-> ]}
+> ]
 > ```
 
 > __DELETE__
@@ -660,7 +640,7 @@ Kör production-builden med en annan .env-fil.
 > 
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   type: string,
 >   area: [number, number][],
 >   colour: string,
@@ -679,7 +659,7 @@ Kör production-builden med en annan .env-fil.
 > X-Access-Token: string <admins>
 > ```
 > 
-> > ⬅️ Response body:
+> ➡️ Request body:
 > ```typescript
 > {
 >   type?: string,
@@ -715,13 +695,13 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 > ```typescript
-> {[
+> data: [
 >   {
 >     customerId: number,
 >     scooterId: number
 >   },
 >   ...
-> ]}
+> ]
 > ```
 
 > __DELETE__
@@ -746,7 +726,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 > ```typescript
-> {
+> data: {
 >   customerId: number,
 >   scooterId: number
 > }
