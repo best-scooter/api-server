@@ -124,11 +124,9 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   name: string,
->   email: string,
->   password: string
-> }
+> name: string,
+> email: string,
+> password: string
 > ```
 
 > __PUT__
@@ -142,14 +140,12 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> {
->   name?: string,
->   email?: string,
->   password?: string,
->   positionX?: number,
->   positionY?: number,
->   balance?: number
-> }
+> name?: string,
+> email?: string,
+> password?: string,
+> positionX?: number,
+> positionY?: number,
+> balance?: number
 > ```
 
 > __DELETE__
@@ -178,11 +174,9 @@ Kör production-builden med en annan .env-fil.
 >
 > Byter ut `code` från autentiseringen mot en oAuthToken
 >
-> > ➡️ Request body:
+> ➡️ Request body:
 > ```typescript
-> {
->   code: string
-> }
+> code: string
 > ```
 >
 > ⬅️ Response body:
@@ -200,9 +194,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   oAuthToken: string
-> }
+> oAuthToken: string
 > ```
 >
 > ⬅️ Response body:
@@ -263,11 +255,9 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> {
->   username: string,
->   password: string,
->   level: string
-> }
+> username: string,
+> password: string,
+> level: string
 > ```
 
 > __PUT__
@@ -281,11 +271,9 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> {
->   username?: string,
->   password?: string,
->   level?: string
-> }
+> username?: string,
+> password?: string,
+> level?: string
 > ```
 
 > __DELETE__
@@ -305,10 +293,8 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   username: string,
->   password: string
-> }
+> username: string,
+> password: string
 > ```
 >
 > ⬅️ Response body:
@@ -383,11 +369,9 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   max_speed: number,
->   status: string,
->   password: string
-> }
+> max_speed: number,
+> status: string,
+> password: string
 > ```
 
 > __PUT__
@@ -401,16 +385,14 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> {
->   max_speed?: number,
->   status?: string,
->   positionX?: number,
->   positionY?: number,
->   battery?: number,
->   charging?: boolean,
->   connected?: boolean,
->   password? string
-> }
+> max_speed?: number,
+> status?: string,
+> positionX?: number,
+> positionY?: number,
+> battery?: number,
+> charging?: boolean,
+> connected?: boolean,
+> password? string
 > ```
 
 > __DELETE__
@@ -430,10 +412,8 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   scooterId: number,
->   password: string
-> }
+> scooterId: number,
+> password: string
 > ```
 >
 > ⬅️ Response body:
@@ -465,7 +445,7 @@ Kör production-builden med en annan .env-fil.
 >
 > ⬅️ Response body:
 > ```typescript
-> data: 7[
+> data: [
 >   {
 >     id: number,
 >     customerId: number,
@@ -535,15 +515,13 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> {
->   customerId: number,
->   scooterId: number,
->   bestPickupZone: number,
->   startPosition: [number, number],
->   priceInitial: number,
->   priceTime: number,
->   priceDistance: number
-> }
+> customerId: number,
+> scooterId: number,
+> bestPickupZone: number,
+> startPosition: [number, number],
+> priceInitial: number,
+> priceTime: number,
+> priceDistance: number
 > ```
 
 > __PUT__
@@ -563,14 +541,12 @@ Kör production-builden med en annan .env-fil.
 > > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
 > ```typescript
-> {
->   bestParkingZone?: number,
->   parkedCharging?: boolean,
->   timeEnded?: string,
->   distance?: number,
->   route?: [number, number][],
->   routeAppend?: [number, number][]
-> }
+> bestParkingZone?: number,
+> parkedCharging?: boolean,
+> timeEnded?: string,
+> distance?: number,
+> route?: [number, number][],
+> routeAppend?: [number, number][]
 > ```
 
 > __DELETE__
@@ -661,14 +637,12 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> {
->   type?: string,
->   area?: [number, number][],
->   colour?: string,
->   name?: string,
->   description?: string,
->   parkingValue?: number
-> }
+> type?: string,
+> area?: [number, number][],
+> colour?: string,
+> name?: string,
+> description?: string,
+> parkingValue?: number
 > ```
 
 > __DELETE__
