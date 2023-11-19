@@ -7,22 +7,18 @@ export default {
   Customer: {
     Base: '/customer',
     One: '/:customerId',
-    AuthUrl: '/authurl',
     Auth: '/auth',
-    Token: '/token',
-    Verification: '/token/verification'
+    Token: '/token'
   },
   Admin: {
     Base: '/admin',
     One: '/:adminId',
-    Token: '/token',
-    Verification: '/token/verification'
+    Token: '/token'
   },
   Scooter: {
     Base: '/scooter',
     One: '/:scooterId',
-    Token: '/token',
-    Verification: '/token/verification'
+    Token: '/token'
   },
   Trip: {
     Base: '/trip',

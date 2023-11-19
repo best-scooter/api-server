@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize'
 
-import EnvVars from '@src/constants/EnvVars';
-import { NodeEnvs } from '@src/constants/misc';
+import EnvVars from '../constants/EnvVars';
+import { NodeEnvs } from '../constants/misc';
 
 // **** Variables **** //
 

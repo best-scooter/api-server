@@ -1,6 +1,6 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
-import sequelize from '@src/orm/Sequelize'
+import sequelize from './Sequelize'
 
 class Customer extends Model<
     InferAttributes<Customer>,

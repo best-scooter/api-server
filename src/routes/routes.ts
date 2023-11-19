@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import Paths from './Paths';
-import CustomerRouter from '@src/routes/CustomerRoutes';
+import CustomerRouter from './CustomerRoutes';
 
 // **** Set up router and add routes **** //
 

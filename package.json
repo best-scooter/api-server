@@ -8,7 +8,9 @@
     "start": "node -r module-alias/register ./dist --env=production",
     "dev": "nodemon",
     "test": "nodemon --config ./spec/nodemon.json",
-    "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec"
+    "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
+    "docker-build": "npm run build && docker build -t bestscooter.azurecr.io/api-server .",
+    "docker-push": "docker push bestscooter.azurecr.io/api-server"
   },
   "nodemonConfig": {
     "watch": [
