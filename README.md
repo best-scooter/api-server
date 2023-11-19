@@ -193,7 +193,7 @@ Kör production-builden med en annan .env-fil.
 
 > __POST__
 >
-> Autentiserar kunden och checkar ut en token.
+> Autentiserar kunden och checkar ut en token, samt visar vad den autentiserade användaren epost-adress är.
 >
 > ➡️ Request body:
 > ```typescript
@@ -205,7 +205,8 @@ Kör production-builden med en annan .env-fil.
 > ⬅️ Response body:
 > ```typescript
 > { data: {
->   token: string
+>   token: string,
+>   email: string
 > }}
 > ```
 
