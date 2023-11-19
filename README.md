@@ -111,7 +111,6 @@ Kör production-builden med en annan .env-fil.
 >   id: number,
 >   name: string,
 >   email: string,
->   password: string,
 >   positionX: number,
 >   positionY: number,
 >   balance: number
@@ -126,8 +125,7 @@ Kör production-builden med en annan .env-fil.
 > ```typescript
 > {
 >   name: string,
->   email: string,
->   password: string
+>   email: string
 > }
 > ```
 
@@ -142,12 +140,12 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> name?: string,
-> email?: string,
-> password?: string,
-> positionX?: number,
-> positionY?: number,
-> balance?: number
+> {
+>   name?: string,
+>   email?: string,
+>   positionX?: number,
+>   positionY?: number,
+>   balance?: number
 > }
 > ```
 
@@ -197,7 +195,8 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> oAuthToken: string
+> {
+>   oAuthToken: string
 > }
 > ```
 >
@@ -277,9 +276,11 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> username?: string,
-> password?: string,
-> level?: string
+> {
+>   username?: string,
+>   password?: string,
+>   level?: string
+> }
 > ```
 
 > __DELETE__
@@ -529,13 +530,14 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> customerId: number,
-> scooterId: number,
-> bestPickupZone: number,
-> startPosition: [number, number],
-> priceInitial: number,
-> priceTime: number,
-> priceDistance: number
+> {
+>   customerId: number,
+>   scooterId: number,
+>   bestPickupZone: number,
+>   startPosition: [number, number],
+>   priceInitial: number,
+>   priceTime: number,
+>   priceDistance: number
 > }
 > ```
 
@@ -556,12 +558,13 @@ Kör production-builden med en annan .env-fil.
 > > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
 > ```typescript
-> bestParkingZone?: number,
-> parkedCharging?: boolean,
-> timeEnded?: string,
-> distance?: number,
-> route?: [number, number][],
-> routeAppend?: [number, number][]
+> {
+>   bestParkingZone?: number,
+>   parkedCharging?: boolean,
+>   timeEnded?: string,
+>   distance?: number,
+>   route?: [number, number][],
+>   routeAppend?: [number, number][]
 > }
 > ```
 
@@ -653,12 +656,13 @@ Kör production-builden med en annan .env-fil.
 > 
 > ➡️ Request body:
 > ```typescript
-> type?: string,
-> area?: [number, number][],
-> colour?: string,
-> name?: string,
-> description?: string,
-> parkingValue?: number
+> {
+>   type?: string,
+>   area?: [number, number][],
+>   colour?: string,
+>   name?: string,
+>   description?: string,
+>   parkingValue?: number
 > }
 > ```
 
