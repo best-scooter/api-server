@@ -58,6 +58,7 @@ Kör production-builden med en annan .env-fil.
   - [/parking/zone/{zoneId}](#parkingzonezoneid)
   - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
 - [JSON Web Token](#json-web-token)
+  - [JWT-exempel](#jwt-exempel)
 
 ### /customer
 
