@@ -236,6 +236,18 @@ Kör production-builden med en annan .env-fil.
 > ```typescript
 > X-Access-Token: string <admins>
 > ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: [
+>     {
+>       id: number,
+>       username: string,
+>       level: string
+>     },
+>     ...
+> ]}
+> ```
 
 > __DELETE__
 >
@@ -255,6 +267,15 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <admins>
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   id: number,
+>   username: string,
+>   level: string
+> }}
 > ```
 
 > __POST__
@@ -341,6 +362,23 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <admins|kunder>
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: [
+>   {
+>     id: number,
+>     positionX: number,
+>     positionY: number,
+>     battery: number,
+>     maxSpeed: number,
+>     status: string,
+>     charging: boolean,
+>     connected: boolean
+>   },
+>   ...
+> ]}
 > ```
 
 > __DELETE__
