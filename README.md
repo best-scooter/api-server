@@ -177,7 +177,9 @@ Kör production-builden med en annan .env-fil.
 >
 > ➡️ Request body:
 > ```typescript
-> code: string
+> {
+>   code: string
+> }
 > ```
 >
 > ⬅️ Response body:
