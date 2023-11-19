@@ -57,6 +57,7 @@ Kör production-builden med en annan .env-fil.
   - [/parking/{parkingId}](#parkingparkingid)
   - [/parking/zone/{zoneId}](#parkingzonezoneid)
   - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
+- [JSON Web Token](#jsonwebtoken)
 
 ### /customer
 
@@ -838,6 +839,20 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > ```
 >
 > Ta bort alla parkeringar för cykel med id `scooterId`.
+
+### JSON Web Token
+
+Samma sorts tokens används till all auktorisering. Tokenens payload har denna struktur.
+
+```typescript
+{
+  type: string,
+  email?: string,
+  id?: number,
+  username?: string,
+  adminLevel?: string
+}
+```
 
 ## Om
 
