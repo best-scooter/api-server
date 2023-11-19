@@ -162,7 +162,14 @@ Kör production-builden med en annan .env-fil.
 
 > __GET__
 >
-> Hämtar url för autentisering
+> Hämtar url för autentisering.
+>
+> Redirect säger åt Oauth-autentiseringer var användaren ska skickas efter har fått sin `code`. Default: "http://localhost:3000/authcallback". Alla värden förutom default-värdet måste läggas till på en whitelist i GitHubs inställningar för appen.
+>
+> ➡️ Request query:
+> ```typescript
+> ?redirectUrl=<string>
+> ```
 > 
 > ⬅️ Response body:
 > ```typescript
