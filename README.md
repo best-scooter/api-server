@@ -57,7 +57,7 @@ Kör production-builden med en annan .env-fil.
   - [/parking/{parkingId}](#parkingparkingid)
   - [/parking/zone/{zoneId}](#parkingzonezoneid)
   - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
-- [JSON Web Token](#jsonwebtoken)
+- [JSON Web Token](#json-web-token)
 
 ### /customer
 
@@ -851,6 +851,33 @@ Samma sorts tokens används till all auktorisering. Tokenens payload har denna s
   id?: number,
   username?: string,
   adminLevel?: string
+}
+```
+
+#### JWT-exempel
+
+Customer:
+```typescript
+{
+  type: "customer",
+  email: "epost@adress.se"
+}
+```
+
+Scooter:
+```typescript
+{
+  type: "scooter",
+  id: 5
+}
+```
+
+Admin:
+```typescript
+{
+  type: "admin",
+  username: "chefen",
+  adminLevel: "superadmin"
 }
 ```
 
