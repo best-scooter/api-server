@@ -27,9 +27,6 @@ customerRouter.post(Paths.Customer.Auth, CustomerModel.authPost);
 // Post oauth token to get jwt token
 customerRouter.post(Paths.Customer.Token, CustomerModel.tokenPost);
 
-// Delete jwt token
-customerRouter.delete(Paths.Customer.Token, CustomerModel.tokenDelete);
-
 // Get one customer
 customerRouter.get(
     Paths.Customer.One,
@@ -39,7 +36,7 @@ customerRouter.get(
 // Add one customer
 customerRouter.post(
     Paths.Customer.One,
-    validate(['email', 'string'], ['password', 'string']),
+    validate(['email', 'string']),
     CustomerModel.onePost
 );
 

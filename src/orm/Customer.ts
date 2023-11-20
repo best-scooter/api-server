@@ -11,7 +11,6 @@ class Customer extends Model<
     declare updatedAt: CreationOptional<Date>;
     declare customerName: string | null;
     declare email: string;
-    declare password: string;
     declare positionX: number | null;
     declare positionY: number | null;
     declare balance: number | null;
@@ -29,11 +28,8 @@ Customer.init({
     customerName: DataTypes.STRING,
     email: {
         type: DataTypes.STRING,
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     positionX: {
         type: DataTypes.FLOAT,

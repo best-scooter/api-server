@@ -17,3 +17,23 @@ export class RouteError extends Error {
     this.status = status;
   }
 }
+
+/**
+ * Error to use when OAuth requests fail
+ */
+
+export class OAuthError extends Error {
+  public constructor(message: string) {
+    super(message);
+  }
+}
+
+/**
+ * Error to use when JWT creation fail
+ */
+
+export class JWTError extends Error {
+  public constructor(message: string) {
+    super(message);
+  }
+}

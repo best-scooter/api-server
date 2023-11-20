@@ -5,12 +5,47 @@ import jwt from 'jsonwebtoken';
 
 import CustomerORM from '../orm/Customer';
 import oAuth from './OAuth';
-import { NodeEnvs } from '../constants/misc';
 import EnvVars from '../constants/EnvVars';
+import { OAuthError, JWTError } from '../other/errors';
 
 // **** Variables **** //
 
 const jwtSecret = process.env.JWT_SECRET?.toString() ?? ''
+
+// **** Helper functions **** //
+
+async function createJwt(oAuthToken: string) {
+    let primaryEmail = "";
+    let result;
+
+    try {
+        const octokit = new Octokit({ auth: oAuthToken });
+        result = await octokit.request("GET /user/emails");
+    } catch (error) {
+        throw new OAuthError(error)
+    }
+    
+    for (const email of result.data) {
+        if (email.primary) {
+            primaryEmail = email.email;
+        }
+    }
+
+    try {
+        const token = jwt.sign(
+            {  // payload
+                type: "customer",
+                customerEmail: primaryEmail
+            },
+            jwtSecret,
+            { expiresIn: '1h'}
+        );
+
+        return token
+    } catch (error) {
+        throw new JWTError(error)
+    }
+}
 
 // **** Route functions **** //
 
@@ -28,7 +63,7 @@ async function baseDelete(req: e.Request, res: e.Response) {
     const customers = await CustomerORM.findAll();
 
     for (const customer of customers) {
-      customer.destroy()
+        customer.destroy()
     }
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
@@ -48,13 +83,34 @@ async function oneGet(req: e.Request, res: e.Response) {
 }
 
 async function onePost(req: e.Request, res: e.Response) {
+    const oAuthToken = req.body.oAuthToken ?? "";
     const customerId = parseInt(req.params.customerId);
     const customerData = {
         id: customerId,
         email: req.body.email,
-        password: req.body.password,
         customerName: req.body.customerName ?? null,
     };
+    let token, payload;
+
+    // Let execution continue if there's no oAuthToken
+    try {
+        token = await createJwt(oAuthToken);
+        payload = jwt.verify(token, jwtSecret);
+    } catch (error) {
+        console.error(error)
+        token = "";
+        payload = {};
+    }
+
+    // If in production mode and
+    // the entered email is not equal to the email with the oauth provider is not equal
+    // fail the request to create an account
+    if (
+        EnvVars.NodeEnv === "production" &&
+        !(typeof payload === "object" && payload.customerEmail === customerData.email)
+    ) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
 
     if (customerId) {
         // if customerId is truthy (not 0) create with given id
@@ -67,7 +123,7 @@ async function onePost(req: e.Request, res: e.Response) {
         await CustomerORM.create(customerData)
     }
 
-    res.status(HttpStatusCodes.CREATED).end();
+    return res.status(HttpStatusCodes.CREATED).end();
 }
 
 async function onePut(req: e.Request, res: e.Response) {
@@ -126,51 +182,33 @@ async function authPost(req: e.Request, res: e.Response) {
         code
     });
 
-    res.status(HttpStatusCodes.OK).json(token);
+    return res.status(HttpStatusCodes.OK).json(token);
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {
     const oAuthToken = req.body.oAuthToken?.toString() ?? "";
 
     try {
-        const octokit = new Octokit({ auth: oAuthToken });
-        const result = await octokit.request("GET /user/emails");
-        let primaryEmail = "";
-
-        for (const email of result.data) {
-          if (email.primary) {
-            primaryEmail = email.email;
-          }
-        }
-        const token = jwt.sign({ email: primaryEmail }, jwtSecret)
-
+        const token = await createJwt(oAuthToken);
         const payload = jwt.verify(token, jwtSecret)
         let email;
+
         if (typeof payload === 'object') {
-            email = payload.email ?? "";
+            email = payload.customerEmail ?? "";
         }
 
-        res.status(HttpStatusCodes.OK).json({data: {
-            token,
-            email
-        }});
+        return res.status(HttpStatusCodes.OK).json({
+            data: {
+                token,
+                email
+            }
+        });
     } catch (error) {
-        console.log("ERROR:")
-        console.log(error)
         // token invalid or request error
-        res.status(HttpStatusCodes.NOT_FOUND).end();
+        console.log(error)
+        return res.status(HttpStatusCodes.NOT_FOUND).end();
     }
 }
-
-async function tokenDelete(req: e.Request, res: e.Response) {
-
-}
-
-async function verificationGet(req: e.Request, res: e.Response) {
-
-}
-
-
 
 // **** Export default **** //
 
@@ -183,7 +221,5 @@ export default {
     oneDelete,
     authGet,
     authPost,
-    tokenPost,
-    tokenDelete,
-    verificationGet
+    tokenPost
 } as const;
