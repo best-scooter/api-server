@@ -57,6 +57,8 @@ Kör production-builden med en annan .env-fil.
   - [/parking/{parkingId}](#parkingparkingid)
   - [/parking/zone/{zoneId}](#parkingzonezoneid)
   - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
+- [JSON Web Token](#json-web-token)
+  - [JWT-exempel](#jwt-exempel)
 
 ### /customer
 
@@ -217,15 +219,6 @@ Kör production-builden med en annan .env-fil.
 > }}
 > ```
 
-> __DELETE__
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <kunden>
-> ```
->
-> Sätt ut den aktuella tokenen.
-
 ### /admin
 
 > __GET__
@@ -235,6 +228,18 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <admins>
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: [
+>     {
+>       id: number,
+>       username: string,
+>       level: string
+>     },
+>     ...
+> ]}
 > ```
 
 > __DELETE__
@@ -255,6 +260,15 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <admins>
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   id: number,
+>   username: string,
+>   level: string
+> }}
 > ```
 
 > __POST__
@@ -323,15 +337,6 @@ Kör production-builden med en annan .env-fil.
 > }}
 > ```
 
-> __DELETE__
->
-> Sätt ut den aktuella tokenen.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <adminen>
-> ```
-
 ### /scooter
 
 > __GET__
@@ -341,6 +346,23 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request header:
 > ```typescript
 > X-Access-Token: string <admins|kunder>
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: [
+>   {
+>     id: number,
+>     positionX: number,
+>     positionY: number,
+>     battery: number,
+>     maxSpeed: number,
+>     status: string,
+>     charging: boolean,
+>     connected: boolean
+>   },
+>   ...
+> ]}
 > ```
 
 > __DELETE__
@@ -446,15 +468,6 @@ Kör production-builden med en annan .env-fil.
 > { data: {
 >   token: string
 > }}
-> ```
-
-> __DELETE__
->
-> Sätt ut den aktuella tokenen.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <scootern>
 > ```
 
 ### /trip
@@ -800,6 +813,47 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > ```
 >
 > Ta bort alla parkeringar för cykel med id `scooterId`.
+
+### JSON Web Token
+
+Samma sorts tokens används till all auktorisering. Tokenens payload har denna struktur.
+
+```typescript
+{
+  type: string,
+  customerEmail?: string,
+  scooterId?: number,
+  adminUsername?: string,
+  adminLevel?: string
+}
+```
+
+#### JWT-exempel
+
+Customer:
+```typescript
+{
+  type: "customer",
+  customerEmail: "epost@adress.se"
+}
+```
+
+Scooter:
+```typescript
+{
+  type: "scooter",
+  scooterId: 5
+}
+```
+
+Admin:
+```typescript
+{
+  type: "admin",
+  adminUsername: "chefen",
+  adminLevel: "superadmin"
+}
+```
 
 ## Om
 
