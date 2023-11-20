@@ -219,15 +219,6 @@ Kör production-builden med en annan .env-fil.
 > }}
 > ```
 
-> __DELETE__
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <kunden>
-> ```
->
-> Sätt ut den aktuella tokenen.
-
 ### /admin
 
 > __GET__
@@ -344,15 +335,6 @@ Kör production-builden med en annan .env-fil.
 > { data: {
 >   token: string
 > }}
-> ```
-
-> __DELETE__
->
-> Sätt ut den aktuella tokenen.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <adminen>
 > ```
 
 ### /scooter
@@ -486,15 +468,6 @@ Kör production-builden med en annan .env-fil.
 > { data: {
 >   token: string
 > }}
-> ```
-
-> __DELETE__
->
-> Sätt ut den aktuella tokenen.
->
-> ➡️ Request header:
-> ```typescript
-> X-Access-Token: string <scootern>
 > ```
 
 ### /trip
