@@ -39,10 +39,10 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 
 // Test database connection and sync
 try {
-    sequelize.authenticate();
-    // sequelize.sync();
-    sequelize.sync({ alter: true });
     // sequelize.sync({ force: true });
+    sequelize.sync();
+    // sequelize.sync({ alter: true });
+    sequelize.authenticate();
 } catch (error) {
     console.error(error);
     console.error("Database connection failed.");

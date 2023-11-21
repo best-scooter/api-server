@@ -7,6 +7,7 @@ import CustomerORM from '../orm/Customer';
 import oAuth from './OAuth';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
+import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
 
 // **** Variables **** //
 
@@ -14,7 +15,7 @@ const jwtSecret = process.env.JWT_SECRET?.toString() ?? ''
 
 // **** Helper functions **** //
 
-async function createJwt(oAuthToken: string) {
+async function _getPrimaryEmail(oAuthToken: string) {
     let primaryEmail = "";
     let result;
 
@@ -31,14 +32,19 @@ async function createJwt(oAuthToken: string) {
         }
     }
 
+    return primaryEmail;
+}
+
+function _createJwt(email: string, id: number) {
     try {
         const token = jwt.sign(
             {  // payload
                 type: "customer",
-                customerEmail: primaryEmail
+                id,
+                customerEmail: email
             },
             jwtSecret,
-            { expiresIn: '1h'}
+            { expiresIn: '4h'}
         );
 
         return token
@@ -50,7 +56,11 @@ async function createJwt(oAuthToken: string) {
 // **** Route functions **** //
 
 async function baseGet(req: e.Request, res: e.Response) {
+    if (!isAdmin(req.headers)) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
     const customers = await CustomerORM.findAll();
+    console.log(req.headers.constructor.name)
 
     if (customers) {
         return res.status(HttpStatusCodes.OK).json({ data: customers });
@@ -60,6 +70,10 @@ async function baseGet(req: e.Request, res: e.Response) {
 }
 
 async function baseDelete(req: e.Request, res: e.Response) {
+    if (!isAdminLevel(req.headers, "superadmin")) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
     const customers = await CustomerORM.findAll();
 
     for (const customer of customers) {
@@ -71,6 +85,11 @@ async function baseDelete(req: e.Request, res: e.Response) {
 
 async function oneGet(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+
+    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
     const customer = await CustomerORM.findOne({
         where: { id: customerId }
     })
@@ -85,21 +104,17 @@ async function oneGet(req: e.Request, res: e.Response) {
 async function onePost(req: e.Request, res: e.Response) {
     const oAuthToken = req.body.oAuthToken ?? "";
     const customerId = parseInt(req.params.customerId);
+    const email = req.body.email ?? "";
     const customerData = {
-        id: customerId,
-        email: req.body.email,
+        email,
         customerName: req.body.customerName ?? null,
     };
-    let token, payload;
+    const token = _createJwt(email, customerId);
+    let emailFromOAuth = "";
 
     // Let execution continue if there's no oAuthToken
-    try {
-        token = await createJwt(oAuthToken);
-        payload = jwt.verify(token, jwtSecret);
-    } catch (error) {
-        console.error(error)
-        token = "";
-        payload = {};
+    if (oAuthToken) {
+        emailFromOAuth = await _getPrimaryEmail(oAuthToken);
     }
 
     // If in production mode and
@@ -107,7 +122,7 @@ async function onePost(req: e.Request, res: e.Response) {
     // fail the request to create an account
     if (
         EnvVars.NodeEnv === "production" &&
-        !(typeof payload === "object" && payload.customerEmail === customerData.email)
+        !(emailFromOAuth === email)
     ) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
@@ -123,11 +138,21 @@ async function onePost(req: e.Request, res: e.Response) {
         await CustomerORM.create(customerData)
     }
 
-    return res.status(HttpStatusCodes.CREATED).end();
+    return res.status(HttpStatusCodes.CREATED).json({
+        data: {
+            token,
+            email
+        }
+    });
 }
 
 async function onePut(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+
+    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
     const customer = await CustomerORM.findOne({
         where: { id: customerId }
     });
@@ -153,6 +178,11 @@ async function onePut(req: e.Request, res: e.Response) {
 
 async function oneDelete(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+
+    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
     const customer = await CustomerORM.findOne({
         where: { id: customerId }
     });
@@ -189,13 +219,10 @@ async function tokenPost(req: e.Request, res: e.Response) {
     const oAuthToken = req.body.oAuthToken?.toString() ?? "";
 
     try {
-        const token = await createJwt(oAuthToken);
-        const payload = jwt.verify(token, jwtSecret)
-        let email;
-
-        if (typeof payload === 'object') {
-            email = payload.customerEmail ?? "";
-        }
+        const email = await _getPrimaryEmail(oAuthToken)
+        const customer = await CustomerORM.findOne({where: { email }})
+        const customerId = customer?.id ?? 0;
+        const token = await _createJwt(email, customerId);
 
         return res.status(HttpStatusCodes.OK).json({
             data: {
