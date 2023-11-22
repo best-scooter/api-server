@@ -287,6 +287,14 @@ Kör production-builden med en annan .env-fil.
 >   level: string
 > }
 > ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   token: string,
+>   username: string
+> }
+> ```
 
 > __PUT__
 >
@@ -332,7 +340,8 @@ Kör production-builden med en annan .env-fil.
 > ⬅️ Response body:
 > ```typescript
 > { data: {
->   token: string
+>   token: string,
+>   username: string
 > }}
 > ```
 
@@ -414,10 +423,16 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request body:
 > ```typescript
 > {
->   max_speed: number,
->   status: string,
 >   password: string
 > }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   token: string,
+>   scooterId: number
+> }}
 > ```
 
 > __PUT__
@@ -432,6 +447,7 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request body:
 > ```typescript
 > {
+>   password?: string,
 >   max_speed?: number,
 >   status?: string,
 >   positionX?: number,
@@ -471,7 +487,8 @@ Kör production-builden med en annan .env-fil.
 > ⬅️ Response body:
 > ```typescript
 > { data: {
->   token: string
+>   token: string,
+>   scooterId: number
 > }}
 > ```
 
@@ -578,7 +595,7 @@ Kör production-builden med en annan .env-fil.
 > X-Access-Token: string <admins|kunden>
 > ```
 >
-> ⬅️ Request body:
+> ➡️ Request body:
 > 
 > `routeAppend` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
 >
