@@ -78,7 +78,6 @@ Kör production-builden med en annan .env-fil.
 >     id: number,
 >     name: string,
 >     email: string,
->     password: string,
 >     positionX: number,
 >     positionY: number,
 >     balance: number    
@@ -357,8 +356,10 @@ Kör production-builden med en annan .env-fil.
 >     positionY: number,
 >     battery: number,
 >     maxSpeed: number,
->     status: string,
 >     charging: boolean,
+>     available: boolean,
+>     decomissioned: boolean,
+>     beingServiced: boolean,
 >     connected: boolean
 >   },
 >   ...
@@ -393,8 +394,10 @@ Kör production-builden med en annan .env-fil.
 >   positionY: number,
 >   battery: number,
 >   max_speed: number,
->   status: string,
 >   charging: boolean,
+>   available: boolean,
+>   decomissioned: boolean,
+>   beingServiced: boolean,
 >   connected: boolean
 > }}
 > ```
@@ -435,8 +438,10 @@ Kör production-builden med en annan .env-fil.
 >   positionY?: number,
 >   battery?: number,
 >   charging?: boolean,
->   connected?: boolean,
->   password? string
+>   available: boolean,
+>   decomissioned: boolean,
+>   beingServiced: boolean,
+>   connected?: boolean
 > }
 > ```
 
