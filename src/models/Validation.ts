@@ -1,6 +1,10 @@
 import { IncomingHttpHeaders } from 'http';
 import jwt from 'jsonwebtoken'
 
+import CustomerORM from '../orm/Customer';
+import AdminORM from '../orm/Admin';
+import ScooterORM from '../orm/Scooter';
+
 // **** Variables **** //
 
 const jwtSecret = process.env.JWT_SECRET ?? "";
@@ -14,7 +18,7 @@ function getTokenPayload(headers: IncomingHttpHeaders) {
     return payload;
 }
 
-function isAdmin(headers: IncomingHttpHeaders) {
+async function isAdmin(headers: IncomingHttpHeaders) {
     let payload;
 
     try {
@@ -25,13 +29,17 @@ function isAdmin(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "admin") {
-        return true;
+        const result = await AdminORM.findOne({ where: { id: payload.id }})
+        if (result) {
+            return true;
+        }
+        return false;
     }
 
     return false;
 }
 
-function isAdminLevel(headers: IncomingHttpHeaders, level: string) {
+async function isAdminLevel(headers: IncomingHttpHeaders, level: string) {
     let payload;
 
     try {
@@ -42,13 +50,17 @@ function isAdminLevel(headers: IncomingHttpHeaders, level: string) {
     }
 
     if (typeof payload === "object" && payload.type === "admin" && payload.adminLevel === level) {
-        return true;
+        const result = await AdminORM.findOne({ where: { id: payload.id }})
+        if (result) {
+            return true;
+        }
+        return false;
     }
 
     return false;
 }
 
-function isCustomer(headers: IncomingHttpHeaders) {
+async function isCustomer(headers: IncomingHttpHeaders) {
     let payload;
 
     try {
@@ -59,13 +71,17 @@ function isCustomer(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "customer") {
-        return true;
+        const result = await CustomerORM.findOne({ where: { id: payload.id }})
+        if (result) {
+            return true;
+        }
+        return false;
     }
 
     return false;
 }
 
-function isScooter(headers: IncomingHttpHeaders) {
+async function isScooter(headers: IncomingHttpHeaders) {
     let payload;
 
     try {
@@ -76,13 +92,17 @@ function isScooter(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "scooter") {
-        return true;
+        const result = await ScooterORM.findOne({ where: { id: payload.id }})
+        if (result) {
+            return true;
+        }
+        return false;
     }
 
     return false;
 }
 
-function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
+async function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
     let payload;
 
     try {
@@ -92,11 +112,23 @@ function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
         return false;
     }
 
-    console.log(typeof payload === "object" && payload.id);
-    console.log(id);
-
     if (typeof payload === "object" && payload.id === id) {
-        return true;
+        if (payload.type === "admin") {
+            const result = await AdminORM.findOne({ where: { id: payload.id }})
+            if (result) {
+                return true;
+            }
+        } else if (payload.type === "customer") {
+            const result = await CustomerORM.findOne({ where: { id: payload.id }})
+            if (result) {
+                return true;
+            }
+        } else if (payload.type === "scooter") {
+            const result = await ScooterORM.findOne({ where: { id: payload.id }})
+            if (result) {
+                return true;
+            }
+        }
     }
 
     return false;

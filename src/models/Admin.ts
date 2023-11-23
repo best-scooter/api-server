@@ -16,13 +16,14 @@ const bcryptSalt = 10;
 
 // **** Helper functions **** //
 
-async function _createJwt(username: string, level: string) {
+async function _createJwt(username: string, level: string, adminId: number) {
     try {
         const token = jwt.sign(
             {  // payload
                 type: "admin",
                 adminUsername: username,
-                adminLevel: level
+                adminLevel: level,
+                id: adminId
             },
             jwtSecret,
             { expiresIn: '4h'}
@@ -37,7 +38,9 @@ async function _createJwt(username: string, level: string) {
 // **** Route functions **** //
 
 async function baseGet(req: e.Request, res: e.Response) {
-    if (!isAdmin(req.headers)) {
+    const valid = await isAdmin(req.headers);
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -51,7 +54,9 @@ async function baseGet(req: e.Request, res: e.Response) {
 }
 
 async function baseDelete(req: e.Request, res: e.Response) {
-    if (!isAdminLevel(req.headers, "superadmin")) {
+    const valid = await isAdminLevel(req.headers, "superadmin");
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -66,8 +71,9 @@ async function baseDelete(req: e.Request, res: e.Response) {
 
 async function oneGet(req: e.Request, res: e.Response) {
     const adminId = parseInt(req.params.adminId);
+    const valid = await isAdminLevel(req.headers, "superadmin") || await isThisIdentity(req.headers, adminId);
 
-    if (!isAdminLevel(req.headers, "superadmin") && !isThisIdentity(req.headers, adminId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -83,7 +89,9 @@ async function oneGet(req: e.Request, res: e.Response) {
 }
 
 async function onePost(req: e.Request, res: e.Response) {
-    if (!isAdminLevel(req.headers, "superadmin")) {
+    const valid = await isAdminLevel(req.headers, "superadmin");
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -97,18 +105,20 @@ async function onePost(req: e.Request, res: e.Response) {
         password: hash,
         level
     };
-    const token = await _createJwt(username, level);
+    let admin;
 
     if (adminId) {
         // if customerId is truthy (not 0) create with given id
-        await AdminORM.create({
+        admin = await AdminORM.create({
             ...adminData,
             id: adminId
         })
     } else {
         // else create with auto assigned id
-        await AdminORM.create(adminData)
+        admin = await AdminORM.create(adminData)
     }
+    
+    const token = await _createJwt(username, level, admin.id);
 
     return res.status(HttpStatusCodes.CREATED).json({
         data: {
@@ -120,8 +130,9 @@ async function onePost(req: e.Request, res: e.Response) {
 
 async function onePut(req: e.Request, res: e.Response) {
     const adminId = parseInt(req.params.adminId);
+    const valid = await isAdminLevel(req.headers, "superadmin") || await isThisIdentity(req.headers, adminId);
 
-    if (!isAdminLevel(req.headers, "superadmin") && !isThisIdentity(req.headers, adminId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -154,8 +165,9 @@ async function onePut(req: e.Request, res: e.Response) {
 
 async function oneDelete(req: e.Request, res: e.Response) {
     const adminId = parseInt(req.params.adminId);
+    const valid = await isAdminLevel(req.headers, "superadmin") || await isThisIdentity(req.headers, adminId);
 
-    if (!isAdminLevel(req.headers, "superadmin") && !isThisIdentity(req.headers, adminId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -197,7 +209,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
     const level = admin.level ?? "";
 
     try {
-        const token = await _createJwt(username, level);
+        const token = await _createJwt(username, level, admin.id);
 
         return res.status(HttpStatusCodes.OK).json({
             data: {
@@ -224,9 +236,7 @@ async function setupPost(req: e.Request, res: e.Response) {
     const password = "chefen";
     const level = "superadmin";
     const hash = await bcrypt.hash(password, bcryptSalt);
-    const token = await _createJwt(username, level);
-
-    await AdminORM.findOrCreate({
+    const admin = await AdminORM.findOrCreate({
         where: { username },
         defaults: {
             username,
@@ -234,6 +244,8 @@ async function setupPost(req: e.Request, res: e.Response) {
             level
         }
     });
+    
+    const token = await _createJwt(username, level, admin[0].id);
 
     return res.status(HttpStatusCodes.CREATED).json({
         data: {

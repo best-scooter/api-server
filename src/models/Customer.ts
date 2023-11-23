@@ -35,12 +35,12 @@ async function _getPrimaryEmail(oAuthToken: string) {
     return primaryEmail;
 }
 
-function _createJwt(email: string, id: number) {
+function _createJwt(email: string, customerId: number) {
     try {
         const token = jwt.sign(
             {  // payload
                 type: "customer",
-                id,
+                id: customerId,
                 customerEmail: email
             },
             jwtSecret,
@@ -56,11 +56,13 @@ function _createJwt(email: string, id: number) {
 // **** Route functions **** //
 
 async function baseGet(req: e.Request, res: e.Response) {
-    if (!isAdmin(req.headers)) {
+    const valid = await isAdmin(req.headers);
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
+
     const customers = await CustomerORM.findAll();
-    console.log(req.headers.constructor.name)
 
     if (customers) {
         return res.status(HttpStatusCodes.OK).json({ data: customers });
@@ -70,7 +72,9 @@ async function baseGet(req: e.Request, res: e.Response) {
 }
 
 async function baseDelete(req: e.Request, res: e.Response) {
-    if (!isAdminLevel(req.headers, "superadmin")) {
+    const valid = await isAdminLevel(req.headers, "superadmin");
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -85,8 +89,9 @@ async function baseDelete(req: e.Request, res: e.Response) {
 
 async function oneGet(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+    const valid = await isAdmin(req.headers) || await isThisIdentity(req.headers, customerId);
 
-    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -119,7 +124,7 @@ async function onePost(req: e.Request, res: e.Response) {
     }
 
     // If in production mode and
-    // the entered email is not equal to the email with the oauth provider is not equal
+    // the entered email is not equal to the email with the oauth provider
     // fail the request to create an account
     if (
         EnvVars.NodeEnv === "production" &&
@@ -154,8 +159,9 @@ async function onePost(req: e.Request, res: e.Response) {
 
 async function onePut(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+    const valid = await isAdmin(req.headers) || await isThisIdentity(req.headers, customerId);
 
-    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -188,8 +194,9 @@ async function onePut(req: e.Request, res: e.Response) {
 
 async function oneDelete(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
+    const valid = await isAdmin(req.headers) || await isThisIdentity(req.headers, customerId);
 
-    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -208,7 +215,6 @@ async function oneDelete(req: e.Request, res: e.Response) {
 
 async function authGet(req: e.Request, res: e.Response) {
     const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
-    console.log(req.query.redirectUrl);
     const url = oAuth.getWebFlowAuthorizationUrl({
         redirectUrl: redirectUrl.toString()
     })

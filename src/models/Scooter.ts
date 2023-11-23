@@ -34,7 +34,9 @@ async function _createJwt(scooterId: number) {
 // **** Route functions **** //
 
 async function baseGet(req: e.Request, res: e.Response) {
-    if (!isAdmin(req.headers) && !isCustomer(req.headers) && !isScooter(req.headers)) {
+    const valid = await isAdmin(req.headers) || await isCustomer(req.headers) || await isScooter(req.headers);
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -48,7 +50,9 @@ async function baseGet(req: e.Request, res: e.Response) {
 }
 
 async function baseDelete(req: e.Request, res: e.Response) {
-    if (!isAdminLevel(req.headers, "superadmin")) {
+    const valid = await isAdminLevel(req.headers, "superadmin");
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -63,8 +67,9 @@ async function baseDelete(req: e.Request, res: e.Response) {
 
 async function oneGet(req: e.Request, res: e.Response) {
     const scooterId = parseInt(req.params.scooterId);
+    const valid = isAdmin(req.headers) || await isCustomer(req.headers) || await isThisIdentity(req.headers, scooterId);
 
-    if (!isAdmin(req.headers) && !isCustomer(req.headers) && !isThisIdentity(req.headers, scooterId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -80,7 +85,9 @@ async function oneGet(req: e.Request, res: e.Response) {
 }
 
 async function onePost(req: e.Request, res: e.Response) {
-    if (!isAdmin(req.headers)) {
+    const valid = await isAdmin(req.headers);
+
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -114,8 +121,9 @@ async function onePost(req: e.Request, res: e.Response) {
 
 async function onePut(req: e.Request, res: e.Response) {
     const scooterId = parseInt(req.params.scooterId);
+    const valid = await isAdmin(req.headers) || await isThisIdentity(req.headers, scooterId);
 
-    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, scooterId)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -144,8 +152,9 @@ async function onePut(req: e.Request, res: e.Response) {
 
 async function oneDelete(req: e.Request, res: e.Response) {
     const scooterId = parseInt(req.params.adminId);
+    const valid = await isAdmin(req.headers);
 
-    if (!isAdmin(req.headers)) {
+    if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 

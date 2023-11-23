@@ -84,6 +84,22 @@ describe('adminRouter', () => {
             });
         });
 
+        describe('GET /admin/1', () => {
+            it('response code is FORBIDDEN', async () => {
+                const response = await agent.get('/admin')
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(FORBIDDEN);
+            });
+        });
+
+        describe('GET /admin/1 after superadmin setup', () => {
+            it('response code is OK and of the expected shape', () => {
+
+            });
+        });
+
+        // describe('')
+
     //     describe('GET /customer', () => {
     //         it('response status is OK and response body is of the expected shape', async () => {
     //             const response = await agent.get('/customer')
