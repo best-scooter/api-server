@@ -46,7 +46,7 @@ Pushar imagen till ACR
 
 ### `npm run database:reset`
 
-Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder)
+Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder.
 
 ## API-referens
 
