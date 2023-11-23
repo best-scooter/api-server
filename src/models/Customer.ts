@@ -86,13 +86,7 @@ async function baseDelete(req: e.Request, res: e.Response) {
 async function oneGet(req: e.Request, res: e.Response) {
     const customerId = parseInt(req.params.customerId);
 
-<<<<<<< HEAD
-    // console.log(!isThisIdentity(req.headers, customerId));
     if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
-        // console.log("wtf1")
-=======
-    if (!isAdmin(req.headers) && !isThisIdentity(req.headers, customerId)) {
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
@@ -117,10 +111,7 @@ async function onePost(req: e.Request, res: e.Response) {
     };
     const token = _createJwt(email, customerId);
     let emailFromOAuth = "";
-<<<<<<< HEAD
     let customer;
-=======
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
 
     // Get email if there's an oauth token
     if (oAuthToken) {
@@ -137,7 +128,6 @@ async function onePost(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-<<<<<<< HEAD
     try {
         if (customerId) {
             // if customerId is truthy (not 0) create with given id
@@ -151,28 +141,13 @@ async function onePost(req: e.Request, res: e.Response) {
         }
     } catch (error) {
         return res.status(HttpStatusCodes.CONFLICT).end();
-=======
-    if (customerId) {
-        // if customerId is truthy (not 0) create with given id
-        await CustomerORM.create({
-            ...customerData,
-            id: customerId
-        })
-    } else {
-        // else create with auto assigned id
-        await CustomerORM.create(customerData)
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
     }
 
     return res.status(HttpStatusCodes.CREATED).json({
         data: {
             token,
             email,
-<<<<<<< HEAD
             id: customer.id
-=======
-            id: customerId
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
         }
     });
 }
@@ -243,7 +218,6 @@ async function authGet(req: e.Request, res: e.Response) {
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? "";
-<<<<<<< HEAD
     let token;
 
     try {
@@ -255,14 +229,6 @@ async function authPost(req: e.Request, res: e.Response) {
     }
 
     return res.status(HttpStatusCodes.OK).json({data: token});
-=======
-
-    const token = await oAuth.createToken({
-        code
-    });
-
-    return res.status(HttpStatusCodes.OK).json(token);
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {
@@ -283,11 +249,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
     } catch (error) {
         // token invalid or request error
         console.log(error)
-<<<<<<< HEAD
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
-=======
-        return res.status(HttpStatusCodes.NOT_FOUND).end();
->>>>>>> 5e175c96485296707fc12a19b53e35e27e842894
     }
 }
 
