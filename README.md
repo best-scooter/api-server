@@ -36,15 +36,15 @@ Kör production-builden (måste vara byggt först).
 
 Kör production-builden med en annan .env-fil.
 
-### `npm run docker-build`
+### `npm run docker:build`
 
 Bygger appen och bygger imagen
 
-### `npm run docker-push`
+### `npm run docker:push`
 
 Pushar imagen till ACR
 
-### `npm run database-reset`
+### `npm run database:reset`
 
 Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder)
 
