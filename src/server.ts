@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 import 'express-async-errors';
+import { QueryTypes } from 'sequelize';
 
 import BaseRouter from './routes/routes';
 import Paths from './routes/Paths';
@@ -40,7 +41,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 // Test database connection and sync
 try {
     // sequelize.sync({ force: true });
-    sequelize.sync();
+    // sequelize.sync();
     // sequelize.sync({ alter: true });
     sequelize.authenticate();
 } catch (error) {

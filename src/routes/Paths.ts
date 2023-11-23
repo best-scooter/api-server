@@ -13,7 +13,8 @@ export default {
   Admin: {
     Base: '/admin',
     One: '/:adminId',
-    Token: '/token'
+    Token: '/token',
+    Setup: '/setup'
   },
   Scooter: {
     Base: '/scooter',

@@ -1,34 +1,41 @@
-import supertest, { SuperTest, Test, Response } from 'supertest';
+import supertest, { SuperTest, Test, Response, agent } from 'supertest';
 import { defaultErrMsg as ValidatorErr } from 'jet-validator';
 import insertUrlParams from 'inserturlparams';
 
 import app from '@src/server';
 
-// import UserRepo from '@src/repos/UserRepo';
-// import User from '@src/models/User';
-// import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-// import { USER_NOT_FOUND_ERR } from '@src/services/UserService';
+import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
-// import Paths from 'spec/support/Paths';
-// import { TReqBody } from 'spec/support/types';
+import { TReqBody } from 'spec/support/types';
+import { doesNotMatch } from 'assert';
+import { originAgentCluster } from 'helmet';
 
 
-// // **** Variables **** //
+// **** Variables **** //
 
-// // StatusCodes
-// const {
-//   OK,
-//   CREATED,
-//   NOT_FOUND,
-//   BAD_REQUEST,
-// } = HttpStatusCodes;
+// Superadmin
+const superadmin = {
+    username: "chefen",
+    password: "chefen",
+    level: "superadmin"
+};
 
-// // Dummy users for GET req
-// const DummyGetAllUsers = [
-//   User.new('Sean Maxwell', 'sean.maxwell@gmail.com'),
-//   User.new('John Smith', 'john.smith@gmail.com'),
-//   User.new('Gordan Freeman', 'gordan.freeman@gmail.com'),
-// ] as const;
+// StatusCodes
+const {
+    OK,
+    CREATED,
+    NO_CONTENT,
+    BAD_REQUEST,
+    FORBIDDEN,
+    NOT_FOUND
+} = {
+    OK: 200,
+    CREATED: 201,
+    NO_CONTENT: 204,
+    BAD_REQUEST: 400,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404
+};
 
 // // Dummy update user
 // const DummyUserData = {
@@ -36,7 +43,75 @@ import app from '@src/server';
 // } as const;
 
 
-// // **** Tests **** //
+// **** Tests **** //
+
+describe('customerRouter', () => {
+    let token: string;
+    let agent: SuperTest<Test>;
+
+    beforeAll(() => {
+        agent = supertest.agent(app)
+    })
+
+    describe('as superadmin', () => {
+        beforeAll(async () => {
+            const response = await agent.post('/admin/setup')
+                .send(superadmin);
+            token = response.body.data.token;
+        });
+
+        describe('DELETE /customer', () => {
+            it('response status is NO_CONTENT', async () => {
+                const response = await agent.delete('/customer')
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(NO_CONTENT);
+            });
+        });
+
+        describe('GET /customer', () => {
+            it('response status is OK and response body is of the expected shape', async () => {
+                const response = await agent.get('/customer')
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(OK);
+                expect(Object.keys(response.body)).toContain("data");
+                expect(Array.isArray(response.body.data)).toBeTrue();
+            });
+        });
+
+        describe('POST /customer/1', () => {
+            it('response status is CREATED and response body is of the expected shape', async () => {
+                const response = await agent.post('/customer/1')
+                    .set('X-Access-Token', token)
+                    .send({
+                        email: "clown@car.com",
+                        customerName: "bozo"
+                    });
+                expect(response.status).toEqual(CREATED);
+                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body.data)).toContain("token");
+                expect(typeof response.body.data.token).toBe("string");
+                expect(response.body.data.token).toMatch(/.+/);
+                expect(Object.keys(response.body.data)).toContain("email");
+                expect(response.body.data.email).toEqual('clown@car.com');
+            });
+        });
+
+        describe('GET /customer/1', () => {
+            it('response status is OK and response body is of the expected shape', async () => {
+                const response = await agent.get('/customer/1')
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(OK);
+                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body.data)).toContain("email");
+                expect(Object.keys(response.body.data)).toContain("customerName");
+                expect(Object.keys(response.body.data)).toContain("positionX");
+                expect(Object.keys(response.body.data)).toContain("positionY");
+                expect(Object.keys(response.body.data)).toContain("balance");
+                expect(response.body.data.email).toEqual('clown@car.com');
+            });
+        });
+    });
+});
 
 // describe('UserRouter', () => {
 

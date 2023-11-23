@@ -12,12 +12,6 @@ const validate = jetValidator();
 
 const scooterRouter = Router();
 
-// Get all scooters
-scooterRouter.get('/', ScooterModel.baseGet);
-
-// Delete all scooters
-scooterRouter.delete('/', ScooterModel.baseDelete);
-
 // Post scooter id and password to get jwt token
 scooterRouter.post(Paths.Scooter.Token, ScooterModel.tokenPost);
 
@@ -39,6 +33,12 @@ scooterRouter.put(Paths.Scooter.One, ScooterModel.onePut);
 
 // Delete one scooter
 scooterRouter.delete(Paths.Scooter.One, ScooterModel.oneDelete);
+
+// Get all scooters
+scooterRouter.get('/', ScooterModel.baseGet);
+
+// Delete all scooters
+scooterRouter.delete('/', ScooterModel.baseDelete);
 
 // **** Export default **** //
 

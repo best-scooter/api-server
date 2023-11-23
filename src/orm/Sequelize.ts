@@ -6,25 +6,37 @@ import { NodeEnvs } from '../constants/misc';
 // **** Variables **** //
 
 // Database
-let databaseServer = '';
+let options = {};
 
 switch (EnvVars.NodeEnv) {
     case NodeEnvs.Production.valueOf():
-        databaseServer = 'localhost';
+        options = {
+            host: 'localhost'
+        };
         break;
     case NodeEnvs.Dev.valueOf():
-        databaseServer = 'localhost'
+        options = {
+            host: 'localhost'
+        };
         break;
     case NodeEnvs.Sim.valueOf():
-        databaseServer = 'database-server';
+        options = {
+            host: 'database-server'
+        };
+        break;
+    case NodeEnvs.Test.valueOf():
+        options = {
+            host: 'localhost',
+            logging: false
+        };
         break;
 }
 
 // **** Instansiate sequelize **** //
 
 const sequelize = new Sequelize('database', 'user', 'password', {
-    host: databaseServer,
-    dialect: 'mariadb'
+    dialect: 'mariadb',
+    ...options
 })
 
 // **** Export default **** //

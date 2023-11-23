@@ -95,7 +95,7 @@ async function oneGet(req: e.Request, res: e.Response) {
     })
 
     if (customer) {
-        return res.status(HttpStatusCodes.OK).json(customer);
+        return res.status(HttpStatusCodes.OK).json({ data: customer });
     }
 
     return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -112,7 +112,7 @@ async function onePost(req: e.Request, res: e.Response) {
     const token = _createJwt(email, customerId);
     let emailFromOAuth = "";
 
-    // Let execution continue if there's no oAuthToken
+    // Get email if there's an oauth token
     if (oAuthToken) {
         emailFromOAuth = await _getPrimaryEmail(oAuthToken);
     }

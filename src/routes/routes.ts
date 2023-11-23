@@ -1,17 +1,17 @@
 import { Router } from 'express';
 
 import Paths from './Paths';
-import CustomerRouter from './CustomerRoutes';
-import AdminRouter from './AdminRoutes';
-import ScooterRouter from './ScooterRoutes';
+import customerRouter from './customerRouter';
+import adminRouter from './adminRouter';
+import scooterRouter from './scooterRouter';
 
 // **** Set up router and add routes **** //
 
 const apiRouter = Router();
 
-apiRouter.use(Paths.Customer.Base, CustomerRouter);
-apiRouter.use(Paths.Admin.Base, AdminRouter)
-apiRouter.use(Paths.Scooter.Base, ScooterRouter)
+apiRouter.use(Paths.Customer.Base, customerRouter);
+apiRouter.use(Paths.Admin.Base, adminRouter)
+apiRouter.use(Paths.Scooter.Base, scooterRouter)
 
 // **** Export default **** //
 

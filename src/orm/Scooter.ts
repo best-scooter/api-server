@@ -14,9 +14,11 @@ class Scooter extends Model<
     declare positionY: number | null;
     declare battery: number | null;
     declare maxSpeed: number | null;
-    declare status: string | null;
     declare charging: boolean | null;
     declare connected: boolean | null;
+    declare available: boolean | null;
+    declare decomissioned: boolean | null;
+    declare beingServiced: boolean | null;
 }
 
 Scooter.init({
@@ -52,17 +54,27 @@ Scooter.init({
         defaultValue: 20,
         allowNull: false
     },
-    status: {
-        type: DataTypes.STRING,
-        defaultValue: "UNKNOWN",
-        allowNull: false
-    },
     charging: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
     },
     connected: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    available: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    decomissioned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    beingServiced: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false

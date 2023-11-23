@@ -6,6 +6,8 @@ import HttpStatusCodes from '../constants/HttpStatusCodes';
 import AdminORM from '../orm/Admin';
 import { JWTError } from '../other/errors';
 import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
+import EnvVars from '../constants/EnvVars';
+import { NodeEnvs } from '../constants/misc';
 
 // **** Variables **** //
 
@@ -206,6 +208,37 @@ async function tokenPost(req: e.Request, res: e.Response) {
     }
 }
 
+async function setupPost(req: e.Request, res: e.Response) {
+    if (
+        EnvVars.NodeEnv !== NodeEnvs.Test.valueOf() &&
+        EnvVars.NodeEnv !== NodeEnvs.Dev.valueOf()
+    ) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
+    const username = "chefen";
+    const password = "chefen";
+    const level = "superadmin";
+    const hash = await bcrypt.hash(password, bcryptSalt);
+    const token = await _createJwt(username, level);
+
+    await AdminORM.findOrCreate({
+        where: { username },
+        defaults: {
+            username,
+            password: hash,
+            level
+        }
+    });
+
+    return res.status(HttpStatusCodes.CREATED).json({
+        data: {
+            token,
+            username
+        }
+    });
+}
+
 // **** Export default **** //
 
 export default {
@@ -215,5 +248,6 @@ export default {
     onePost,
     onePut,
     oneDelete,
-    tokenPost
+    tokenPost,
+    setupPost
 } as const;

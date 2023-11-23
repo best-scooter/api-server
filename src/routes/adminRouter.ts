@@ -12,14 +12,17 @@ const validate = jetValidator();
 
 const adminRouter = Router();
 
+// Post username and password to get jwt token
+adminRouter.post(Paths.Admin.Token, AdminModel.tokenPost);
+
+// Set up superadmin
+adminRouter.post(Paths.Admin.Setup, AdminModel.setupPost);
+
 // Get all admins
 adminRouter.get('/', AdminModel.baseGet);
 
 // Delete all admins
 adminRouter.delete('/', AdminModel.baseDelete);
-
-// Post username and password to get jwt token
-adminRouter.post(Paths.Admin.Token, AdminModel.tokenPost);
 
 // Get one admin
 adminRouter.get(

@@ -10,7 +10,8 @@
     "test": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
     "docker-build": "npm run build && docker build -t bestscooter.azurecr.io/api-server .",
-    "docker-push": "docker push bestscooter.azurecr.io/api-server"
+    "docker-push": "docker push bestscooter.azurecr.io/api-server",
+    "reset-database": "node ./spec/scripts/populate.mjs"
   },
   "nodemonConfig": {
     "watch": [
