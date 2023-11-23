@@ -93,8 +93,24 @@ describe('adminRouter', () => {
         });
 
         describe('GET /admin/1 after superadmin setup', () => {
-            it('response code is OK and of the expected shape', () => {
+            it('response code is OK and of the expected shape', async () => {
+                const responseAdmin = await agent.post('/admin/setup')
+                    .set('X-Access-Token', token);
+                const adminId = responseAdmin.body.data.id;
+                token = responseAdmin.body.data.token;
+                
+                const response = await agent.get('/admin/' + adminId)
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(OK);
+                expect(Object.keys(response.body)).toContain("data");
 
+                const dataKeys = Object.keys(response.body.data);
+                expect(dataKeys).toContain("id");
+                expect(dataKeys).toContain("username");
+                expect(dataKeys).toContain("level");
+                expect(response.body.data.id).toEqual(adminId);
+                expect(response.body.data.username).toEqual("chefen");
+                expect(response.body.data.level).toEqual("superadmin");
             });
         });
 

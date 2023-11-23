@@ -250,7 +250,8 @@ async function setupPost(req: e.Request, res: e.Response) {
     return res.status(HttpStatusCodes.CREATED).json({
         data: {
             token,
-            username
+            username,
+            id: admin[0].id
         }
     });
 }
