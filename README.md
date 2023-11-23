@@ -44,9 +44,9 @@ Bygger appen och bygger imagen
 
 Pushar imagen till ACR
 
-### `npm run database:reset`
+### `npm run database:populate`
 
-Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder.
+Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder. OBS! Detta rensar databasen.
 
 ## API-referens
 
