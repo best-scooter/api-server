@@ -154,7 +154,6 @@ Pushar imagen till ACR
 > ```typescript
 > {
 >   name?: string,
->   email?: string,
 >   positionX?: number,
 >   positionY?: number,
 >   balance?: number
@@ -319,7 +318,6 @@ Pushar imagen till ACR
 > ➡️ Request body:
 > ```typescript
 > {
->   username?: string,
 >   password?: string,
 >   level?: string
 > }
