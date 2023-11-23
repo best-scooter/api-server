@@ -36,6 +36,17 @@ Kör production-builden (måste vara byggt först).
 
 Kör production-builden med en annan .env-fil.
 
+### `npm run docker-build`
+
+Bygger appen och bygger imagen
+
+### `npm run docker-push`
+
+Pushar imagen till ACR
+
+### `npm run database-reset`
+
+Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder)
 
 ## API-referens
 
@@ -78,7 +89,6 @@ Kör production-builden med en annan .env-fil.
 >     id: number,
 >     name: string,
 >     email: string,
->     password: string,
 >     positionX: number,
 >     positionY: number,
 >     balance: number    
@@ -288,6 +298,14 @@ Kör production-builden med en annan .env-fil.
 >   level: string
 > }
 > ```
+>
+> ⬅️ Response body:
+> ```typescript
+> {
+>   token: string,
+>   username: string
+> }
+> ```
 
 > __PUT__
 >
@@ -333,7 +351,8 @@ Kör production-builden med en annan .env-fil.
 > ⬅️ Response body:
 > ```typescript
 > { data: {
->   token: string
+>   token: string,
+>   username: string
 > }}
 > ```
 
@@ -357,8 +376,10 @@ Kör production-builden med en annan .env-fil.
 >     positionY: number,
 >     battery: number,
 >     maxSpeed: number,
->     status: string,
 >     charging: boolean,
+>     available: boolean,
+>     decomissioned: boolean,
+>     beingServiced: boolean,
 >     connected: boolean
 >   },
 >   ...
@@ -393,8 +414,10 @@ Kör production-builden med en annan .env-fil.
 >   positionY: number,
 >   battery: number,
 >   max_speed: number,
->   status: string,
 >   charging: boolean,
+>   available: boolean,
+>   decomissioned: boolean,
+>   beingServiced: boolean,
 >   connected: boolean
 > }}
 > ```
@@ -411,10 +434,16 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request body:
 > ```typescript
 > {
->   max_speed: number,
->   status: string,
 >   password: string
 > }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   token: string,
+>   scooterId: number
+> }}
 > ```
 
 > __PUT__
@@ -429,14 +458,17 @@ Kör production-builden med en annan .env-fil.
 > ➡️ Request body:
 > ```typescript
 > {
+>   password?: string,
 >   max_speed?: number,
 >   status?: string,
 >   positionX?: number,
 >   positionY?: number,
 >   battery?: number,
 >   charging?: boolean,
->   connected?: boolean,
->   password? string
+>   available: boolean,
+>   decomissioned: boolean,
+>   beingServiced: boolean,
+>   connected?: boolean
 > }
 > ```
 
@@ -466,7 +498,8 @@ Kör production-builden med en annan .env-fil.
 > ⬅️ Response body:
 > ```typescript
 > { data: {
->   token: string
+>   token: string,
+>   scooterId: number
 > }}
 > ```
 
@@ -573,7 +606,7 @@ Kör production-builden med en annan .env-fil.
 > X-Access-Token: string <admins|kunden>
 > ```
 >
-> ⬅️ Request body:
+> ➡️ Request body:
 > 
 > `routeAppend` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
 >
