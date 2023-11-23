@@ -20,7 +20,7 @@ function isAdmin(headers: IncomingHttpHeaders) {
     try {
         payload = getTokenPayload(headers);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return false;
     }
 
