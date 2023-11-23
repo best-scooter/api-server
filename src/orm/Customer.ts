@@ -40,7 +40,7 @@ Customer.init({
         defaultValue: 0.0
     },
     balance: {
-        type: DataTypes.DECIMAL(10,2),
+        type: DataTypes.FLOAT,
         defaultValue: 0.0
     }
 }, {

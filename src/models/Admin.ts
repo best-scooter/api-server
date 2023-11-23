@@ -143,6 +143,10 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
+    if (adminData.hasOwnProperty('username')) {
+        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating admin username is not allowed."});
+    }
+
     await admin.update(adminData);
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();

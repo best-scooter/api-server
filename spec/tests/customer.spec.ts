@@ -88,11 +88,16 @@ describe('customerRouter', () => {
                     });
                 expect(response.status).toEqual(CREATED);
                 expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("token");
+
+                const dataKeys = Object.keys(response.body.data);
+                expect(dataKeys).toContain("token");
+                expect(dataKeys).toContain("email");
+                expect(dataKeys).toContain("id");
+
                 expect(typeof response.body.data.token).toBe("string");
                 expect(response.body.data.token).toMatch(/.+/);
-                expect(Object.keys(response.body.data)).toContain("email");
                 expect(response.body.data.email).toEqual('clown@car.com');
+                expect(response.body.data.id).toEqual(1);
             });
         });
 
@@ -102,12 +107,78 @@ describe('customerRouter', () => {
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("email");
-                expect(Object.keys(response.body.data)).toContain("customerName");
-                expect(Object.keys(response.body.data)).toContain("positionX");
-                expect(Object.keys(response.body.data)).toContain("positionY");
-                expect(Object.keys(response.body.data)).toContain("balance");
+
+                const dataKeys = Object.keys(response.body.data);
+                expect(dataKeys).toContain("id");
+                expect(dataKeys).toContain("createdAt");
+                expect(dataKeys).toContain("updatedAt");
+                expect(dataKeys).toContain("email");
+                expect(dataKeys).toContain("customerName");
+                expect(dataKeys).toContain("positionX");
+                expect(dataKeys).toContain("positionY");
+                expect(dataKeys).toContain("balance");
+
                 expect(response.body.data.email).toEqual('clown@car.com');
+            });
+        });
+
+        describe('PUT /customer/1 with new email', () => {
+            it('response status is FORBIDDEN and response body is of the expected shape', async () => {
+                const response = await agent.put('/customer/1')
+                    .set('X-Access-Token', token)
+                    .send({
+                        email: "oops@wont.work"
+                    });
+                expect(response.status).toEqual(FORBIDDEN);
+                expect(Object.keys(response.body)).toContain("error");
+            });
+        });
+
+        describe('PUT /customer/1 with allowed data', () => {
+            it('response status is NO_CONTENT and can GET the new data', async () => {
+                const responsePut = await agent.put('/customer/1')
+                    .set('X-Access-Token', token)
+                    .send({
+                        customerName: "car",
+                        positionX: 2.2,
+                        positionY: -4.4,
+                        balance: 3.3
+                    });
+                expect(responsePut.status).toEqual(NO_CONTENT);
+                
+                const responseGet = await agent.get('/customer/1')
+                    .set('X-Access-Token', token);
+                expect(responseGet.status).toEqual(OK);
+                expect(responseGet.body.data.customerName).toEqual("car");
+                expect(responseGet.body.data.positionX).toEqual(2.2);
+                expect(responseGet.body.data.positionY).toEqual(-4.4);
+                expect(responseGet.body.data.balance).toEqual(3.3);
+            });
+        });
+
+        describe('DELETE /customer/1', () => {
+            it('response status is NO_CONTENT and GETing the customer returns NOT_FOUND', async () => {
+                const responsePut = await agent.delete('/customer/1')
+                    .set('X-Access-Token', token);
+                expect(responsePut.status).toEqual(NO_CONTENT);
+                
+                const responseGet = await agent.get('/customer/1')
+                    .set('X-Access-Token', token);
+                expect(responseGet.status).toEqual(NOT_FOUND);
+            });
+        });
+
+        
+
+        describe('GET /customer/auth', () => {
+            it('response status is OK and body is of the expected shape', async () => {
+                const response = await agent.get('/customer/auth')
+                    .query({ redirectUrl: "TESTING" })
+                    .set('X-Access-Token', token);
+                expect(response.status).toEqual(OK);
+                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body.data)).toContain("url");
+                expect(response.body.data.url).toContain("redirect_uri=TESTING")
             });
         });
     });

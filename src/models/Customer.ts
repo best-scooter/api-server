@@ -141,7 +141,8 @@ async function onePost(req: e.Request, res: e.Response) {
     return res.status(HttpStatusCodes.CREATED).json({
         data: {
             token,
-            email
+            email,
+            id: customerId
         }
     });
 }
@@ -171,6 +172,10 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
+    if (customerData.hasOwnProperty('email') || customerData.hasOwnProperty('id')) {
+        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating customer email or id is not allowed."});
+    }
+
     await customer.update(customerData);
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
@@ -197,9 +202,10 @@ async function oneDelete(req: e.Request, res: e.Response) {
 }
 
 async function authGet(req: e.Request, res: e.Response) {
-    const redirectUrl = req.params?.redirectUrl ?? "http://localhost:3000/authcallback";
+    const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
+    console.log(req.query.redirectUrl);
     const url = oAuth.getWebFlowAuthorizationUrl({
-        redirectUrl
+        redirectUrl: redirectUrl.toString()
     })
 
     return res.status(HttpStatusCodes.OK).json({data: url});
