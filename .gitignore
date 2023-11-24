@@ -1,6 +1,8 @@
 **/node_modules
 dist/
 **/**/*.log
-.env
-env/
-!env/example.env
+
+# ignore all .env except example.env
+!env
+env/*
+!*env/example.env
