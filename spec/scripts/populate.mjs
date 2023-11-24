@@ -1,23 +1,24 @@
 import { populateDatabaseCustomers } from "./populateDatabaseCustomers.mjs";
 import { populateDatabaseScooters } from "./populateDatabaseScooters.mjs";
 
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+// var myHeaders = new Headers();
+// myHeaders.append("Content-Type", "application/json");
 
 var requestOptions = {
     method: 'POST',
-    headers: myHeaders
+    // headers: myHeaders
 };
 
 let token;
 
 await fetch(`http://localhost:1337/admin/setup`, requestOptions)
     .then((response) => {
-        console.log(response);
+        // console.log(response);
+        // console.log(response.status)
         return response.json();
     })
     .then((result) => {
-        console.log(result)
+        // console.log("result")
         token = result.data.token
         populateDatabaseCustomers(token);
         populateDatabaseScooters(token);
