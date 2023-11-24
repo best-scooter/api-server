@@ -215,7 +215,8 @@ async function tokenPost(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.OK).json({
             data: {
                 token,
-                username
+                username,
+                adminId: admin.id
             }
         });
     } catch (error) {
@@ -252,7 +253,7 @@ async function setupPost(req: e.Request, res: e.Response) {
         data: {
             token,
             username,
-            id: admin[0].id
+            adminId: admin[0].id
         }
     });
 }

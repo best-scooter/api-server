@@ -8,7 +8,7 @@ COPY dist/models/* ./dist/models/
 COPY dist/orm/* ./dist/orm/
 COPY dist/other/* ./dist/other/
 COPY dist/routes/* ./dist/routes/
-COPY env/* ./env/
+# COPY env/* ./env/
 COPY package*.json ./
 
 EXPOSE 1337

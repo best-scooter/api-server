@@ -98,7 +98,7 @@ describe('adminRouter', () => {
             it('response code is OK and of the expected shape', async () => {
                 const responseAdmin = await agent.post('/admin/setup')
                     .set('X-Access-Token', token);
-                const adminId = responseAdmin.body.data.id;                
+                const adminId = responseAdmin.body.data.adminId;
                 const response = await agent.get('/admin/' + adminId)
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);

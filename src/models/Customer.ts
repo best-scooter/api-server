@@ -8,6 +8,7 @@ import oAuth from './OAuth';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
 import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
+import { NodeEnvs } from '../constants/misc';
 
 // **** Variables **** //
 
@@ -127,8 +128,8 @@ async function onePost(req: e.Request, res: e.Response) {
     // the entered email is not equal to the email with the oauth provider
     // fail the request to create an account
     if (
-        EnvVars.NodeEnv === "production" &&
-        !(emailFromOAuth === email)
+        EnvVars.NodeEnv === NodeEnvs.Production.valueOf() &&
+        emailFromOAuth !== email
     ) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
@@ -215,8 +216,6 @@ async function oneDelete(req: e.Request, res: e.Response) {
 
 async function authGet(req: e.Request, res: e.Response) {
     const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
-    console.log(req.query?.redirectUrl);
-    console.log(redirectUrl);
     const url = oAuth.getWebFlowAuthorizationUrl({
         redirectUrl: redirectUrl.toString()
     })
@@ -241,24 +240,45 @@ async function authPost(req: e.Request, res: e.Response) {
 
 async function tokenPost(req: e.Request, res: e.Response) {
     const oAuthToken = req.body.oAuthToken?.toString() ?? "";
+    const emailFromRequest = req.body.email?.toString() ?? "";
+    let emailFromOAuth = "";
 
-    try {
-        const email = await _getPrimaryEmail(oAuthToken)
-        const customer = await CustomerORM.findOne({where: { email }})
-        const customerId = customer?.id ?? 0;
-        const token = await _createJwt(email, customerId);
+    // Get email if there's a valid oauth token
+    if (oAuthToken) {
+        try {
+            emailFromOAuth = await _getPrimaryEmail(oAuthToken);
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
-        return res.status(HttpStatusCodes.OK).json({
-            data: {
-                token,
-                email
-            }
-        });
-    } catch (error) {
-        // token invalid or request error
-        console.log(error)
+    // If in production mode and
+    // the oAuthToken is not able to get primary email
+    // return status unauthorized
+    if (
+        EnvVars.NodeEnv === NodeEnvs.Production.valueOf() &&
+        !emailFromOAuth
+    ) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
+
+    const email = oAuthToken ? emailFromOAuth : emailFromRequest;
+
+    const customer = await CustomerORM.findOne({where: { email }});
+
+    if (!customer) {
+        return res.status(HttpStatusCodes.UNAUTHORIZED).end();
+    }
+
+    const token = _createJwt(email, customer.id);
+
+    return res.status(HttpStatusCodes.OK).json({
+        data: {
+            token,
+            email,
+            customerId: customer.id
+        }
+    });
 }
 
 // **** Export default **** //
