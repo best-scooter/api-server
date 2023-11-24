@@ -12,8 +12,12 @@ var requestOptions = {
 let token;
 
 await fetch(`http://localhost:1337/admin/setup`, requestOptions)
-    .then(response => response.json())
+    .then((response) => {
+        console.log(response);
+        return response.json();
+    })
     .then((result) => {
+        console.log(result)
         token = result.data.token
         populateDatabaseCustomers(token);
         populateDatabaseScooters(token);
