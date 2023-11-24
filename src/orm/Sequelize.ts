@@ -8,36 +8,22 @@ import { NodeEnvs } from '../constants/misc';
 // Database
 let options = {};
 
-switch (EnvVars.NodeEnv) {
-    case NodeEnvs.Production.valueOf():
-        options = {
-            host: 'localhost'
-        };
-        break;
-    case NodeEnvs.Dev.valueOf():
-        options = {
-            host: 'localhost'
-        };
-        break;
-    case NodeEnvs.Sim.valueOf():
-        options = {
-            host: 'database-server'
-        };
-        break;
-    case NodeEnvs.Test.valueOf():
-        options = {
-            host: 'localhost',
-            logging: false
-        };
-        break;
+if (EnvVars.NodeEnv === NodeEnvs.Test.valueOf()) {
+    options = { logging: false };
 }
 
 // **** Instansiate sequelize **** //
 
-const sequelize = new Sequelize('database', 'user', 'password', {
-    dialect: 'mariadb',
-    ...options
-})
+const sequelize = new Sequelize(
+    EnvVars.DbDatabase,
+    EnvVars.DbUsername,
+    EnvVars.DbPassword,
+    {
+        dialect: 'mariadb',
+        host: EnvVars.DbServer,
+        ...options
+    }
+)
 
 // **** Export default **** //
 
