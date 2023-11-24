@@ -8,6 +8,7 @@ import { JWTError } from '../other/errors';
 import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
 import EnvVars from '../constants/EnvVars';
 import { NodeEnvs } from '../constants/misc';
+import Admin from '../orm/Admin';
 
 // **** Variables **** //
 
@@ -188,6 +189,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
     const username = req.body.username?.toString() ?? "";
     const password = req.body.password?.toString() ?? "";
 
+
     if (!username || !password) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({
             error: "Missing username and/or password."
@@ -197,7 +199,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
     const admin = await AdminORM.findOne({ where: { username }});
 
     if (!admin) {
-        return res.status(HttpStatusCodes.NOT_FOUND).end();
+        return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
 
     const correctPassword = await bcrypt.compare(password, admin.password);
@@ -205,7 +207,6 @@ async function tokenPost(req: e.Request, res: e.Response) {
     if (!correctPassword) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
-
     const level = admin.level ?? "";
 
     try {
