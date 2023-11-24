@@ -215,6 +215,8 @@ async function oneDelete(req: e.Request, res: e.Response) {
 
 async function authGet(req: e.Request, res: e.Response) {
     const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
+    console.log(req.query?.redirectUrl);
+    console.log(redirectUrl);
     const url = oAuth.getWebFlowAuthorizationUrl({
         redirectUrl: redirectUrl.toString()
     })
