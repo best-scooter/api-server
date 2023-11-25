@@ -124,7 +124,8 @@ async function onePost(req: e.Request, res: e.Response) {
     return res.status(HttpStatusCodes.CREATED).json({
         data: {
             token,
-            username
+            username,
+            adminId: admin.id
         }
     });
 }
@@ -227,10 +228,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
 }
 
 async function setupPost(req: e.Request, res: e.Response) {
-    if (
-        EnvVars.NodeEnv !== NodeEnvs.Test.valueOf() &&
-        EnvVars.NodeEnv !== NodeEnvs.Dev.valueOf()
-    ) {
+    if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 

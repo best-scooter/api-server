@@ -145,13 +145,17 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
+    if (scooterData.hasOwnProperty('id')) {
+        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
+    }
+
     await admin.update(scooterData);
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }
 
 async function oneDelete(req: e.Request, res: e.Response) {
-    const scooterId = parseInt(req.params.adminId);
+    const scooterId = parseInt(req.params.scooterId);
     const valid = await isAdmin(req.headers);
 
     if (!valid) {

@@ -49,7 +49,7 @@ const {
 
 // **** Tests **** //
 
-describe('customerRouter', () => {
+describe('scooterRouter', () => {
     let token: string;
     let agent: SuperTest<Test>;
 
@@ -64,17 +64,17 @@ describe('customerRouter', () => {
             token = response.body.data.token;
         });
 
-        describe('DELETE /customer', () => {
+        describe('DELETE /scooter', () => {
             it('response status is NO_CONTENT', async () => {
-                const response = await agent.delete('/customer')
+                const response = await agent.delete('/scooter')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(NO_CONTENT);
             });
         });
 
-        describe('GET /customer', () => {
+        describe('GET /scooter', () => {
             it('response status is OK and response body is of the expected shape', async () => {
-                const response = await agent.get('/customer')
+                const response = await agent.get('/scooter')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
@@ -82,32 +82,29 @@ describe('customerRouter', () => {
             });
         });
 
-        describe('POST /customer/1', () => {
+        describe('POST /scooter/1', () => {
             it('response status is CREATED and response body is of the expected shape', async () => {
-                const response = await agent.post('/customer/1')
+                const response = await agent.post('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        password: "1"
                     });
                 expect(response.status).toEqual(CREATED);
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain("scooterId");
 
                 expect(typeof response.body.data.token).toBe("string");
                 expect(response.body.data.token).toMatch(/.+/);
-                expect(response.body.data.email).toEqual('clown@car.com');
-                expect(response.body.data.customerId).toEqual(1);
+                expect(response.body.data.scooterId).toEqual(1);
             });
         });
 
-        describe('GET /customer/1', () => {
+        describe('GET /scooter/1', () => {
             it('response status is OK and response body is of the expected shape', async () => {
-                const response = await agent.get('/customer/1')
+                const response = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
@@ -116,198 +113,181 @@ describe('customerRouter', () => {
                 expect(dataKeys).toContain("id");
                 expect(dataKeys).toContain("createdAt");
                 expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerName");
                 expect(dataKeys).toContain("positionX");
                 expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("balance");
+                expect(dataKeys).toContain("battery");
+                expect(dataKeys).toContain("maxSpeed");
+                expect(dataKeys).toContain("charging");
+                expect(dataKeys).toContain("available");
+                expect(dataKeys).toContain("decomissioned");
+                expect(dataKeys).toContain("beingServiced");
+                expect(dataKeys).toContain("connected");
 
-                expect(response.body.data.email).toEqual('clown@car.com');
+                expect(response.body.data.id).toEqual(1);
             });
         });
 
-        describe('PUT /customer/1 with new email', () => {
+        describe('PUT /scooter/1 with new id', () => {
             it('response status is FORBIDDEN and response body is of the expected shape', async () => {
-                const response = await agent.put('/customer/1')
+                const response = await agent.put('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "oops@wont.work"
+                        id: 2
                     });
                 expect(response.status).toEqual(FORBIDDEN);
                 expect(Object.keys(response.body)).toContain("error");
             });
         });
 
-        describe('PUT /customer/1 with allowed data', () => {
+        describe('PUT /scooter/1 with allowed data', () => {
             it('response status is NO_CONTENT and can GET the new data', async () => {
-                const responsePut = await agent.put('/customer/1')
+                const responsePut = await agent.put('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        customerName: "car",
                         positionX: 2.2,
                         positionY: -4.4,
-                        balance: 3.3
+                        battery: 0.33,
+                        maxSpeed: 15,
+                        charging: true,
+                        available: true,
+                        decomissioned: true,
+                        beingServiced: true,
+                        connected: true
                     });
                 expect(responsePut.status).toEqual(NO_CONTENT);
                 
-                const responseGet = await agent.get('/customer/1')
+                const responseGet = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(responseGet.status).toEqual(OK);
-                expect(responseGet.body.data.customerName).toEqual("car");
+                expect(responseGet.body.data.id).toEqual(1);
                 expect(responseGet.body.data.positionX).toEqual(2.2);
                 expect(responseGet.body.data.positionY).toEqual(-4.4);
-                expect(responseGet.body.data.balance).toEqual(3.3);
+                expect(responseGet.body.data.battery).toEqual(0.33);
+                expect(responseGet.body.data.maxSpeed).toEqual(15);
+                expect(responseGet.body.data.charging).toEqual(true);
+                expect(responseGet.body.data.available).toEqual(true);
+                expect(responseGet.body.data.decomissioned).toEqual(true);
+                expect(responseGet.body.data.beingServiced).toEqual(true);
+                expect(responseGet.body.data.connected).toEqual(true);
             });
         });
 
-        describe('DELETE /customer/1', () => {
-            it('response status is NO_CONTENT and GETing the customer returns NOT_FOUND', async () => {
-                const responsePut = await agent.delete('/customer/1')
+        describe('DELETE /scooter/1', () => {
+            it('response status is NO_CONTENT and GETing the scooter returns NOT_FOUND', async () => {
+                const responseDelete = await agent.delete('/scooter/1')
                     .set('X-Access-Token', token);
-                expect(responsePut.status).toEqual(NO_CONTENT);
+                expect(responseDelete.status).toEqual(NO_CONTENT);
                 
-                const responseGet = await agent.get('/customer/1')
+                const responseGet = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(responseGet.status).toEqual(NOT_FOUND);
             });
         });
 
-        describe('GET /customer/auth', () => {
-            it('response status is OK and body is of the expected shape', async () => {
-                const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" })
-                    .set('X-Access-Token', token);
-                expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
-            });
-        });
-
-        describe('POST /customer/auth with dummy code', () => {
+        describe('POST /scooter/token bad password', () => {
             it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/auth')
-                    .set('X-Access-Token', token)
-                    .send({ code: "dummy" });
-                expect(response.status).toEqual(UNAUTHORIZED);
-            });
-        });
-
-        describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/token')
-                    .set('X-Access-Token', token)
-                    .send({ oAuthToken: "dummy token"});
-                expect(response.status).toEqual(UNAUTHORIZED);
-            });
-        });
-
-        describe('POST /customer/0', () => {
-            it('response status is CREATED and response body is of the expected shape and ID is a number other than 0', async () => {
-                const response = await agent.post('/customer/0')
+                await agent.post('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "clowner@car.com",
-                        customerName: "bozo"
+                        password: "1"
+                    });
+                const response = await agent.post('/scooter/token')
+                    .set('X-Access-Token', token)
+                    .send({ scooterId: 1, password: "655"});
+                // console.log(response);
+                expect(response.status).toEqual(UNAUTHORIZED);
+            });
+        });
+
+        describe('POST /scooter/0', () => {
+            it('response status is CREATED and response body is of the expected shape and ID is a number other than 0', async () => {
+                const response = await agent.post('/scooter/0')
+                    .set('X-Access-Token', token)
+                    .send({
+                        password: "testing"
                     });
                 expect(response.status).toEqual(CREATED);
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain("scooterId");
 
                 expect(typeof response.body.data.token).toBe("string");
                 expect(response.body.data.token).toMatch(/.+/);
-                expect(response.body.data.email).toEqual('clowner@car.com');
-                expect(response.body.data.customerId).toBeGreaterThanOrEqual(2);
+                expect(response.body.data.scooterId).toBeGreaterThanOrEqual(1);
             });
         });
     });
 
     describe('as client without access token', () => {
-        describe('GET /customer', () => {
+        describe('GET /scooter', () => {
             it('response status is FORBIDDEN', async () => {
-                const response = await agent.get('/customer');
+                const response = await agent.get('/scooter');
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
 
-        describe('DELETE /customer', () => {
+        describe('DELETE /scooter', () => {
             it('response status is FORBIDDEN', async () => {
-                const response = await agent.delete('/customer');
+                const response = await agent.delete('/scooter');
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
 
-        describe('POST /customer/1', () => {
-            it('response status is CREATED and response body is of the expected shape', async () => {
-                const response = await agent.post('/customer/1')
+        describe('POST /scooter/1', () => {
+            it('response status is FORBIDDEN', async () => {
+                const response = await agent.post('/scooter/1')
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        password: "wrång"
                     });
-                expect(response.status).toEqual(CREATED);
+                expect(response.status).toEqual(FORBIDDEN);
+            });
+        });
+
+        describe('GET /scooter/1', () => {
+            it('response status is FORBIDDEN', async () => {
+                const response = await agent.delete('/scooter/1');
+                expect(response.status).toEqual(FORBIDDEN);
+            });
+        });
+
+        describe('PUT /scooter/1', () => {
+            it('response status is FORBIDDEN', async () => {
+                const response = await agent.put('/scooter/1');
+                expect(response.status).toEqual(FORBIDDEN);
+            });
+        });
+
+        describe('DELETE /scooter/1', () => {
+            it('response status is FORBIDDEN', async () => {
+                const response = await agent.put('/scooter/1');
+                expect(response.status).toEqual(FORBIDDEN);
+            });
+        });
+
+        describe('POST /scooter/token with bad credentials', () => {
+            it('response status is UNAUTHORIZED', async () => {
+                const response = await agent.post('/scooter/token')
+                    .send({ scooterId: 1, password: "nähäru"});
+                expect(response.status).toEqual(UNAUTHORIZED);
+            });
+        });
+
+        describe('POST /scooter/token with good credentials', () => {
+            it('response status is UNAUTHORIZED', async () => {
+                const response = await agent.post('/scooter/token')
+                    .send({ scooterId: 1, password: "1"});
+                expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain("scooterId");
 
                 expect(typeof response.body.data.token).toBe("string");
                 expect(response.body.data.token).toMatch(/.+/);
-                expect(response.body.data.email).toEqual('clown@car.com');
-                expect(response.body.data.customerId).toEqual(1);
-            });
-        });
-
-        describe('GET /customer/1', () => {
-            it('response status is FORBIDDEN', async () => {
-                const response = await agent.delete('/customer/1');
-                expect(response.status).toEqual(FORBIDDEN);
-            });
-        });
-
-        describe('PUT /customer/1', () => {
-            it('response status is FORBIDDEN', async () => {
-                const response = await agent.put('/customer/1');
-                expect(response.status).toEqual(FORBIDDEN);
-            });
-        });
-
-        describe('DELETE /customer/1', () => {
-            it('response status is FORBIDDEN', async () => {
-                const response = await agent.put('/customer/1');
-                expect(response.status).toEqual(FORBIDDEN);
-            });
-        });
-
-        describe('GET /customer/auth', () => {
-            it('response status is OK and body is of the expected shape', async () => {
-                const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" });
-                expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
-            });
-        });
-
-        describe('POST /customer/auth with dummy code', () => {
-            it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/auth')
-                    .send({ code: "dummy" });
-                expect(response.status).toEqual(UNAUTHORIZED);
-            });
-        });
-
-        describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/token')
-                    .send({ oAuthToken: "dummy token"});
-                expect(response.status).toEqual(UNAUTHORIZED);
+                expect(response.body.data.scooterId).toEqual(1);
             });
         });
     });
@@ -329,37 +309,38 @@ describe('customerRouter', () => {
             token = responseCustomer.body.data.token;
         });
 
-        describe('GET /customer', () => {
+        describe('GET /scooter', () => {
+            it('response status is OK and response body is of the expected shape', async () => {
+                const response = await agent.get('/scooter')
+                    .set({'X-Access-Token': token});
+                expect(response.status).toEqual(OK);
+                expect(Object.keys(response.body)).toContain("data");
+                expect(Array.isArray(response.body.data)).toBeTrue();
+            });
+        });
+
+        describe('DELETE /scooter', () => {
             it('response status is FORBIDDEN', async () => {
-                const response = await agent.get('/customer')
+                const response = await agent.delete('/scooter')
                     .set({'X-Access-Token': token});
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
 
-        describe('DELETE /customer', () => {
-            it('response status is FORBIDDEN', async () => {
-                const response = await agent.delete('/customer')
-                    .set({'X-Access-Token': token});
-                expect(response.status).toEqual(FORBIDDEN);
-            });
-        });
-
-        describe('POST /customer/1', () => {
+        describe('POST /scooter/1', () => {
             it('response status is CONFLICT', async () => {
-                const response = await agent.post('/customer/1')
+                const response = await agent.post('/scooter/1')
                     .set({'X-Access-Token': token})
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        password: "bozo"
                     });
-                expect(response.status).toEqual(CONFLICT);
+                expect(response.status).toEqual(FORBIDDEN);
             });
         });
 
-        describe('GET /customer/1', () => {
+        describe('GET /scooter/1', () => {
             it('response status is OK', async () => {
-                const response = await agent.get('/customer/1')
+                const response = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
@@ -368,44 +349,44 @@ describe('customerRouter', () => {
                 expect(dataKeys).toContain("id");
                 expect(dataKeys).toContain("createdAt");
                 expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerName");
                 expect(dataKeys).toContain("positionX");
                 expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("balance");
+                expect(dataKeys).toContain("battery");
+                expect(dataKeys).toContain("maxSpeed");
+                expect(dataKeys).toContain("charging");
+                expect(dataKeys).toContain("available");
+                expect(dataKeys).toContain("decomissioned");
+                expect(dataKeys).toContain("beingServiced");
+                expect(dataKeys).toContain("connected");
 
-                expect(response.body.data.email).toEqual('tester@test.com');
-                expect(response.body.data.customerName).toEqual('Tester Testersson');
+                expect(response.body.data.id).toEqual(1);
             });
         });
 
-        describe('GET /customer/auth', () => {
-            it('response status is OK and body is of the expected shape', async () => {
-                const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" })
-                    .set({'X-Access-Token': token});
+        describe('POST /scooter/token with bad credentials', () => {
+            it('response status is UNAUTHORIZED', async () => {
+                const response = await agent.post('/scooter/token')
+                    .set({'X-Access-Token': token})
+                    .send({ scooterId: 1, password: "nähäru"});
+                expect(response.status).toEqual(UNAUTHORIZED);
+            });
+        });
+
+        describe('POST /scooter/token with good credentials', () => {
+            it('response status is UNAUTHORIZED', async () => {
+                const response = await agent.post('/scooter/token')
+                    .set({'X-Access-Token': token})
+                    .send({ scooterId: 1, password: "1"});
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
-            });
-        });
 
-        describe('POST /customer/auth with dummy code', () => {
-            it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/auth')
-                    .set({'X-Access-Token': token})
-                    .send({ code: "dummy" });
-                expect(response.status).toEqual(UNAUTHORIZED);
-            });
-        });
+                const dataKeys = Object.keys(response.body.data);
+                expect(dataKeys).toContain("token");
+                expect(dataKeys).toContain("scooterId");
 
-        describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
-                const response = await agent.post('/customer/token')
-                    .set({'X-Access-Token': token})
-                    .send({ oAuthToken: "dummy token"});
-                expect(response.status).toEqual(UNAUTHORIZED);
+                expect(typeof response.body.data.token).toBe("string");
+                expect(response.body.data.token).toMatch(/.+/);
+                expect(response.body.data.scooterId).toEqual(1);
             });
         });
     });

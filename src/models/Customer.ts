@@ -153,7 +153,7 @@ async function onePost(req: e.Request, res: e.Response) {
         data: {
             token,
             email,
-            id: customer.id
+            customerId: customer.id
         }
     });
 }

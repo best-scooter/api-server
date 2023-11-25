@@ -41,7 +41,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 // Test database connection and sync
 try {
     // sequelize.sync({ force: true });
-    // sequelize.sync();
+    sequelize.sync();
     // sequelize.sync({ alter: true });
     sequelize.authenticate();
 } catch (error) {

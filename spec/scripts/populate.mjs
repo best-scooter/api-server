@@ -14,7 +14,7 @@ let token;
 await fetch(`http://localhost:1337/admin/setup`, requestOptions)
     .then((response) => {
         // console.log(response);
-        // console.log(response.status)
+        console.log(response.status);
         return response.json();
     })
     .then((result) => {
