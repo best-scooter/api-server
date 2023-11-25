@@ -213,10 +213,13 @@ Pushar imagen till ACR
 >
 > Autentiserar kunden och checkar ut en token, samt visar vad den autentiserade användaren epost-adress är.
 >
+> Om servern inte är i `production` så går det att skicka in email istället och kringgå Oauth, detta för att underlätta simulering.
+>
 > ➡️ Request body:
 > ```typescript
 > {
->   oAuthToken: string
+>   oAuthToken?: string,
+>   email?: string
 > }
 > ```
 >
@@ -224,7 +227,8 @@ Pushar imagen till ACR
 > ```typescript
 > { data: {
 >   token: string,
->   email: string
+>   email: string,
+>   customerId: number
 > }}
 > ```
 
@@ -350,7 +354,8 @@ Pushar imagen till ACR
 > ```typescript
 > { data: {
 >   token: string,
->   username: string
+>   username: string,
+>   adminId: number
 > }}
 > ```
 
