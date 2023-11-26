@@ -3,14 +3,29 @@ import jetValidator from 'jet-validator';
 
 import Paths from './Paths';
 import TripModel from '../models/Trip'
+import { isPositionArray } from '../models/position';
 
 // **** Variables **** //
 
 const validate = jetValidator();
 
+// **** Helper functions **** //
+
 // ** Add tripRouter ** //
 
 const tripRouter = Router();
+
+// Get all trips by customerId
+tripRouter.get(
+    Paths.Trip.Customer,
+    TripModel.byCustomer
+);
+
+// Get all trips by scooterId
+tripRouter.get(
+    Paths.Trip.Scooter,
+    TripModel.byScooter
+);
 
 // Get one trip
 tripRouter.get(
@@ -24,8 +39,7 @@ tripRouter.post(
     validate(
         ["customerId", "number"],
         ["scooterId", "number"],
-        ["bestPickupZone", "number"],
-        ["startPosition", "array"],
+        ["startPosition", isPositionArray],
         ["priceInitial", "number"],
         ["priceTime", "number"],
         ["priceDistance", "number"]

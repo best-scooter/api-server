@@ -24,8 +24,8 @@ export default {
     Trip: {
         Base: '/trip',
         One: '/:tripId',
-        Customer: '/customer/:customerId',
-        Scooter: '/scooter/:scooterId'
+        Customer: '/by/customer/:customerId',
+        Scooter: '/by/scooter/:scooterId'
     },
     Zone: {
         Base: '/zone',
@@ -34,7 +34,7 @@ export default {
     Parking: {
         Base: '/parking',
         One: '/:parkingId',
-        Zone: '/zone/:zoneId',
-        Scooter: '/scooter/:scooterId'
+        Zone: '/by/zone/:zoneId',
+        Scooter: '/by/scooter/:scooterId'
     }
 } as const;

@@ -8,7 +8,6 @@ import { JWTError } from '../other/errors';
 import { isAdmin, isAdminLevel, isThisIdentity } from './validation';
 import EnvVars from '../constants/EnvVars';
 import { NodeEnvs } from '../constants/misc';
-import Admin from '../orm/Admin';
 
 // **** Variables **** //
 

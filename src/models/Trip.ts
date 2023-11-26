@@ -113,6 +113,7 @@ async function onePost(req: e.Request, res: e.Response) {
             trip = await TripORM.create(tripData)
         }
     } catch(error) {
+        console.error(error);
         return res.status(HttpStatusCodes.CONFLICT).end();
     }
 
@@ -179,6 +180,46 @@ async function oneDelete(req: e.Request, res: e.Response) {
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }
 
+async function byCustomer(req: e.Request, res: e.Response) {
+    const customerId = parseInt(req.params.customerId);
+    const valid = (
+        isAdmin(req.headers) ||
+        isThisCustomer(req.headers, customerId)
+    );
+
+    if (!valid) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
+    const trips = await TripORM.findAll({where: {customerId}});
+
+    if (trips) {
+        return res.status(HttpStatusCodes.OK).json({ data: trips });
+    }
+
+    return res.status(HttpStatusCodes.NOT_FOUND).end();
+}
+
+async function byScooter(req: e.Request, res: e.Response) {
+    const scooterId = parseInt(req.params.scooterId);
+    const valid = (
+        isAdmin(req.headers) ||
+        isThisScooter(req.headers, scooterId)
+    );
+
+    if (!valid) {
+        return res.status(HttpStatusCodes.FORBIDDEN).end();
+    }
+
+    const trips = await TripORM.findAll({where: {scooterId}});
+
+    if (trips) {
+        return res.status(HttpStatusCodes.OK).json({ data: trips });
+    }
+
+    return res.status(HttpStatusCodes.NOT_FOUND).end();
+}
+
 // **** Export default **** //
 
 export default {
@@ -187,5 +228,7 @@ export default {
     oneGet,
     onePost,
     onePut,
-    oneDelete
+    oneDelete,
+    byCustomer,
+    byScooter
 } as const;

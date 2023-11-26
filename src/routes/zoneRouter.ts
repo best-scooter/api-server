@@ -3,12 +3,15 @@ import jetValidator from 'jet-validator';
 
 import Paths from './Paths';
 import ZoneModel from '../models/Zone'
+import { isPositionArrayArray } from '../models/position';
 
 // **** Variables **** //
 
 const validate = jetValidator();
 
-// ** Add zoneRouter ** //
+// **** Helper functions **** //
+
+// **** Add zoneRouter **** //
 
 const zoneRouter = Router();
 
@@ -23,7 +26,7 @@ zoneRouter.post(
     Paths.Zone.One,
     validate(
         ["type", "string"],
-        ["area", "string"],
+        ["area", isPositionArrayArray],
         ["name", "string"],
         ["colour", "string"]
     ),

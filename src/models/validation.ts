@@ -50,7 +50,7 @@ async function isAdminLevel(headers: IncomingHttpHeaders, level: string) {
     }
 
     if (typeof payload === "object" && payload.type === "admin" && payload.adminLevel === level) {
-        const result = await AdminORM.findByPk(payload.id)
+        const result = await AdminORM.findOne({ where: {id: payload.id}});
         if (result) {
             return true;
         }
