@@ -654,6 +654,18 @@ Pushar imagen till ACR
 
 #### /trip/by/scooter/{scooterId}
 
+> __GET__
+>
+> Hämta alla resor för elsparkcykel med id `scooterId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: string <admins|scootern>
+> ```
+>
+> ⬅️ Response body:
+> Se [/trip](#trip)
+
 ### /zone
 
 > __GET__
