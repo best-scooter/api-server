@@ -558,7 +558,7 @@ Pushar imagen till ACR
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunden|scootern>
 > ```
 >
 > ⬅️ Response body:
@@ -639,6 +639,18 @@ Pushar imagen till ACR
 > ``` 
 
 #### /trip/by/customer/{customerId}
+
+> __GET__
+>
+> Hämta alla resor för kund med id `customerId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: string <admins|kunden>
+> ```
+>
+> ⬅️ Response body:
+> Se [/trip](#trip)
 
 #### /trip/by/scooter/{scooterId}
 
