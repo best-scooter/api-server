@@ -7,7 +7,7 @@ import CustomerORM from '../orm/Customer';
 import oAuth from './OAuth';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
-import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
+import { isAdmin, isAdminLevel, isThisIdentity } from './validation';
 import { NodeEnvs } from '../constants/misc';
 
 // **** Variables **** //
@@ -96,9 +96,7 @@ async function oneGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    })
+    const customer = await CustomerORM.findByPk(customerId)
 
     if (customer) {
         return res.status(HttpStatusCodes.OK).json({ data: customer });
@@ -166,9 +164,7 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    });
+    const customer = await CustomerORM.findByPk(customerId);
 
     if (!customer) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -201,9 +197,7 @@ async function oneDelete(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    });
+    const customer = await CustomerORM.findByPk(customerId);
 
     if (!customer) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();

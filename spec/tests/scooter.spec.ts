@@ -110,18 +110,21 @@ describe('scooterRouter', () => {
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("id");
-                expect(dataKeys).toContain("createdAt");
-                expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("positionX");
-                expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("battery");
-                expect(dataKeys).toContain("maxSpeed");
-                expect(dataKeys).toContain("charging");
-                expect(dataKeys).toContain("available");
-                expect(dataKeys).toContain("decomissioned");
-                expect(dataKeys).toContain("beingServiced");
-                expect(dataKeys).toContain("connected");
+                expect(dataKeys).toEqual([
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "positionX",
+                    "positionY",
+                    "battery",
+                    "maxSpeed",
+                    "charging",
+                    "available",
+                    "decomissioned",
+                    "beingServiced",
+                    "connected"
+                ]);
+
 
                 expect(response.body.data.id).toEqual(1);
             });
@@ -346,18 +349,20 @@ describe('scooterRouter', () => {
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("id");
-                expect(dataKeys).toContain("createdAt");
-                expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("positionX");
-                expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("battery");
-                expect(dataKeys).toContain("maxSpeed");
-                expect(dataKeys).toContain("charging");
-                expect(dataKeys).toContain("available");
-                expect(dataKeys).toContain("decomissioned");
-                expect(dataKeys).toContain("beingServiced");
-                expect(dataKeys).toContain("connected");
+                expect(dataKeys).toEqual([
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "positionX",
+                    "positionY",
+                    "battery",
+                    "maxSpeed",
+                    "charging",
+                    "available",
+                    "decomissioned",
+                    "beingServiced",
+                    "connected"
+                ]);
 
                 expect(response.body.data.id).toEqual(1);
             });
@@ -381,8 +386,7 @@ describe('scooterRouter', () => {
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("scooterId");
+                expect(dataKeys).toEqual(["token", "scooterId"]);
 
                 expect(typeof response.body.data.token).toBe("string");
                 expect(response.body.data.token).toMatch(/.+/);

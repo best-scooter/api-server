@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import HttpStatusCodes from '../constants/HttpStatusCodes';
 import AdminORM from '../orm/Admin';
 import { JWTError } from '../other/errors';
-import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
+import { isAdmin, isAdminLevel, isThisIdentity } from './validation';
 import EnvVars from '../constants/EnvVars';
 import { NodeEnvs } from '../constants/misc';
 import Admin from '../orm/Admin';
@@ -45,7 +45,9 @@ async function baseGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admins = await AdminORM.findAll();
+    const admins = await AdminORM.findAll({
+        attributes: { exclude: ['password'] }
+    });
 
     if (admins) {
         return res.status(HttpStatusCodes.OK).json({ data: admins });
@@ -78,9 +80,9 @@ async function oneGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admin = await AdminORM.findOne({
-        where: { id: adminId }
-    })
+    const admin = await AdminORM.findByPk(adminId, {
+        attributes: { exclude: ['password'] }
+    });
 
     if (admin) {
         return res.status(HttpStatusCodes.OK).json({data: admin});
@@ -108,15 +110,19 @@ async function onePost(req: e.Request, res: e.Response) {
     };
     let admin;
 
-    if (adminId) {
-        // if customerId is truthy (not 0) create with given id
-        admin = await AdminORM.create({
-            ...adminData,
-            id: adminId
-        })
-    } else {
-        // else create with auto assigned id
-        admin = await AdminORM.create(adminData)
+    try {
+        if (adminId) {
+            // if customerId is truthy (not 0) create with given id
+            admin = await AdminORM.create({
+                ...adminData,
+                id: adminId
+            })
+        } else {
+            // else create with auto assigned id
+            admin = await AdminORM.create(adminData)
+        }
+    } catch {
+        return res.status(HttpStatusCodes.CONFLICT).end();
     }
     
     const token = await _createJwt(username, level, admin.id);
@@ -138,9 +144,7 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admin = await AdminORM.findOne({
-        where: { id: adminId }
-    });
+    const admin = await AdminORM.findByPk(adminId);
 
     if (!admin) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -173,9 +177,7 @@ async function oneDelete(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admin = await AdminORM.findOne({
-        where: { id: adminId }
-    });
+    const admin = await AdminORM.findByPk(adminId);
 
     if (!admin) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
