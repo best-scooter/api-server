@@ -62,12 +62,14 @@ Pushar imagen till ACR
   - [/scooter/token](#scootertoken)
 - [/trip](#trip)
   - [/trip/{tripId}](#triptripid)
+  - [/trip/by/customer/{customerId}](#tripbycustomercustomerid)
+  - [/trip/by/scooter/{scooterId}](#tripbyscooterscooterid)
 - [/zone](#zone)
   - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
   - [/parking/{parkingId}](#parkingparkingid)
-  - [/parking/zone/{zoneId}](#parkingzonezoneid)
-  - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
+  - [/parking/by/zone/{zoneId}](#parkingbyzonezoneid)
+  - [/parking/by/scooter/{scooterId}](#parkingbyscooterscooterid)
 - [JSON Web Token](#json-web-token)
   - [JWT-exempel](#jwt-exempel)
 
@@ -636,6 +638,10 @@ Pushar imagen till ACR
 > X-Access-Token: string <admins>
 > ``` 
 
+#### /trip/by/customer/{customerId}
+
+#### /trip/by/scooter/{scooterId}
+
 ### /zone
 
 > __GET__
@@ -793,7 +799,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > X-Access-Token: string <admins>
 > ```
 
-#### /parking/zone/{zoneId}
+#### /parking/by/zone/{zoneId}
 
 >  __GET__
 >
@@ -817,7 +823,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > X-Access-Token: string <admins>
 > ```
 
-#### /parking/scooter/{scooterId}
+#### /parking/by/scooter/{scooterId}
 
 > __GET__
 >
