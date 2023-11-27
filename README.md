@@ -620,12 +620,12 @@ Pushar imagen till ACR
 > 
 > ```typescript
 > {
->   bestParkingZone?: number,
 >   parkedCharging?: boolean,
 >   timeEnded?: string,
 >   distance?: number,
 >   route?: [number, number][],
->   routeAppend?: [number, number][]
+>   routeAppend?: [number, number][],
+>   endPosition?: [number, number]
 > }
 > ```
 
