@@ -20,7 +20,7 @@ class Trip extends Model<
     declare timeStarted: Date | null;
     declare timeEnded: Date | null;
     declare distance: number | null;
-    declare route: string | null;
+    declare route: Array<Array<number>> | null;
     declare priceInitial: number | null;
     declare priceTime: number | null;
     declare priceDistance: number | null;

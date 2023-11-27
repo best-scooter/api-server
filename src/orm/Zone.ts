@@ -10,7 +10,7 @@ class Zone extends Model<
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     declare type: string;
-    declare area: string;
+    declare area: Array<Array<number>>;
     declare maxSpeed: number | null;
     declare colour: string;
     declare name: string;

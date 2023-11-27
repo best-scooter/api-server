@@ -1,16 +1,43 @@
+import { Op } from 'sequelize';
+import pointInPolygon from 'point-in-polygon';
+
+import ZoneORM from '../orm/Zone'
 
 // **** Variables **** //
 
 // **** Functions **** //
 
 async function getBestZone(scooterPosition: Array<number>) {
+    const zoneIds = await getAllZonesByPosition(scooterPosition);
+    const zones = await ZoneORM.findAll({ where: {
+        id: {
+            [Op.or]: zoneIds
+        }
+    }})
+    let bestZoneId = -1;
+    let bestZoneValue = -1;
 
-    return 1;
+    for (const zone of zones) {
+        if (typeof zone.parkingValue === "number" && bestZoneValue < zone.parkingValue) {
+            bestZoneValue = zone.parkingValue;
+            bestZoneId = zone.id;
+        }
+    }
+
+    return bestZoneId;
 }
 
 async function getAllZonesByPosition(position: Array<number>) {
+    const allZones = await ZoneORM.findAll();
+    const zoneIds = [];
 
-    return [1];
+    for (const zone of allZones) {
+        if (pointInPolygon(position, zone.area)) {
+            zoneIds.push(zone.id);
+        }
+    }
+
+    return zoneIds;
 }
 
 function isPositionArray(value: any) {

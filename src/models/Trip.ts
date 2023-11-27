@@ -97,7 +97,7 @@ async function onePost(req: e.Request, res: e.Response) {
         priceDistance,
         bestPickupZone,
         timeStarted,
-        route: JSON.stringify([startPosition]),
+        route: [startPosition],
     };
     let trip;
 
