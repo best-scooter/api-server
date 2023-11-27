@@ -855,7 +855,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins>
+> X-Access-Token: string <admins|kunder>
 > ```
 >
 > ⬅️ Response body:
@@ -868,14 +868,14 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunder|scootern>
 > ```
 
 > __DELETE__
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunder|scootern>
 > ```
 >
 > Ta bort alla parkeringar för cykel med id `scooterId`.
