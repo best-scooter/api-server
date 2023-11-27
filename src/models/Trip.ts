@@ -142,19 +142,34 @@ async function onePut(req: e.Request, res: e.Response) {
     }
 
     let tripData = {};
+    let routeAppend: number[][] = [];
+    let bestParkingZone = -1;
+
+    // routeAppend logic
+    // this causes unexpected behaviour if both route and routeAppend
+    // is used, which is acceptable and documented
+    if (req.body.hasOwnProperty("routeAppend")) {
+        const route = trip.route ?? [];
+        const append = req.body["routeAppend"];
+        routeAppend = route.concat(append);
+    }
+
+    // endPosition logic
+    if (req.body.hasOwnProperty("endPosition")) {
+        bestParkingZone = await getBestZone(req.body["endPosition"]);
+    }
 
     // for each property in the body add it to the data
     Object.keys(req.body).forEach((key) => {
-        // routeAppend logic
-        // this causes unexpected behaviour if both route and routeAppend
-        // is used, which is acceptable and documented
         if (key === "routeAppend") {
-            const route = trip.route ?? [];
-            const routeAppend = req.body[key];
-
             tripData = {
                 ...tripData,
-                route: route.concat(routeAppend)
+                route: routeAppend
+            };
+        } else if (key === "endPosition") {
+            tripData = {
+                ...tripData,
+                bestParkingZone
             };
         } else {
             tripData = {
@@ -164,6 +179,7 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
+    console.log(tripData);
     if (tripData.hasOwnProperty('id')) {
         res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
     }
