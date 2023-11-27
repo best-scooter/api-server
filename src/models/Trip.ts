@@ -137,7 +137,6 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-
     if (!trip) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
     }
@@ -146,9 +145,22 @@ async function onePut(req: e.Request, res: e.Response) {
 
     // for each property in the body add it to the data
     Object.keys(req.body).forEach((key) => {
-        tripData = {
-            ...tripData,
-            [key]: req.body[key]
+        // routeAppend logic
+        // this causes unexpected behaviour if both route and routeAppend
+        // is used, which is acceptable and documented
+        if (key === "routeAppend") {
+            const route = trip.route ?? [];
+            const routeAppend = req.body[key];
+
+            tripData = {
+                ...tripData,
+                route: route.concat(routeAppend)
+            };
+        } else {
+            tripData = {
+                ...tripData,
+                [key]: req.body[key]
+            };
         }
     });
 
