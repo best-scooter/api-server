@@ -18,6 +18,7 @@ class Scooter extends Model<
     declare available: boolean | null;
     declare decomissioned: boolean | null;
     declare beingServiced: boolean | null;
+    declare disabled: boolean | null;
     declare connected: boolean | null;
 }
 
@@ -70,6 +71,11 @@ Scooter.init({
         allowNull: false
     },
     beingServiced: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    disabled: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false

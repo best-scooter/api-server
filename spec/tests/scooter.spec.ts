@@ -122,9 +122,9 @@ describe('scooterRouter', () => {
                     "available",
                     "decomissioned",
                     "beingServiced",
+                    "disabled",
                     "connected"
                 ]);
-
 
                 expect(response.body.data.id).toEqual(1);
             });
@@ -361,6 +361,7 @@ describe('scooterRouter', () => {
                     "available",
                     "decomissioned",
                     "beingServiced",
+                    "disabled",
                     "connected"
                 ]);
 

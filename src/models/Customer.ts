@@ -219,17 +219,22 @@ async function authGet(req: e.Request, res: e.Response) {
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? "";
-    let token;
+    let oAuthResponse;
 
     try {
-        token = await oAuth.createToken({
+        oAuthResponse = await oAuth.createToken({
             code
         });
     } catch (error) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
 
-    return res.status(HttpStatusCodes.OK).json({data: token});
+    const token = oAuthResponse.authentication.token;
+    // console.log(token);
+
+    return res.status(HttpStatusCodes.OK).json({data: {
+        oAuthToken: token
+    }});
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {
