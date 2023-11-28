@@ -385,6 +385,7 @@ Pushar imagen till ACR
 >     available: boolean,
 >     decomissioned: boolean,
 >     beingServiced: boolean,
+>     disabled: boolean,
 >     connected: boolean
 >   },
 >   ...
@@ -423,6 +424,7 @@ Pushar imagen till ACR
 >   available: boolean,
 >   decomissioned: boolean,
 >   beingServiced: boolean,
+>   disabled: boolean,
 >   connected: boolean
 > }}
 > ```
@@ -464,8 +466,7 @@ Pushar imagen till ACR
 > ```typescript
 > {
 >   password?: string,
->   max_speed?: number,
->   status?: string,
+>   maxSpeed?: number,
 >   positionX?: number,
 >   positionY?: number,
 >   battery?: number,
@@ -473,6 +474,7 @@ Pushar imagen till ACR
 >   available: boolean,
 >   decomissioned: boolean,
 >   beingServiced: boolean,
+>   disabled: boolean,
 >   connected?: boolean
 > }
 > ```
