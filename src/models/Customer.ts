@@ -232,6 +232,7 @@ async function authPost(req: e.Request, res: e.Response) {
             code
         });
     } catch (error) {
+        console.error(error);
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
 
