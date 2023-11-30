@@ -62,12 +62,14 @@ Pushar imagen till ACR.
   - [/scooter/token](#scootertoken)
 - [/trip](#trip)
   - [/trip/{tripId}](#triptripid)
+  - [/trip/by/customer/{customerId}](#tripbycustomercustomerid)
+  - [/trip/by/scooter/{scooterId}](#tripbyscooterscooterid)
 - [/zone](#zone)
   - [/zone/{zoneId}](#zonezoneid)
 - [/parking](#parking)
   - [/parking/{parkingId}](#parkingparkingid)
-  - [/parking/zone/{zoneId}](#parkingzonezoneid)
-  - [/parking/scooter/{scooterId}](#parkingscooterscooterid)
+  - [/parking/by/zone/{zoneId}](#parkingbyzonezoneid)
+  - [/parking/by/scooter/{scooterId}](#parkingbyscooterscooterid)
 - [JSON Web Token](#json-web-token)
   - [JWT-exempel](#jwt-exempel)
 
@@ -213,10 +215,13 @@ Pushar imagen till ACR.
 >
 > Autentiserar kunden och checkar ut en token, samt visar vad den autentiserade användaren epost-adress är.
 >
+> Om servern inte är i `production` så går det att skicka in email istället och kringgå Oauth, detta för att underlätta simulering.
+>
 > ➡️ Request body:
 > ```typescript
 > {
->   oAuthToken: string
+>   oAuthToken?: string,
+>   email?: string
 > }
 > ```
 >
@@ -224,7 +229,8 @@ Pushar imagen till ACR.
 > ```typescript
 > { data: {
 >   token: string,
->   email: string
+>   email: string,
+>   customerId: number
 > }}
 > ```
 
@@ -350,7 +356,8 @@ Pushar imagen till ACR.
 > ```typescript
 > { data: {
 >   token: string,
->   username: string
+>   username: string,
+>   adminId: number
 > }}
 > ```
 
@@ -378,6 +385,7 @@ Pushar imagen till ACR.
 >     available: boolean,
 >     decomissioned: boolean,
 >     beingServiced: boolean,
+>     disabled: boolean,
 >     connected: boolean
 >   },
 >   ...
@@ -416,6 +424,7 @@ Pushar imagen till ACR.
 >   available: boolean,
 >   decomissioned: boolean,
 >   beingServiced: boolean,
+>   disabled: boolean,
 >   connected: boolean
 > }}
 > ```
@@ -457,8 +466,7 @@ Pushar imagen till ACR.
 > ```typescript
 > {
 >   password?: string,
->   max_speed?: number,
->   status?: string,
+>   maxSpeed?: number,
 >   positionX?: number,
 >   positionY?: number,
 >   battery?: number,
@@ -466,6 +474,7 @@ Pushar imagen till ACR.
 >   available: boolean,
 >   decomissioned: boolean,
 >   beingServiced: boolean,
+>   disabled: boolean,
 >   connected?: boolean
 > }
 > ```
@@ -551,7 +560,7 @@ Pushar imagen till ACR.
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunden|scootern>
 > ```
 >
 > ⬅️ Response body:
@@ -613,12 +622,12 @@ Pushar imagen till ACR.
 > 
 > ```typescript
 > {
->   bestParkingZone?: number,
 >   parkedCharging?: boolean,
 >   timeEnded?: string,
 >   distance?: number,
 >   route?: [number, number][],
->   routeAppend?: [number, number][]
+>   routeAppend?: [number, number][],
+>   endPosition?: [number, number]
 > }
 > ```
 
@@ -630,6 +639,34 @@ Pushar imagen till ACR.
 > ```typescript
 > X-Access-Token: string <admins>
 > ``` 
+
+#### /trip/by/customer/{customerId}
+
+> __GET__
+>
+> Hämta alla resor för kund med id `customerId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: string <admins|kunden>
+> ```
+>
+> ⬅️ Response body:
+> Se [/trip](#trip)
+
+#### /trip/by/scooter/{scooterId}
+
+> __GET__
+>
+> Hämta alla resor för elsparkcykel med id `scooterId`.
+> 
+> ➡️ Request header:
+> ```typescript
+> X-Access-Token: string <admins|scootern>
+> ```
+>
+> ⬅️ Response body:
+> Se [/trip](#trip)
 
 ### /zone
 
@@ -788,7 +825,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > X-Access-Token: string <admins>
 > ```
 
-#### /parking/zone/{zoneId}
+#### /parking/by/zone/{zoneId}
 
 >  __GET__
 >
@@ -812,7 +849,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > X-Access-Token: string <admins>
 > ```
 
-#### /parking/scooter/{scooterId}
+#### /parking/by/scooter/{scooterId}
 
 > __GET__
 >
@@ -820,7 +857,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins>
+> X-Access-Token: string <admins|kunder>
 > ```
 >
 > ⬅️ Response body:
@@ -833,14 +870,14 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunder|scootern>
 > ```
 
 > __DELETE__
 > 
 > ➡️ Request header:
 > ```typescript
-> X-Access-Token: string <admins|kunden>
+> X-Access-Token: string <admins|kunder|scootern>
 > ```
 >
 > Ta bort alla parkeringar för cykel med id `scooterId`.
