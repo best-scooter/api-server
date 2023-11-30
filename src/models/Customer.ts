@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import CustomerORM from '../orm/Customer';
 import oAuth from './OAuth';
+import oAuthMobile from './OAuthMobile';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
 import { isAdmin, isAdminLevel, isThisIdentity } from './validation';
@@ -210,9 +211,17 @@ async function oneDelete(req: e.Request, res: e.Response) {
 
 async function authGet(req: e.Request, res: e.Response) {
     const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
-    const url = oAuth.getWebFlowAuthorizationUrl({
-        redirectUrl: redirectUrl.toString()
-    })
+    const mobile = req.query?.mobile ?? False;
+
+    if (mobile) {
+        const url = oAuthMobile.getWebFlowAuthorizationUrl({
+            redirectUrl: redirectUrl.toString()
+        })
+    } else {
+        const url = oAuth.getWebFlowAuthorizationUrl({
+            redirectUrl: redirectUrl.toString()
+        })
+    }
 
     return res.status(HttpStatusCodes.OK).json({data: url});
 }
