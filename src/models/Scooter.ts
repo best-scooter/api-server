@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import HttpStatusCodes from '../constants/HttpStatusCodes';
 import ScooterORM from '../orm/Scooter';
 import { JWTError } from '../other/errors';
-import { isAdmin, isAdminLevel, isCustomer, isScooter, isThisIdentity } from './Validation';
+import { isAdmin, isAdminLevel, isCustomer, isScooter, isThisIdentity } from './validation';
 
 // **** Variables **** //
 
@@ -40,7 +40,9 @@ async function baseGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const scooters = await ScooterORM.findAll();
+    const scooters = await ScooterORM.findAll({
+        attributes: { exclude: ['password'] }
+    });
 
     if (scooters) {
         return res.status(HttpStatusCodes.OK).json({ data: scooters });
@@ -73,9 +75,9 @@ async function oneGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const scooter = await ScooterORM.findOne({
-        where: { id: scooterId }
-    })
+    const scooter = await ScooterORM.findByPk(scooterId, {
+        attributes: { exclude: ['password'] }
+    });
 
     if (scooter) {
         return res.status(HttpStatusCodes.OK).json({data: scooter});
@@ -100,15 +102,19 @@ async function onePost(req: e.Request, res: e.Response) {
     const token = await _createJwt(scooterId);
     let scooter;
 
-    if (scooterId) {
-        // if customerId is truthy (not 0) create with given id
-        scooter = await ScooterORM.create({
-            ...scooterData,
-            id: scooterId
-        })
-    } else {
-        // else create with auto assigned id
-        scooter = await ScooterORM.create(scooterData)
+    try {
+        if (scooterId) {
+            // if customerId is truthy (not 0) create with given id
+            scooter = await ScooterORM.create({
+                ...scooterData,
+                id: scooterId
+            })
+        } else {
+            // else create with auto assigned id
+            scooter = await ScooterORM.create(scooterData)
+        }
+    } catch(error) {
+        return res.status(HttpStatusCodes.CONFLICT).end();
     }
 
     return res.status(HttpStatusCodes.CREATED).json({
@@ -127,9 +133,7 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admin = await ScooterORM.findOne({
-        where: { id: scooterId }
-    });
+    const admin = await ScooterORM.findByPk(scooterId);
 
     if (!admin) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -145,22 +149,24 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
+    if (scooterData.hasOwnProperty('id')) {
+        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
+    }
+
     await admin.update(scooterData);
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }
 
 async function oneDelete(req: e.Request, res: e.Response) {
-    const scooterId = parseInt(req.params.adminId);
+    const scooterId = parseInt(req.params.scooterId);
     const valid = await isAdmin(req.headers);
 
     if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const scooter = await ScooterORM.findOne({
-        where: { id: scooterId }
-    });
+    const scooter = await ScooterORM.findByPk(scooterId);
 
     if (!scooter) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -181,7 +187,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
         })
     }
 
-    const scooter = await ScooterORM.findOne({ where: { id: scooterId }});
+    const scooter = await ScooterORM.findByPk(scooterId);
 
     if (!scooter) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();

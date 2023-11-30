@@ -29,7 +29,7 @@ async function isAdmin(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "admin") {
-        const result = await AdminORM.findOne({ where: { id: payload.id }})
+        const result = await AdminORM.findByPk(payload.id)
         if (result) {
             return true;
         }
@@ -50,7 +50,7 @@ async function isAdminLevel(headers: IncomingHttpHeaders, level: string) {
     }
 
     if (typeof payload === "object" && payload.type === "admin" && payload.adminLevel === level) {
-        const result = await AdminORM.findOne({ where: { id: payload.id }})
+        const result = await AdminORM.findOne({ where: {id: payload.id}});
         if (result) {
             return true;
         }
@@ -71,7 +71,7 @@ async function isCustomer(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "customer") {
-        const result = await CustomerORM.findOne({ where: { id: payload.id }})
+        const result = await CustomerORM.findByPk(payload.id)
         if (result) {
             return true;
         }
@@ -92,7 +92,7 @@ async function isScooter(headers: IncomingHttpHeaders) {
     }
 
     if (typeof payload === "object" && payload.type === "scooter") {
-        const result = await ScooterORM.findOne({ where: { id: payload.id }})
+        const result = await ScooterORM.findByPk(payload.id)
         if (result) {
             return true;
         }
@@ -114,17 +114,17 @@ async function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
 
     if (typeof payload === "object" && payload.id === id) {
         if (payload.type === "admin") {
-            const result = await AdminORM.findOne({ where: { id: payload.id }})
+            const result = await AdminORM.findByPk(payload.id)
             if (result) {
                 return true;
             }
         } else if (payload.type === "customer") {
-            const result = await CustomerORM.findOne({ where: { id: payload.id }})
+            const result = await CustomerORM.findByPk(payload.id)
             if (result) {
                 return true;
             }
         } else if (payload.type === "scooter") {
-            const result = await ScooterORM.findOne({ where: { id: payload.id }})
+            const result = await ScooterORM.findByPk(payload.id)
             if (result) {
                 return true;
             }
@@ -134,10 +134,20 @@ async function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
     return false;
 }
 
+async function isThisScooter(headers: IncomingHttpHeaders, id: number) {
+    return await isScooter(headers) && await isThisIdentity(headers, id);
+}
+
+async function isThisCustomer(headers: IncomingHttpHeaders, id: number) {
+    return await isCustomer(headers) && await isThisIdentity(headers, id);
+}
+
 export {
     isAdmin,
     isAdminLevel,
     isCustomer,
     isScooter,
-    isThisIdentity
+    isThisIdentity,
+    isThisScooter,
+    isThisCustomer
 };

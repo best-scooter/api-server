@@ -5,9 +5,10 @@ import jwt from 'jsonwebtoken';
 
 import CustomerORM from '../orm/Customer';
 import oAuth from './OAuth';
+import oAuthMobile from './OAuthMobile';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
-import { isAdmin, isAdminLevel, isThisIdentity } from './Validation';
+import { isAdmin, isAdminLevel, isThisIdentity } from './validation';
 import { NodeEnvs } from '../constants/misc';
 
 // **** Variables **** //
@@ -96,9 +97,7 @@ async function oneGet(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    })
+    const customer = await CustomerORM.findByPk(customerId)
 
     if (customer) {
         return res.status(HttpStatusCodes.OK).json({ data: customer });
@@ -153,7 +152,7 @@ async function onePost(req: e.Request, res: e.Response) {
         data: {
             token,
             email,
-            id: customer.id
+            customerId: customer.id
         }
     });
 }
@@ -166,9 +165,7 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    });
+    const customer = await CustomerORM.findByPk(customerId);
 
     if (!customer) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -201,9 +198,7 @@ async function oneDelete(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const customer = await CustomerORM.findOne({
-        where: { id: customerId }
-    });
+    const customer = await CustomerORM.findByPk(customerId);
 
     if (!customer) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
@@ -216,27 +211,42 @@ async function oneDelete(req: e.Request, res: e.Response) {
 
 async function authGet(req: e.Request, res: e.Response) {
     const redirectUrl = req.query?.redirectUrl ?? "http://localhost:3000/authcallback";
-    const url = oAuth.getWebFlowAuthorizationUrl({
-        redirectUrl: redirectUrl.toString()
-    })
+    const mobile = req.query?.mobile ?? False;
+
+    if (mobile) {
+        const url = oAuthMobile.getWebFlowAuthorizationUrl({
+            redirectUrl: redirectUrl.toString()
+        })
+    } else {
+        const url = oAuth.getWebFlowAuthorizationUrl({
+            redirectUrl: redirectUrl.toString()
+        })
+    }
 
     return res.status(HttpStatusCodes.OK).json({data: url});
 }
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? "";
-    let token;
+    const state = req.body.code?.toString() ?? "";
+    let oAuthResponse;
 
     try {
-        token = await oAuth.createToken({
-            code
+        oAuthResponse = await oAuth.createToken({
+            code,
+            state
         });
     } catch (error) {
         console.error(error);
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
 
-    return res.status(HttpStatusCodes.OK).json({data: token});
+    const token = oAuthResponse.authentication.token;
+    // console.log(token);
+
+    return res.status(HttpStatusCodes.OK).json({data: {
+        oAuthToken: token
+    }});
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {

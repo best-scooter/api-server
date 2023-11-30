@@ -13,7 +13,11 @@ const validate = jetValidator();
 const scooterRouter = Router();
 
 // Post scooter id and password to get jwt token
-scooterRouter.post(Paths.Scooter.Token, ScooterModel.tokenPost);
+scooterRouter.post(
+    Paths.Scooter.Token,
+    validate(['scooterId', 'number'], ['password', 'string']),
+    ScooterModel.tokenPost
+);
 
 // Get one scooter
 scooterRouter.get(

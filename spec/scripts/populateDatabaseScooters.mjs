@@ -13,7 +13,7 @@ export async function populateDatabaseScooters(token) {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-    for (let i = 1; i < 1001; i++) {
+    for (let i = 1; i < 10001; i++) {
         var myHeaders = new Headers();
         myHeaders.append("X-Access-Token", token);
         myHeaders.append("Content-Type", "application/json");

@@ -67,12 +67,16 @@ describe('adminRouter', () => {
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
                 expect(Array.isArray(response.body.data)).toBeTrue();
-                
+
                 const adminData = response.body.data[0];
                 const adminDataKeys = Object.keys(adminData);
-                expect(adminDataKeys).toContain("id");
-                expect(adminDataKeys).toContain("username");
-                expect(adminDataKeys).toContain("level");
+                expect(adminDataKeys).toEqual([
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "username",
+                    "level"
+                ]);
             });
         });
 
@@ -105,9 +109,13 @@ describe('adminRouter', () => {
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("id");
-                expect(dataKeys).toContain("username");
-                expect(dataKeys).toContain("level");
+                expect(dataKeys).toEqual([
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "username",
+                    "level"
+                ]);
                 expect(response.body.data.id).toEqual(adminId);
                 expect(response.body.data.username).toEqual("chefen");
                 expect(response.body.data.level).toEqual("superadmin");
@@ -127,8 +135,11 @@ describe('adminRouter', () => {
                 expect(Object.keys(response1.body)).toContain("data");
 
                 const dataKeys = Object.keys(response1.body.data);
-                expect(dataKeys).toContain("username");
-                expect(dataKeys).toContain("token");
+                expect(dataKeys).toEqual([
+                    "token",
+                    "username",
+                    "adminId"
+                ]);
                 expect(response1.body.data.username).toEqual("klaro");
                 expect(response1.body.data.token).toMatch(/.+/);
 
@@ -185,8 +196,11 @@ describe('adminRouter', () => {
                 expect(Object.keys(response.body)).toContain("data");
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("username");
-                expect(dataKeys).toContain("token");
+                expect(dataKeys).toEqual([
+                    "token",
+                    "username",
+                    "adminId"
+                ])
                 expect(response.body.data.username).toEqual("slent");
                 expect(response.body.data.token).toMatch(/.+/);
             });
@@ -239,12 +253,16 @@ describe('adminRouter', () => {
                 expect(response.status).toEqual(OK);
                 expect(Object.keys(response.body)).toContain("data");
                 expect(Array.isArray(response.body.data)).toBeTrue();
-                
+
                 const adminData = response.body.data[0];
                 const adminDataKeys = Object.keys(adminData);
-                expect(adminDataKeys).toContain("id");
-                expect(adminDataKeys).toContain("username");
-                expect(adminDataKeys).toContain("level");
+                expect(adminDataKeys).toEqual([
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "username",
+                    "level"
+                ])
             });
         });
 
