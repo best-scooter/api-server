@@ -219,11 +219,13 @@ async function authGet(req: e.Request, res: e.Response) {
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? "";
+    const state = req.body.code?.toString() ?? "";
     let oAuthResponse;
 
     try {
         oAuthResponse = await oAuth.createToken({
-            code
+            code,
+            state
         });
     } catch (error) {
         console.error(error);
