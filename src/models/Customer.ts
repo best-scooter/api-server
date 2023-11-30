@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 import jwt from 'jsonwebtoken';
 
 import CustomerORM from '../orm/Customer';
-import oAuth from './OAuth';
+import githubApp from './githubApp';
 import oAuthMobile from './OAuthMobile';
 import EnvVars from '../constants/EnvVars';
 import { OAuthError, JWTError } from '../other/errors';
@@ -219,7 +219,7 @@ async function authGet(req: e.Request, res: e.Response) {
       redirectUrl: redirectUrl.toString(),
     });
   } else {
-    url = oAuth.getWebFlowAuthorizationUrl({
+    url = githubApp.oauth.getWebFlowAuthorizationUrl({
       redirectUrl: redirectUrl.toString(),
     });
   }
@@ -240,7 +240,7 @@ async function authPost(req: e.Request, res: e.Response) {
         state,
       });
     } else {
-      oAuthResponse = await oAuth.createToken({
+      oAuthResponse = await githubApp.oauth.createToken({
         code,
         state,
       });
