@@ -198,7 +198,8 @@ Pushar imagen till ACR
 > ➡️ Request body:
 > ```typescript
 > {
->   code: string
+>   code: string,
+>   state: string
 > }
 > ```
 >
