@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 import 'express-async-errors';
-import { QueryTypes } from 'sequelize';
+import cors from 'cors';
 
 import BaseRouter from './routes/routes';
 import Paths from './routes/Paths';
@@ -27,6 +27,7 @@ const app = express();
 // Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {

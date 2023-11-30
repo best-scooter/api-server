@@ -38,11 +38,11 @@ Kör production-builden med en annan .env-fil.
 
 ### `npm run docker:build`
 
-Bygger appen och bygger imagen
+Bygger appen och bygger imagen.
 
 ### `npm run docker:push`
 
-Pushar imagen till ACR
+Pushar imagen till ACR.
 
 ### `npm run database:populate`
 
