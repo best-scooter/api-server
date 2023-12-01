@@ -15,9 +15,9 @@ import { originAgentCluster } from 'helmet';
 
 // Superadmin
 const superadmin = {
-    username: "chefen",
-    password: "chefen",
-    level: "superadmin"
+    username: 'chefen',
+    password: 'chefen',
+    level: 'superadmin',
 };
 
 // StatusCodes
@@ -29,7 +29,7 @@ const {
     UNAUTHORIZED,
     FORBIDDEN,
     NOT_FOUND,
-    CONFLICT
+    CONFLICT,
 } = {
     OK: 200,
     CREATED: 201,
@@ -38,7 +38,7 @@ const {
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
-    CONFLICT: 409
+    CONFLICT: 409,
 };
 
 // // Dummy update user
@@ -54,8 +54,8 @@ describe('customerRouter', () => {
     let agent: SuperTest<Test>;
 
     beforeAll(() => {
-        agent = supertest.agent(app)
-    })
+        agent = supertest.agent(app);
+    });
 
     describe('as superadmin', () => {
         beforeAll(async () => {
@@ -77,7 +77,7 @@ describe('customerRouter', () => {
                 const response = await agent.get('/customer')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
                 expect(Array.isArray(response.body.data)).toBeTrue();
             });
         });
@@ -87,18 +87,18 @@ describe('customerRouter', () => {
                 const response = await agent.post('/customer/1')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        email: 'clown@car.com',
+                        customerName: 'bozo',
                     });
                 expect(response.status).toEqual(CREATED);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('email');
+                expect(dataKeys).toContain('customerId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.email).toEqual('clown@car.com');
                 expect(response.body.data.customerId).toEqual(1);
@@ -110,17 +110,17 @@ describe('customerRouter', () => {
                 const response = await agent.get('/customer/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("id");
-                expect(dataKeys).toContain("createdAt");
-                expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerName");
-                expect(dataKeys).toContain("positionX");
-                expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("balance");
+                expect(dataKeys).toContain('id');
+                expect(dataKeys).toContain('createdAt');
+                expect(dataKeys).toContain('updatedAt');
+                expect(dataKeys).toContain('email');
+                expect(dataKeys).toContain('customerName');
+                expect(dataKeys).toContain('positionX');
+                expect(dataKeys).toContain('positionY');
+                expect(dataKeys).toContain('balance');
 
                 expect(response.body.data.email).toEqual('clown@car.com');
             });
@@ -131,10 +131,10 @@ describe('customerRouter', () => {
                 const response = await agent.put('/customer/1')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "oops@wont.work"
+                        email: 'oops@wont.work',
                     });
                 expect(response.status).toEqual(FORBIDDEN);
-                expect(Object.keys(response.body)).toContain("error");
+                expect(Object.keys(response.body)).toContain('error');
             });
         });
 
@@ -143,17 +143,17 @@ describe('customerRouter', () => {
                 const responsePut = await agent.put('/customer/1')
                     .set('X-Access-Token', token)
                     .send({
-                        customerName: "car",
+                        customerName: 'car',
                         positionX: 2.2,
                         positionY: -4.4,
-                        balance: 3.3
+                        balance: 3.3,
                     });
                 expect(responsePut.status).toEqual(NO_CONTENT);
                 
                 const responseGet = await agent.get('/customer/1')
                     .set('X-Access-Token', token);
                 expect(responseGet.status).toEqual(OK);
-                expect(responseGet.body.data.customerName).toEqual("car");
+                expect(responseGet.body.data.customerName).toEqual('car');
                 expect(responseGet.body.data.positionX).toEqual(2.2);
                 expect(responseGet.body.data.positionY).toEqual(-4.4);
                 expect(responseGet.body.data.balance).toEqual(3.3);
@@ -175,12 +175,12 @@ describe('customerRouter', () => {
         describe('GET /customer/auth', () => {
             it('response status is OK and body is of the expected shape', async () => {
                 const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" })
+                    .query({ redirectUrl: 'TESTING' })
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
+                expect(Object.keys(response.body)).toContain('data');
+                expect(Object.keys(response.body.data)).toContain('url');
+                expect(response.body.data.url).toContain('redirect_uri=TESTING');
             });
         });
 
@@ -188,7 +188,7 @@ describe('customerRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/auth')
                     .set('X-Access-Token', token)
-                    .send({ code: "dummy" });
+                    .send({ code: 'dummy' });
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -197,7 +197,7 @@ describe('customerRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/token')
                     .set('X-Access-Token', token)
-                    .send({ oAuthToken: "dummy token"});
+                    .send({ oAuthToken: 'dummy token'});
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -207,18 +207,18 @@ describe('customerRouter', () => {
                 const response = await agent.post('/customer/0')
                     .set('X-Access-Token', token)
                     .send({
-                        email: "clowner@car.com",
-                        customerName: "bozo"
+                        email: 'clowner@car.com',
+                        customerName: 'bozo',
                     });
                 expect(response.status).toEqual(CREATED);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('email');
+                expect(dataKeys).toContain('customerId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.email).toEqual('clowner@car.com');
                 expect(response.body.data.customerId).toBeGreaterThanOrEqual(2);
@@ -245,18 +245,18 @@ describe('customerRouter', () => {
             it('response status is CREATED and response body is of the expected shape', async () => {
                 const response = await agent.post('/customer/1')
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        email: 'clown@car.com',
+                        customerName: 'bozo',
                     });
                 expect(response.status).toEqual(CREATED);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('email');
+                expect(dataKeys).toContain('customerId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.email).toEqual('clown@car.com');
                 expect(response.body.data.customerId).toEqual(1);
@@ -287,18 +287,18 @@ describe('customerRouter', () => {
         describe('GET /customer/auth', () => {
             it('response status is OK and body is of the expected shape', async () => {
                 const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" });
+                    .query({ redirectUrl: 'TESTING' });
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
+                expect(Object.keys(response.body)).toContain('data');
+                expect(Object.keys(response.body.data)).toContain('url');
+                expect(response.body.data.url).toContain('redirect_uri=TESTING');
             });
         });
 
         describe('POST /customer/auth with dummy code', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/auth')
-                    .send({ code: "dummy" });
+                    .send({ code: 'dummy' });
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -306,7 +306,7 @@ describe('customerRouter', () => {
         describe('POST /customer/token with dummy oAuthToken', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/token')
-                    .send({ oAuthToken: "dummy token"});
+                    .send({ oAuthToken: 'dummy token'});
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -322,8 +322,8 @@ describe('customerRouter', () => {
 
             const responseCustomer = await agent.post('/customer/1')
                 .send({
-                    email: "tester@test.com",
-                    customerName: "Tester Testersson"
+                    email: 'tester@test.com',
+                    customerName: 'Tester Testersson',
                 });
 
             token = responseCustomer.body.data.token;
@@ -350,8 +350,8 @@ describe('customerRouter', () => {
                 const response = await agent.post('/customer/1')
                     .set({'X-Access-Token': token})
                     .send({
-                        email: "clown@car.com",
-                        customerName: "bozo"
+                        email: 'clown@car.com',
+                        customerName: 'bozo',
                     });
                 expect(response.status).toEqual(CONFLICT);
             });
@@ -362,17 +362,17 @@ describe('customerRouter', () => {
                 const response = await agent.get('/customer/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("id");
-                expect(dataKeys).toContain("createdAt");
-                expect(dataKeys).toContain("updatedAt");
-                expect(dataKeys).toContain("email");
-                expect(dataKeys).toContain("customerName");
-                expect(dataKeys).toContain("positionX");
-                expect(dataKeys).toContain("positionY");
-                expect(dataKeys).toContain("balance");
+                expect(dataKeys).toContain('id');
+                expect(dataKeys).toContain('createdAt');
+                expect(dataKeys).toContain('updatedAt');
+                expect(dataKeys).toContain('email');
+                expect(dataKeys).toContain('customerName');
+                expect(dataKeys).toContain('positionX');
+                expect(dataKeys).toContain('positionY');
+                expect(dataKeys).toContain('balance');
 
                 expect(response.body.data.email).toEqual('tester@test.com');
                 expect(response.body.data.customerName).toEqual('Tester Testersson');
@@ -382,12 +382,12 @@ describe('customerRouter', () => {
         describe('GET /customer/auth', () => {
             it('response status is OK and body is of the expected shape', async () => {
                 const response = await agent.get('/customer/auth')
-                    .query({ redirectUrl: "TESTING" })
+                    .query({ redirectUrl: 'TESTING' })
                     .set({'X-Access-Token': token});
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
-                expect(Object.keys(response.body.data)).toContain("url");
-                expect(response.body.data.url).toContain("redirect_uri=TESTING")
+                expect(Object.keys(response.body)).toContain('data');
+                expect(Object.keys(response.body.data)).toContain('url');
+                expect(response.body.data.url).toContain('redirect_uri=TESTING');
             });
         });
 
@@ -395,7 +395,7 @@ describe('customerRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/auth')
                     .set({'X-Access-Token': token})
-                    .send({ code: "dummy" });
+                    .send({ code: 'dummy' });
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -404,7 +404,7 @@ describe('customerRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/customer/token')
                     .set({'X-Access-Token': token})
-                    .send({ oAuthToken: "dummy token"});
+                    .send({ oAuthToken: 'dummy token'});
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });

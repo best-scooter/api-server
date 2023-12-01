@@ -133,27 +133,35 @@ async function onePut(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
     }
 
-    const admin = await ScooterORM.findByPk(scooterId);
+    const scooter = await ScooterORM.findByPk(scooterId);
 
-    if (!admin) {
+    if (!scooter) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
     }
 
     let scooterData = {};
 
     // for each property in the body add it to the data
-    Object.keys(req.body).forEach((key) => {
+    for (const key of Object.keys(req.body)) {
+        if (key === "position") {
+            scooterData = {
+                ...scooterData,
+                positionX: req.body[key][0],
+                positionY: req.body[key][1]
+            };
+            continue;
+        }
         scooterData = {
             ...scooterData,
             [key]: req.body[key]
-        }
-    });
+        };
+    }
 
     if (scooterData.hasOwnProperty('id')) {
         res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
     }
 
-    await admin.update(scooterData);
+    await scooter.update(scooterData);
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }

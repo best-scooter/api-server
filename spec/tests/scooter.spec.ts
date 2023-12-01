@@ -15,9 +15,9 @@ import { originAgentCluster } from 'helmet';
 
 // Superadmin
 const superadmin = {
-    username: "chefen",
-    password: "chefen",
-    level: "superadmin"
+    username: 'chefen',
+    password: 'chefen',
+    level: 'superadmin',
 };
 
 // StatusCodes
@@ -29,7 +29,7 @@ const {
     UNAUTHORIZED,
     FORBIDDEN,
     NOT_FOUND,
-    CONFLICT
+    CONFLICT,
 } = {
     OK: 200,
     CREATED: 201,
@@ -38,7 +38,7 @@ const {
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
-    CONFLICT: 409
+    CONFLICT: 409,
 };
 
 // // Dummy update user
@@ -54,8 +54,8 @@ describe('scooterRouter', () => {
     let agent: SuperTest<Test>;
 
     beforeAll(() => {
-        agent = supertest.agent(app)
-    })
+        agent = supertest.agent(app);
+    });
 
     describe('as superadmin', () => {
         beforeAll(async () => {
@@ -77,7 +77,7 @@ describe('scooterRouter', () => {
                 const response = await agent.get('/scooter')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
                 expect(Array.isArray(response.body.data)).toBeTrue();
             });
         });
@@ -87,16 +87,16 @@ describe('scooterRouter', () => {
                 const response = await agent.post('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        password: "1"
+                        password: '1',
                     });
                 expect(response.status).toEqual(CREATED);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("scooterId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('scooterId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.scooterId).toEqual(1);
             });
@@ -107,23 +107,23 @@ describe('scooterRouter', () => {
                 const response = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toEqual([
-                    "id",
-                    "createdAt",
-                    "updatedAt",
-                    "positionX",
-                    "positionY",
-                    "battery",
-                    "maxSpeed",
-                    "charging",
-                    "available",
-                    "decomissioned",
-                    "beingServiced",
-                    "disabled",
-                    "connected"
+                    'id',
+                    'createdAt',
+                    'updatedAt',
+                    'positionX',
+                    'positionY',
+                    'battery',
+                    'maxSpeed',
+                    'charging',
+                    'available',
+                    'decomissioned',
+                    'beingServiced',
+                    'disabled',
+                    'connected',
                 ]);
 
                 expect(response.body.data.id).toEqual(1);
@@ -135,10 +135,10 @@ describe('scooterRouter', () => {
                 const response = await agent.put('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        id: 2
+                        id: 2,
                     });
                 expect(response.status).toEqual(FORBIDDEN);
-                expect(Object.keys(response.body)).toContain("error");
+                expect(Object.keys(response.body)).toContain('error');
             });
         });
 
@@ -155,7 +155,7 @@ describe('scooterRouter', () => {
                         available: true,
                         decomissioned: true,
                         beingServiced: true,
-                        connected: true
+                        connected: true,
                     });
                 expect(responsePut.status).toEqual(NO_CONTENT);
                 
@@ -192,11 +192,11 @@ describe('scooterRouter', () => {
                 await agent.post('/scooter/1')
                     .set('X-Access-Token', token)
                     .send({
-                        password: "1"
+                        password: '1',
                     });
                 const response = await agent.post('/scooter/token')
                     .set('X-Access-Token', token)
-                    .send({ scooterId: 1, password: "655"});
+                    .send({ scooterId: 1, password: '655'});
                 // console.log(response);
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
@@ -207,16 +207,16 @@ describe('scooterRouter', () => {
                 const response = await agent.post('/scooter/0')
                     .set('X-Access-Token', token)
                     .send({
-                        password: "testing"
+                        password: 'testing',
                     });
                 expect(response.status).toEqual(CREATED);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("scooterId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('scooterId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.scooterId).toBeGreaterThanOrEqual(1);
             });
@@ -242,7 +242,7 @@ describe('scooterRouter', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.post('/scooter/1')
                     .send({
-                        password: "wrång"
+                        password: 'wrång',
                     });
                 expect(response.status).toEqual(FORBIDDEN);
             });
@@ -272,7 +272,7 @@ describe('scooterRouter', () => {
         describe('POST /scooter/token with bad credentials', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/scooter/token')
-                    .send({ scooterId: 1, password: "nähäru"});
+                    .send({ scooterId: 1, password: 'nähäru'});
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -280,15 +280,15 @@ describe('scooterRouter', () => {
         describe('POST /scooter/token with good credentials', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/scooter/token')
-                    .send({ scooterId: 1, password: "1"});
+                    .send({ scooterId: 1, password: '1'});
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toContain("token");
-                expect(dataKeys).toContain("scooterId");
+                expect(dataKeys).toContain('token');
+                expect(dataKeys).toContain('scooterId');
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.scooterId).toEqual(1);
             });
@@ -305,8 +305,8 @@ describe('scooterRouter', () => {
 
             const responseCustomer = await agent.post('/customer/1')
                 .send({
-                    email: "tester@test.com",
-                    customerName: "Tester Testersson"
+                    email: 'tester@test.com',
+                    customerName: 'Tester Testersson',
                 });
 
             token = responseCustomer.body.data.token;
@@ -317,7 +317,7 @@ describe('scooterRouter', () => {
                 const response = await agent.get('/scooter')
                     .set({'X-Access-Token': token});
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
                 expect(Array.isArray(response.body.data)).toBeTrue();
             });
         });
@@ -335,7 +335,7 @@ describe('scooterRouter', () => {
                 const response = await agent.post('/scooter/1')
                     .set({'X-Access-Token': token})
                     .send({
-                        password: "bozo"
+                        password: 'bozo',
                     });
                 expect(response.status).toEqual(FORBIDDEN);
             });
@@ -346,23 +346,23 @@ describe('scooterRouter', () => {
                 const response = await agent.get('/scooter/1')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toEqual([
-                    "id",
-                    "createdAt",
-                    "updatedAt",
-                    "positionX",
-                    "positionY",
-                    "battery",
-                    "maxSpeed",
-                    "charging",
-                    "available",
-                    "decomissioned",
-                    "beingServiced",
-                    "disabled",
-                    "connected"
+                    'id',
+                    'createdAt',
+                    'updatedAt',
+                    'positionX',
+                    'positionY',
+                    'battery',
+                    'maxSpeed',
+                    'charging',
+                    'available',
+                    'decomissioned',
+                    'beingServiced',
+                    'disabled',
+                    'connected',
                 ]);
 
                 expect(response.body.data.id).toEqual(1);
@@ -373,7 +373,7 @@ describe('scooterRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/scooter/token')
                     .set({'X-Access-Token': token})
-                    .send({ scooterId: 1, password: "nähäru"});
+                    .send({ scooterId: 1, password: 'nähäru'});
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
         });
@@ -382,14 +382,14 @@ describe('scooterRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/scooter/token')
                     .set({'X-Access-Token': token})
-                    .send({ scooterId: 1, password: "1"});
+                    .send({ scooterId: 1, password: '1'});
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
-                expect(dataKeys).toEqual(["token", "scooterId"]);
+                expect(dataKeys).toEqual(['token', 'scooterId']);
 
-                expect(typeof response.body.data.token).toBe("string");
+                expect(typeof response.body.data.token).toBe('string');
                 expect(response.body.data.token).toMatch(/.+/);
                 expect(response.body.data.scooterId).toEqual(1);
             });

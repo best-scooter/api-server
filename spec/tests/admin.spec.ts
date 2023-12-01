@@ -17,9 +17,9 @@ import { errorMonitor } from 'events';
 
 // Superadmin
 const superadmin = {
-    username: "chefen",
-    password: "chefen",
-    level: "superadmin"
+    username: 'chefen',
+    password: 'chefen',
+    level: 'superadmin',
 };
 
 // StatusCodes
@@ -31,7 +31,7 @@ const {
     UNAUTHORIZED,
     FORBIDDEN,
     NOT_FOUND,
-    CONFLICT
+    CONFLICT,
 } = {
     OK: 200,
     CREATED: 201,
@@ -40,7 +40,7 @@ const {
     UNAUTHORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
-    CONFLICT: 409
+    CONFLICT: 409,
 };
 
 // **** Tests **** //
@@ -50,8 +50,8 @@ describe('adminRouter', () => {
     let agent: SuperTest<Test>;
 
     beforeAll(() => {
-        agent = supertest.agent(app)
-    })
+        agent = supertest.agent(app);
+    });
 
     describe('as superadmin', () => {
         beforeEach(async () => {
@@ -65,17 +65,17 @@ describe('adminRouter', () => {
                 const response = await agent.get('/admin')
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
                 expect(Array.isArray(response.body.data)).toBeTrue();
 
                 const adminData = response.body.data[0];
                 const adminDataKeys = Object.keys(adminData);
                 expect(adminDataKeys).toEqual([
-                    "id",
-                    "createdAt",
-                    "updatedAt",
-                    "username",
-                    "level"
+                    'id',
+                    'createdAt',
+                    'updatedAt',
+                    'username',
+                    'level',
                 ]);
             });
         });
@@ -106,19 +106,19 @@ describe('adminRouter', () => {
                 const response = await agent.get('/admin/' + adminId)
                     .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toEqual([
-                    "id",
-                    "createdAt",
-                    "updatedAt",
-                    "username",
-                    "level"
+                    'id',
+                    'createdAt',
+                    'updatedAt',
+                    'username',
+                    'level',
                 ]);
                 expect(response.body.data.id).toEqual(adminId);
-                expect(response.body.data.username).toEqual("chefen");
-                expect(response.body.data.level).toEqual("superadmin");
+                expect(response.body.data.username).toEqual('chefen');
+                expect(response.body.data.level).toEqual('superadmin');
             });
         });
 
@@ -127,25 +127,25 @@ describe('adminRouter', () => {
                 const response1 = await agent.post('/admin/1')
                     .set('X-Access-Token', token)
                     .send({
-                        username: "klaro",
-                        password: "klaro",
-                        level: "admin"
+                        username: 'klaro',
+                        password: 'klaro',
+                        level: 'admin',
                     });
                 expect(response1.status).toEqual(CREATED);
-                expect(Object.keys(response1.body)).toContain("data");
+                expect(Object.keys(response1.body)).toContain('data');
 
                 const dataKeys = Object.keys(response1.body.data);
                 expect(dataKeys).toEqual([
-                    "token",
-                    "username",
-                    "adminId"
+                    'token',
+                    'username',
+                    'adminId',
                 ]);
-                expect(response1.body.data.username).toEqual("klaro");
+                expect(response1.body.data.username).toEqual('klaro');
                 expect(response1.body.data.token).toMatch(/.+/);
 
                 const response2 = await agent.get('/admin/1')
                     .set('X-Access-Token', token);
-                expect(response2.body.data.level).toEqual("admin");
+                expect(response2.body.data.level).toEqual('admin');
             });
         });
 
@@ -154,13 +154,13 @@ describe('adminRouter', () => {
                 const response1 = await agent.put('/admin/1')
                     .set('X-Access-Token', token)
                     .send({
-                        level: "tech"
+                        level: 'tech',
                     });
                 expect(response1.status).toEqual(NO_CONTENT);
 
                 const response2 = await agent.get('/admin/1')
                     .set('X-Access-Token', token);
-                expect(response2.body.data.level).toEqual("tech");
+                expect(response2.body.data.level).toEqual('tech');
             });
         });
 
@@ -181,27 +181,27 @@ describe('adminRouter', () => {
                 await agent.post('/admin/1')
                     .set('X-Access-Token', token)
                     .send({
-                        username: "slent",
-                        password: "slent",
-                        level: "admin"
+                        username: 'slent',
+                        password: 'slent',
+                        level: 'admin',
                     });
 
                 const response = await agent.post('/admin/token')
                     .set('X-Access-Token', token)
                     .send({
-                        username: "slent",
-                        password: "slent"
+                        username: 'slent',
+                        password: 'slent',
                     });
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
 
                 const dataKeys = Object.keys(response.body.data);
                 expect(dataKeys).toEqual([
-                    "token",
-                    "username",
-                    "adminId"
-                ])
-                expect(response.body.data.username).toEqual("slent");
+                    'token',
+                    'username',
+                    'adminId',
+                ]);
+                expect(response.body.data.username).toEqual('slent');
                 expect(response.body.data.token).toMatch(/.+/);
             });
         });
@@ -219,57 +219,57 @@ describe('adminRouter', () => {
             await agent.post('/admin/post')
                 .set('X-Access-Token', token)
                 .send({
-                    username: "testadmin",
-                    password: "testpassword",
-                    level: "admin"
-                })
+                    username: 'testadmin',
+                    password: 'testpassword',
+                    level: 'admin',
+                });
 
             const responseAdmins = await agent.get('/admin')
-                .set("X-Access-Token", token);
+                .set('X-Access-Token', token);
 
             for (const admin of responseAdmins.body.data) {
-                if (typeof admin === "object" && admin.hasOwnProperty("username") && admin.username === "testadmin") {
+                if (typeof admin === 'object' && admin.hasOwnProperty('username') && admin.username === 'testadmin') {
                     thisAdminId = admin.id;
                     notThisAdminId = thisAdminId + 1;
                 }
             }
 
             if (!thisAdminId) {
-                throw(new Error("beforeAll setup of suite 'as non-superadmin admin' failed unexpectedly"))
+                throw(new Error('beforeAll setup of suite \'as non-superadmin admin\' failed unexpectedly'));
             }
 
             const responseToken = await agent.post('/admin/token')
                 .send({
-                    username: "testadmin",
-                    password: "testpassword"
-                })
-            token = responseToken.body.data.token
+                    username: 'testadmin',
+                    password: 'testpassword',
+                });
+            token = responseToken.body.data.token;
         });
 
         describe('GET /admin', () => {
             it('response status is OK and body is of the expected shape', async () => {
                 const response = await agent.get('/admin')
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
-                expect(Object.keys(response.body)).toContain("data");
+                expect(Object.keys(response.body)).toContain('data');
                 expect(Array.isArray(response.body.data)).toBeTrue();
 
                 const adminData = response.body.data[0];
                 const adminDataKeys = Object.keys(adminData);
                 expect(adminDataKeys).toEqual([
-                    "id",
-                    "createdAt",
-                    "updatedAt",
-                    "username",
-                    "level"
-                ])
+                    'id',
+                    'createdAt',
+                    'updatedAt',
+                    'username',
+                    'level',
+                ]);
             });
         });
 
         describe('DELETE /admin', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.delete('/admin')
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
@@ -277,11 +277,11 @@ describe('adminRouter', () => {
         describe('POST /admin/1', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.post('/admin/1')
-                    .set("X-Access-Token", token)
+                    .set('X-Access-Token', token)
                     .send({
-                        username: "snuten",
-                        password: "aina",
-                        level: "admin"
+                        username: 'snuten',
+                        password: 'aina',
+                        level: 'admin',
                     });
                 expect(response.status).toEqual(FORBIDDEN);
             });
@@ -290,7 +290,7 @@ describe('adminRouter', () => {
         describe('GET /admin/:notThisAdminId', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.get('/admin/' + notThisAdminId)
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
@@ -298,7 +298,7 @@ describe('adminRouter', () => {
         describe('GET /admin/:thisAdminId', () => {
             it('response status is OK', async () => {
                 const response = await agent.get('/admin/' + thisAdminId)
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(OK);
             });
         });
@@ -306,7 +306,7 @@ describe('adminRouter', () => {
         describe('PUT /admin/1', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.put('/admin/1')
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
@@ -314,7 +314,7 @@ describe('adminRouter', () => {
         describe('DELETE /admin/1', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.put('/admin/1')
-                    .set("X-Access-Token", token);
+                    .set('X-Access-Token', token);
                 expect(response.status).toEqual(FORBIDDEN);
             });
         });
@@ -322,10 +322,10 @@ describe('adminRouter', () => {
         describe('POST /admin/token with bad credentials', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/admin/token')
-                    .set("X-Access-Token", token)
+                    .set('X-Access-Token', token)
                     .send({ 
-                        username: "fel",
-                        password: "fel också"
+                        username: 'fel',
+                        password: 'fel också',
                     });
                 expect(response.status).toEqual(UNAUTHORIZED);
             });
@@ -351,9 +351,9 @@ describe('adminRouter', () => {
             it('response status is FORBIDDEN', async () => {
                 const response = await agent.post('/admin/1')
                     .send({
-                        username: "snuten",
-                        password: "aina",
-                        level: "admin"
+                        username: 'snuten',
+                        password: 'aina',
+                        level: 'admin',
                     });
                 expect(response.status).toEqual(FORBIDDEN);
             });
@@ -384,8 +384,8 @@ describe('adminRouter', () => {
             it('response status is UNAUTHORIZED', async () => {
                 const response = await agent.post('/admin/token')
                     .send({ 
-                        username: "fel",
-                        password: "fel också"
+                        username: 'fel',
+                        password: 'fel också',
                     });
                 // console.log(response);
                 expect(response.status).toEqual(UNAUTHORIZED);
