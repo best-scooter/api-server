@@ -194,11 +194,11 @@ describe('customerRouter', () => {
         });
 
         describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
+            it('response status is NOT_FOUND', async () => {
                 const response = await agent.post('/customer/token')
                     .set('X-Access-Token', token)
                     .send({ oAuthToken: 'dummy token'});
-                expect(response.status).toEqual(UNAUTHORIZED);
+                expect(response.status).toEqual(NOT_FOUND);
             });
         });
 
@@ -304,10 +304,10 @@ describe('customerRouter', () => {
         });
 
         describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
+            it('response status is NOT_FOUND', async () => {
                 const response = await agent.post('/customer/token')
                     .send({ oAuthToken: 'dummy token'});
-                expect(response.status).toEqual(UNAUTHORIZED);
+                expect(response.status).toEqual(NOT_FOUND);
             });
         });
     });
@@ -401,11 +401,11 @@ describe('customerRouter', () => {
         });
 
         describe('POST /customer/token with dummy oAuthToken', () => {
-            it('response status is UNAUTHORIZED', async () => {
+            it('response status is NOT_FOUND', async () => {
                 const response = await agent.post('/customer/token')
                     .set({'X-Access-Token': token})
                     .send({ oAuthToken: 'dummy token'});
-                expect(response.status).toEqual(UNAUTHORIZED);
+                expect(response.status).toEqual(NOT_FOUND);
             });
         });
     });

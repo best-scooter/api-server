@@ -14,6 +14,7 @@ class Customer extends Model<
     declare positionX: number | null;
     declare positionY: number | null;
     declare balance: number | null;
+    declare connected: boolean | null;
 }
 
 Customer.init({
@@ -42,6 +43,10 @@ Customer.init({
     balance: {
         type: DataTypes.FLOAT,
         defaultValue: 0.0
+    },
+    connected: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     // Other model options go here
