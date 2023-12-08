@@ -222,7 +222,7 @@ async function authGet(req: e.Request, res: e.Response) {
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? '';
-    const state = req.body.code?.toString() ?? '';
+    const state = req.body.state?.toString() ?? '';
     let oAuthResponse;
 
     try {
