@@ -603,6 +603,13 @@ Pushar imagen till ACR
 >   priceDistance: number
 > }
 > ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   tripId: number
+> }}
+> ```
 
 > __PUT__
 >
