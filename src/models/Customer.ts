@@ -43,6 +43,7 @@ function _createJwt(email: string, customerId: number) {
             type: 'customer',
             id: customerId,
             customerEmail: email,
+            customerId
         },
         jwtSecret,
         { expiresIn: '4h'},

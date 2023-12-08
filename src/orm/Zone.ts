@@ -16,6 +16,7 @@ class Zone extends Model<
     declare name: string;
     declare description: string | null;
     declare parkingValue: number | null;
+    declare zoneId: CreationOptional<number>;
 }
 
 Zone.init({
@@ -49,7 +50,16 @@ Zone.init({
         type: DataTypes.STRING,
         defaultValue: ""
     },
-    parkingValue: DataTypes.DECIMAL(10,2)
+    parkingValue: DataTypes.DECIMAL(10,2),
+    zoneId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set zoneId property, use 'id' instead.")
+        }
+    }
 }, {
     // Other model options go here
     sequelize,

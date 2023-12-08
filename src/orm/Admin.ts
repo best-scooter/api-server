@@ -12,6 +12,7 @@ class Admin extends Model<
     declare username: string;
     declare password: string;
     declare level: string | null;
+    declare adminId: CreationOptional<number>;
 }
 
 Admin.init({
@@ -33,6 +34,15 @@ Admin.init({
         allowNull: false
     },
     level: DataTypes.STRING,
+    adminId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set adminId property, use 'id' instead.")
+        }
+    }
 }, {
     // Other model options go here
     sequelize,

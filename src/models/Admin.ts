@@ -23,7 +23,8 @@ async function _createJwt(username: string, level: string, adminId: number) {
                 type: "admin",
                 adminUsername: username,
                 adminLevel: level,
-                id: adminId
+                id: adminId,
+                adminId
             },
             jwtSecret,
             { expiresIn: '4h'}

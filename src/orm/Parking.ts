@@ -13,6 +13,7 @@ class Parking extends Model<
     declare updatedAt: CreationOptional<Date>;
     declare zoneId: number;
     declare scooterId: number;
+    declare parkingId: CreationOptional<number>;
 }
 
 Parking.init({
@@ -38,6 +39,15 @@ Parking.init({
         references: {
             model: ScooterORM,
             key: 'id'
+        }
+    },
+    parkingId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set parkingId property, use 'id' instead.")
         }
     }
 }, {

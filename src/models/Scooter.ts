@@ -143,14 +143,6 @@ async function onePut(req: e.Request, res: e.Response) {
 
     // for each property in the body add it to the data
     for (const key of Object.keys(req.body)) {
-        if (key === "position") {
-            scooterData = {
-                ...scooterData,
-                positionX: req.body[key][0],
-                positionY: req.body[key][1]
-            };
-            continue;
-        }
         scooterData = {
             ...scooterData,
             [key]: req.body[key]

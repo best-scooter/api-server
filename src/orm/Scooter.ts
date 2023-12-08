@@ -20,6 +20,7 @@ class Scooter extends Model<
     declare beingServiced: boolean | null;
     declare disabled: boolean | null;
     declare connected: boolean | null;
+    declare scooterId: CreationOptional<number>;
 }
 
 Scooter.init({
@@ -84,6 +85,15 @@ Scooter.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
+    },
+    scooterId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set scooterId property, use 'id' instead.")
+        }
     }
 }, {
     // Other model options go here

@@ -171,6 +171,11 @@ async function onePut(req: e.Request, res: e.Response) {
                 ...tripData,
                 bestParkingZone
             };
+        } else if (key === "timeEnded") {
+            tripData = {
+                ...tripData,
+                timeEnded: new Date(req.body[key])
+            };
         } else {
             tripData = {
                 ...tripData,
@@ -179,7 +184,6 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
-    console.log(tripData);
     if (tripData.hasOwnProperty('id')) {
         res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
     }
