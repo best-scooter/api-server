@@ -160,8 +160,16 @@ async function onePut(req: e.Request, res: e.Response) {
     }
 
     // for each property in the body add it to the data
+    // except if it's an ID, which we do not change
     Object.keys(req.body).forEach((key) => {
-        if (key === "routeAppend") {
+        if (
+            key === "id" ||
+            key === "scooterId" ||
+            key === "customerId" ||
+            key === "tripId"
+        ) {
+            return;
+        } else if (key === "routeAppend") {
             tripData = {
                 ...tripData,
                 route: routeAppend
@@ -184,9 +192,9 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
-    if (tripData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
-    }
+    // if (tripData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
+    // }
 
     await trip.update(tripData);
 

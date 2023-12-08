@@ -142,16 +142,18 @@ async function onePut(req: e.Request, res: e.Response) {
     let scooterData = {};
 
     // for each property in the body add it to the data
+    // except if it's the ID, which we do not change
     for (const key of Object.keys(req.body)) {
+        if (key === "id" || key === "scooterId") { return; }
         scooterData = {
             ...scooterData,
             [key]: req.body[key]
         };
     }
 
-    if (scooterData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
-    }
+    // if (scooterData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
+    // }
 
     await scooter.update(scooterData);
 

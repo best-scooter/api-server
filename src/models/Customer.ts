@@ -174,16 +174,18 @@ async function onePut(req: e.Request, res: e.Response) {
     let customerData = {};
 
     // for each property in the body add it to the data
+    // except if it's the ID email, which we do not change
     Object.keys(req.body).forEach((key) => {
+        if (key === "id" || key === "customerId" || key === "email") { return; }
         customerData = {
             ...customerData,
         [key]: req.body[key],
         };
     });
 
-    if (customerData.hasOwnProperty('email') || customerData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: 'Updating customer email or id is not allowed.'});
-    }
+    // if (customerData.hasOwnProperty('email') || customerData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: 'Updating customer email or id is not allowed.'});
+    // }
 
     await customer.update(customerData);
 

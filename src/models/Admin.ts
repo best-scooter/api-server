@@ -153,16 +153,18 @@ async function onePut(req: e.Request, res: e.Response) {
     let adminData = {};
 
     // for each property in the body add it to the data
+    // except if it's the ID or username, which we do not change
     Object.keys(req.body).forEach((key) => {
+        if (key === "id" || key === "adminId" || key === "username") { return; }
         adminData = {
             ...adminData,
             [key]: req.body[key]
         }
     });
 
-    if (adminData.hasOwnProperty('username')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating admin username is not allowed."});
-    }
+    // if (adminData.hasOwnProperty('username')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating admin username is not allowed."});
+    // }
 
     await admin.update(adminData);
 
