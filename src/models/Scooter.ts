@@ -145,10 +145,18 @@ async function onePut(req: e.Request, res: e.Response) {
     // except if it's the ID, which we do not change
     for (const key of Object.keys(req.body)) {
         if (key === "id" || key === "scooterId") { return; }
-        scooterData = {
-            ...scooterData,
-            [key]: req.body[key]
-        };
+
+        if (key === "password") {
+            scooterData = {
+                ...scooterData,
+                [key]: await bcrypt.hash(req.body[key], bcryptSalt)
+            };
+        } else {
+            scooterData = {
+                ...scooterData,
+                [key]: req.body[key]
+            };
+        }
     }
 
     // if (scooterData.hasOwnProperty('id')) {
@@ -180,8 +188,11 @@ async function oneDelete(req: e.Request, res: e.Response) {
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {
-    const scooterId = req.body.scooterId?.toString() ?? "";
+    const scooterId = parseInt(req.body.scooterId);
     const password = req.body.password?.toString() ?? "";
+
+    console.log(typeof scooterId)
+    console.log(typeof password)
 
     if (!scooterId || !password) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({
@@ -190,13 +201,14 @@ async function tokenPost(req: e.Request, res: e.Response) {
     }
 
     const scooter = await ScooterORM.findByPk(scooterId);
+    console.log(scooter?.toJSON())
 
     if (!scooter) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
     }
 
     const correctPassword = await bcrypt.compare(password, scooter.password);
-
+    console.log(scooter.id)
     if (!correctPassword) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }

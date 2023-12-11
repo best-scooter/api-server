@@ -112,6 +112,10 @@ async function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
         return false;
     }
 
+    // @ts-ignore
+    console.log(payload.id)
+    console.log(id)
+
     if (typeof payload === "object" && payload.id === id) {
         if (payload.type === "admin") {
             const result = await AdminORM.findByPk(payload.id)
@@ -124,6 +128,7 @@ async function isThisIdentity(headers: IncomingHttpHeaders, id: number) {
                 return true;
             }
         } else if (payload.type === "scooter") {
+            console.log("hit")
             const result = await ScooterORM.findByPk(payload.id)
             if (result) {
                 return true;
