@@ -155,7 +155,11 @@ async function onePut(req: e.Request, res: e.Response) {
     // for each property in the body add it to the data
     // except if it's the ID or username, which we do not change
     Object.keys(req.body).forEach(async (key) => {
-        if (key === "id" || key === "adminId" || key === "username") { return; }
+        if (
+            key === "id" ||
+            key === "adminId" ||
+            key === "username"
+        ) { return; }
 
         if (key === "password") {
             adminData = {

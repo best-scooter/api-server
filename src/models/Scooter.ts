@@ -140,11 +140,16 @@ async function onePut(req: e.Request, res: e.Response) {
     }
 
     let scooterData = {};
-
+    console.log(req.body)
     // for each property in the body add it to the data
     // except if it's the ID, which we do not change
     for (const key of Object.keys(req.body)) {
-        if (key === "id" || key === "scooterId") { return; }
+        console.log(key)
+        if (
+            key === "id" ||
+            key === "scooterId" ||
+            key === "message"
+        ) { continue; }
 
         if (key === "password") {
             scooterData = {
@@ -162,8 +167,11 @@ async function onePut(req: e.Request, res: e.Response) {
     // if (scooterData.hasOwnProperty('id')) {
     //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
     // }
+    console.log(scooterData);
 
     await scooter.update(scooterData);
+
+    console.log(scooter.toJSON())
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }
@@ -191,9 +199,6 @@ async function tokenPost(req: e.Request, res: e.Response) {
     const scooterId = parseInt(req.body.scooterId);
     const password = req.body.password?.toString() ?? "";
 
-    console.log(typeof scooterId)
-    console.log(typeof password)
-
     if (!scooterId || !password) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({
             error: "Missing scooter id and/or password."
@@ -201,14 +206,12 @@ async function tokenPost(req: e.Request, res: e.Response) {
     }
 
     const scooter = await ScooterORM.findByPk(scooterId);
-    console.log(scooter?.toJSON())
 
     if (!scooter) {
         return res.status(HttpStatusCodes.NOT_FOUND).end();
     }
 
     const correctPassword = await bcrypt.compare(password, scooter.password);
-    console.log(scooter.id)
     if (!correctPassword) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }

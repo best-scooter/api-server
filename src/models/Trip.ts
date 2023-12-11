@@ -166,7 +166,8 @@ async function onePut(req: e.Request, res: e.Response) {
             key === "id" ||
             key === "scooterId" ||
             key === "customerId" ||
-            key === "tripId"
+            key === "tripId" ||
+            key === "message"
         ) {
             return;
         } else if (key === "routeAppend") {
