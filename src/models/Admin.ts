@@ -154,11 +154,19 @@ async function onePut(req: e.Request, res: e.Response) {
 
     // for each property in the body add it to the data
     // except if it's the ID or username, which we do not change
-    Object.keys(req.body).forEach((key) => {
+    Object.keys(req.body).forEach(async (key) => {
         if (key === "id" || key === "adminId" || key === "username") { return; }
-        adminData = {
-            ...adminData,
-            [key]: req.body[key]
+
+        if (key === "password") {
+            adminData = {
+                ...adminData,
+                [key]: await bcrypt.hash(req.body[key], bcryptSalt)
+            };
+        } else {
+            adminData = {
+                ...adminData,
+                [key]: req.body[key]
+            }
         }
     });
 

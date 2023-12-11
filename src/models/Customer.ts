@@ -177,6 +177,7 @@ async function onePut(req: e.Request, res: e.Response) {
     // except if it's the ID email, which we do not change
     Object.keys(req.body).forEach((key) => {
         if (key === "id" || key === "customerId" || key === "email") { return; }
+
         customerData = {
             ...customerData,
         [key]: req.body[key],
