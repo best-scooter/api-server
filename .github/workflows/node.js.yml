@@ -60,8 +60,8 @@ jobs:
         echo GITHUB_APP_ID=$APP_ID >> env/test.env
         echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
 
-        echo "cat env/.env"
-        cat env/.env
+        echo "cat env/test.env"
+        cat env/test.env
 
         echo "ls -a env/"
         ls -a env/
