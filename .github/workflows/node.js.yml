@@ -60,11 +60,11 @@ jobs:
         echo GITHUB_APP_ID=$APP_ID >> env/test.env
         echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
 
-        echo "cat .env"
-        cat .env
+        echo "cat env/.env"
+        cat env/.env
 
-        echo "ls -a ."
-        ls -a .
+        echo "ls -a env/"
+        ls -a env/
 
         echo "ls -a ${{ github.workspace }}"
         ls -a ${{ github.workspace }}
