@@ -140,11 +140,10 @@ async function onePut(req: e.Request, res: e.Response) {
     }
 
     let scooterData = {};
-    console.log(req.body)
+
     // for each property in the body add it to the data
     // except if it's the ID, which we do not change
     for (const key of Object.keys(req.body)) {
-        console.log(key)
         if (
             key === "id" ||
             key === "scooterId" ||
@@ -167,11 +166,8 @@ async function onePut(req: e.Request, res: e.Response) {
     // if (scooterData.hasOwnProperty('id')) {
     //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
     // }
-    console.log(scooterData);
 
     await scooter.update(scooterData);
-
-    console.log(scooter.toJSON())
 
     return res.status(HttpStatusCodes.NO_CONTENT).end();
 }

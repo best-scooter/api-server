@@ -3,7 +3,7 @@
  */
 
 export default {
-    Base: '/',
+    Base: '/v1/',
     Customer: {
         Base: '/customer',
         One: '/:customerId',
