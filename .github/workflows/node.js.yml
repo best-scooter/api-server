@@ -59,6 +59,15 @@ jobs:
         echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
         echo GITHUB_APP_ID=$APP_ID >> env/test.env
         echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
+
+        echo "cat .env"
+        cat .env
+
+        echo "ls -a ."
+        ls -a .
+
+        echo "ls -a ${{ github.workspace }}"
+        ls -a ${{ github.workspace }}
     - uses: getong/mariadb-action@v1.1
       with:
         host port: 3306 # Optional, default value is 3306. The port of host
