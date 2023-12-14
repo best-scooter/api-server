@@ -597,12 +597,18 @@ Pushar imagen till ACR.
 > {
 >   customerId: number,
 >   scooterId: number,
->   bestPickupZone: number,
 >   startPosition: [number, number],
 >   priceInitial: number,
 >   priceTime: number,
 >   priceDistance: number
 > }
+> ```
+>
+> ⬅️ Response body:
+> ```typescript
+> { data: {
+>   tripId: number
+> }}
 > ```
 
 > __PUT__
