@@ -15,6 +15,7 @@ class Customer extends Model<
     declare positionY: number | null;
     declare balance: number | null;
     declare connected: boolean | null;
+    declare customerId: CreationOptional<number>;
 }
 
 Customer.init({
@@ -47,6 +48,15 @@ Customer.init({
     connected: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    customerId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set customerId property, use 'id' instead.")
+        }
     }
 }, {
     // Other model options go here

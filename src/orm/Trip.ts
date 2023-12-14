@@ -24,6 +24,7 @@ class Trip extends Model<
     declare priceInitial: number | null;
     declare priceTime: number | null;
     declare priceDistance: number | null;
+    declare tripId: CreationOptional<number>;
 }
 
 Trip.init({
@@ -75,7 +76,16 @@ Trip.init({
     },
     priceInitial: DataTypes.DECIMAL(10,2),
     priceTime: DataTypes.DECIMAL(10,2),
-    priceDistance: DataTypes.DECIMAL(10,2)
+    priceDistance: DataTypes.DECIMAL(10,2),
+    tripId: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return this.id;
+        },
+        set(value) {
+            throw new Error("Cannot set tripId property, use 'id' instead.")
+        }
+    }
 }, {
     // Other model options go here
     sequelize,

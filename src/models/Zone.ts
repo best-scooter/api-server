@@ -117,16 +117,18 @@ async function onePut(req: e.Request, res: e.Response) {
     let zoneData = {};
 
     // for each property in the body add it to the data
+    // except if it's an id, which we do not change
     Object.keys(req.body).forEach((key) => {
+        if (key === "id" || key === "zoneId") { return; }
         zoneData = {
             ...zoneData,
             [key]: req.body[key]
         }
     });
 
-    if (zoneData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating zone id is not allowed."});
-    }
+    // if (zoneData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating zone id is not allowed."});
+    // }
 
     await zone.update(zoneData);
 

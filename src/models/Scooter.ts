@@ -142,24 +142,30 @@ async function onePut(req: e.Request, res: e.Response) {
     let scooterData = {};
 
     // for each property in the body add it to the data
+    // except if it's the ID, which we do not change
     for (const key of Object.keys(req.body)) {
-        if (key === "position") {
+        if (
+            key === "id" ||
+            key === "scooterId" ||
+            key === "message"
+        ) { continue; }
+
+        if (key === "password") {
             scooterData = {
                 ...scooterData,
-                positionX: req.body[key][0],
-                positionY: req.body[key][1]
+                [key]: await bcrypt.hash(req.body[key], bcryptSalt)
             };
-            continue;
+        } else {
+            scooterData = {
+                ...scooterData,
+                [key]: req.body[key]
+            };
         }
-        scooterData = {
-            ...scooterData,
-            [key]: req.body[key]
-        };
     }
 
-    if (scooterData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
-    }
+    // if (scooterData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating scooter id is not allowed."});
+    // }
 
     await scooter.update(scooterData);
 
@@ -186,7 +192,7 @@ async function oneDelete(req: e.Request, res: e.Response) {
 }
 
 async function tokenPost(req: e.Request, res: e.Response) {
-    const scooterId = req.body.scooterId?.toString() ?? "";
+    const scooterId = parseInt(req.body.scooterId);
     const password = req.body.password?.toString() ?? "";
 
     if (!scooterId || !password) {
@@ -202,7 +208,6 @@ async function tokenPost(req: e.Request, res: e.Response) {
     }
 
     const correctPassword = await bcrypt.compare(password, scooter.password);
-
     if (!correctPassword) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }

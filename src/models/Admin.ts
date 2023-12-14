@@ -23,7 +23,8 @@ async function _createJwt(username: string, level: string, adminId: number) {
                 type: "admin",
                 adminUsername: username,
                 adminLevel: level,
-                id: adminId
+                id: adminId,
+                adminId
             },
             jwtSecret,
             { expiresIn: '4h'}
@@ -152,16 +153,30 @@ async function onePut(req: e.Request, res: e.Response) {
     let adminData = {};
 
     // for each property in the body add it to the data
-    Object.keys(req.body).forEach((key) => {
-        adminData = {
-            ...adminData,
-            [key]: req.body[key]
+    // except if it's the ID or username, which we do not change
+    Object.keys(req.body).forEach(async (key) => {
+        if (
+            key === "id" ||
+            key === "adminId" ||
+            key === "username"
+        ) { return; }
+
+        if (key === "password") {
+            adminData = {
+                ...adminData,
+                [key]: await bcrypt.hash(req.body[key], bcryptSalt)
+            };
+        } else {
+            adminData = {
+                ...adminData,
+                [key]: req.body[key]
+            }
         }
     });
 
-    if (adminData.hasOwnProperty('username')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating admin username is not allowed."});
-    }
+    // if (adminData.hasOwnProperty('username')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating admin username is not allowed."});
+    // }
 
     await admin.update(adminData);
 

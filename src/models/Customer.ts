@@ -43,6 +43,7 @@ function _createJwt(email: string, customerId: number) {
             type: 'customer',
             id: customerId,
             customerEmail: email,
+            customerId
         },
         jwtSecret,
         { expiresIn: '4h'},
@@ -173,16 +174,24 @@ async function onePut(req: e.Request, res: e.Response) {
     let customerData = {};
 
     // for each property in the body add it to the data
+    // except if it's the ID email, which we do not change
     Object.keys(req.body).forEach((key) => {
+        if (
+            key === "id"||
+            key === "customerId" ||
+            key === "email" ||
+            key === "message"
+        ) { return; }
+
         customerData = {
             ...customerData,
         [key]: req.body[key],
         };
     });
 
-    if (customerData.hasOwnProperty('email') || customerData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: 'Updating customer email or id is not allowed.'});
-    }
+    // if (customerData.hasOwnProperty('email') || customerData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: 'Updating customer email or id is not allowed.'});
+    // }
 
     await customer.update(customerData);
 
@@ -221,7 +230,7 @@ async function authGet(req: e.Request, res: e.Response) {
 
 async function authPost(req: e.Request, res: e.Response) {
     const code = req.body.code?.toString() ?? '';
-    const state = req.body.code?.toString() ?? '';
+    const state = req.body.state?.toString() ?? '';
     let oAuthResponse;
 
     try {

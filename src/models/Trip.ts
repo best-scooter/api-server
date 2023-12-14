@@ -160,8 +160,17 @@ async function onePut(req: e.Request, res: e.Response) {
     }
 
     // for each property in the body add it to the data
+    // except if it's an ID, which we do not change
     Object.keys(req.body).forEach((key) => {
-        if (key === "routeAppend") {
+        if (
+            key === "id" ||
+            key === "scooterId" ||
+            key === "customerId" ||
+            key === "tripId" ||
+            key === "message"
+        ) {
+            return;
+        } else if (key === "routeAppend") {
             tripData = {
                 ...tripData,
                 route: routeAppend
@@ -171,6 +180,11 @@ async function onePut(req: e.Request, res: e.Response) {
                 ...tripData,
                 bestParkingZone
             };
+        } else if (key === "timeEnded") {
+            tripData = {
+                ...tripData,
+                timeEnded: new Date(req.body[key])
+            };
         } else {
             tripData = {
                 ...tripData,
@@ -179,10 +193,9 @@ async function onePut(req: e.Request, res: e.Response) {
         }
     });
 
-    console.log(tripData);
-    if (tripData.hasOwnProperty('id')) {
-        res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
-    }
+    // if (tripData.hasOwnProperty('id')) {
+    //     res.status(HttpStatusCodes.FORBIDDEN).json({error: "Updating trip id is not allowed."});
+    // }
 
     await trip.update(tripData);
 
