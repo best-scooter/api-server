@@ -4,10 +4,11 @@
 name: Node.js CI
 
 on:
-    push:
-        branches: [ "main", "development", "development2" ]
-    pull_request:
-        branches: [ "main", "development", "development2" ]
+  push:
+    branches: [ "main", "development", "development2" ]
+  pull_request:
+    branches: [ "main", "development", "development2" ]
+  workflow_dispatch:
 
 env:
     NODE_ENV: ${{ env.NODE_ENV }}
