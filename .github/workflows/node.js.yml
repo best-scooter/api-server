@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main", "development", "development2" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "development", "development2" ]
 
 env:
   NODE_ENV: ${{ vars.NODE_ENV }}
