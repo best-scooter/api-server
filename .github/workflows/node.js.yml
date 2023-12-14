@@ -8,24 +8,23 @@ on:
     branches: [ "main", "development", "development2" ]
   pull_request:
     branches: [ "main", "development", "development2" ]
-  workflow_dispatch:
 
 env:
-  NODE_ENV: ${{ env.NODE_ENV }}
-  PORT: ${{ env.PORT }}
-  JET_LOGGER_MODE: ${{ env.JET_LOGGER_MODE }}
-  JET_LOGGER_FILEPATH: ${{ env.JET_LOGGER_FILEPATH }}
-  JET_LOGGER_TIMESTAMP: ${{ env.JET_LOGGER_TIMESTAMP }}
-  JET_LOGGER_FORMAT: ${{ env.JET_LOGGER_FORMAT }}
-  DATABASE_HOST: ${{ env.DATABASE_HOST }}
-  DATABASE_DATABASE: ${{ env.DATABASE_DATABASE }}
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  PORT: ${{ vars.PORT }}
+  JET_LOGGER_MODE: ${{ vars.JET_LOGGER_MODE }}
+  JET_LOGGER_FILEPATH: ${{ vars.JET_LOGGER_FILEPATH }}
+  JET_LOGGER_TIMESTAMP: ${{ vars.JET_LOGGER_TIMESTAMP }}
+  JET_LOGGER_FORMAT: ${{ vars.JET_LOGGER_FORMAT }}
+  DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+  DATABASE_DATABASE: ${{ vars.DATABASE_DATABASE }}
   DATABASE_USER: ${{ secrets.DATABASE_USER }}
   DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
   OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
-  GITHUB_APP_ID: ${{ secrets.APP_ID }}
-  GITHUB_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+  APP_ID: ${{ secrets.APP_ID }}
+  PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
 jobs:
   build:
@@ -41,6 +40,24 @@ jobs:
     steps:
     - name: Shutdown Ubuntu MySQL (SUDO)
       run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+    - name: Create env file
+      run: |
+        touch env/test.env
+        echo NODE_ENV=$NODE_ENV >> env/test.env
+        echo PORT=$ $PORT >> env/test.env
+        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> env/test.env
+        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> env/test.env
+        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> env/test.env
+        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> env/test.env
+        echo DATABASE_HOST=$ $DATABASE_HOST >> env/test.env
+        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> env/test.env
+        echo DATABASE_USER=$DATABASE_USER >> env/test.env
+        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test.env
+        echo JWT_SECRET=$JWT_SECRET >> env/test.env
+        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test.env
+        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
+        echo GITHUB_APP_ID=$APP_ID >> env/test.env
+        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
     - uses: getong/mariadb-action@v1.1
       with:
         host port: 3306 # Optional, default value is 3306. The port of host
