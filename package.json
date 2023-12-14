@@ -49,6 +49,7 @@
     "octokit": "^3.1.2",
     "point-in-polygon": "^1.1.0",
     "sequelize": "^6.35.0",
+    "tree-node-cli": "^1.6.0",
     "ts-command-line-args": "^2.5.1"
   },
   "devDependencies": {
