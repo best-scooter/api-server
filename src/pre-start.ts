@@ -29,7 +29,11 @@ const args = parse<IArgs>({
 });
 
 // Set the env file
-if (process.env.NODE_ENV !== "simulation") {
+if (
+  process.env.NODE_ENV !== "simulation" ||
+  // @ts-ignore
+  process.env.NODE_ENV !== "test"
+  ) {
   const result2 = dotenv.config({
     path: path.join(__dirname, `../env/${args.env}.env`),
   });
