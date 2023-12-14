@@ -1,0 +1,61 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main", "development", "development2" ]
+  pull_request:
+    branches: [ "main", "development", "development2" ]
+
+env:
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  PORT: ${{ vars.PORT }}
+  JET_LOGGER_MODE: ${{ vars.JET_LOGGER_MODE }}
+  JET_LOGGER_FILEPATH: ${{ vars.JET_LOGGER_FILEPATH }}
+  JET_LOGGER_TIMESTAMP: ${{ vars.JET_LOGGER_TIMESTAMP }}
+  JET_LOGGER_FORMAT: ${{ vars.JET_LOGGER_FORMAT }}
+  DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+  DATABASE_DATABASE: ${{ vars.DATABASE_DATABASE }}
+  DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+  OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+  GITHUB_APP_ID: ${{ secrets.APP_ID }}
+  GITHUB_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        mariadb-version: [11.2.2]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+    - uses: getong/mariadb-action@v1.1
+      with:
+        host port: 3306 # Optional, default value is 3306. The port of host
+        container port: 3306 # Optional, default value is 3306. The port of container
+        #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+        #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+        mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
+        mysql database: 'test' # Optional, default value is "test". The specified database which will be create
+        mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
+        mysql user: ${{ secrets.DATABASE_USER }} # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+        mysql password: ${{ secrets.DATABASE_PASSWORD }} # Required if "mysql user" exists. The password for the "mysql user"
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npm test
