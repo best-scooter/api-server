@@ -8,6 +8,7 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import { parse } from 'ts-command-line-args';
+import logger from 'jet-logger';
 
 
 // **** Types **** //
@@ -37,3 +38,6 @@ if (process.env.NODE_ENV !== "simulation") {
     throw result2.error;
   }
 }
+
+console.log(process.env.JET_LOGGER_MODE)
+logger.info("test")
