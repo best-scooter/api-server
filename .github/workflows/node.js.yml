@@ -40,33 +40,33 @@ jobs:
     steps:
     - name: Shutdown Ubuntu MySQL (SUDO)
       run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-    - name: Create env file
-      run: |
-        touch .env
-        echo NODE_ENV=$NODE_ENV >> .env
-        echo PORT=$ $PORT >> .env
-        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
-        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
-        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
-        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
-        echo DATABASE_HOST=$ $DATABASE_HOST >> .env
-        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
-        echo DATABASE_USER=$DATABASE_USER >> .env
-        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
-        echo JWT_SECRET=$JWT_SECRET >> .env
-        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
-        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
-        echo GITHUB_APP_ID=$APP_ID >> .env
-        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
+    # - name: Create env file
+    #   run: |
+    #     touch .env
+    #     echo NODE_ENV=$NODE_ENV >> .env
+    #     echo PORT=$ $PORT >> .env
+    #     echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
+    #     echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
+    #     echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
+    #     echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
+    #     echo DATABASE_HOST=$ $DATABASE_HOST >> .env
+    #     echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
+    #     echo DATABASE_USER=$DATABASE_USER >> .env
+    #     echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
+    #     echo JWT_SECRET=$JWT_SECRET >> .env
+    #     echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
+    #     echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
+    #     echo GITHUB_APP_ID=$APP_ID >> .env
+    #     echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
 
-        echo "cat .env"
-        cat .env
+    #     echo "cat .env"
+    #     cat .env
 
-        echo "ls -a "
-        ls -a 
+    #     echo "ls -a "
+    #     ls -a 
 
-        echo "ls -a ${{ github.workspace }}"
-        ls -a ${{ github.workspace }}
+    #     echo "ls -a ${{ github.workspace }}"
+    #     ls -a ${{ github.workspace }}
     - uses: getong/mariadb-action@v1.1
       with:
         host port: 3306 # Optional, default value is 3306. The port of host
@@ -85,7 +85,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - name: run test
+    - name: Set up environment and run test
       run: |
         touch .env
         echo NODE_ENV=$NODE_ENV >> .env
