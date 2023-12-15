@@ -85,5 +85,22 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: ls env/
-    - run: npm test
+    - name: run test
+      run: |
+        touch .env
+        echo NODE_ENV=$NODE_ENV >> .env
+        echo PORT=$ $PORT >> .env
+        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
+        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
+        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
+        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
+        echo DATABASE_HOST=$ $DATABASE_HOST >> .env
+        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
+        echo DATABASE_USER=$DATABASE_USER >> .env
+        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
+        echo JWT_SECRET=$JWT_SECRET >> .env
+        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
+        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
+        echo GITHUB_APP_ID=$APP_ID >> .env
+        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
+        npm test
