@@ -9,7 +9,6 @@ import { NodeEnvs } from '../constants/misc';
 let options = {};
 
 if (EnvVars.NodeEnv === NodeEnvs.Test.valueOf()) {
-    console.log(EnvVars.DbServer);
     options = { logging: false };
 }
 
