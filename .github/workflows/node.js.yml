@@ -39,19 +39,19 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     
-    services:
-      mariadb:
-        image: docker.io/missivaeak/bestscooter-database
-        ports:
-          - 3306:3306
-        env:
-          MARIADB_ROOT_PASSWORD: example
-          MARIADB_DATABASE: test
-          MARIADB_USER: user
-          MARIADB_PASSWORD: password
-          MARIADB_MYSQL_LOCALHOST_USER: 1
-        # options: --health-cmd="healthcheck.sh --connect --innodb_initialized --su-mysql" --health-interval=10s --health-timeout=5s --health-retries=3
-        options: --health-cmd="healthcheck.sh --defaults-file=healthcheck.cnf --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+    # services:
+    #   mariadb:
+    #     image: docker.io/missivaeak/bestscooter-database
+    #     ports:
+    #       - 3306:3306
+    #     env:
+    #       MARIADB_ROOT_PASSWORD: example
+    #       MARIADB_DATABASE: test
+    #       MARIADB_USER: user
+    #       MARIADB_PASSWORD: password
+    #       MARIADB_MYSQL_LOCALHOST_USER: 1
+    #     # options: --health-cmd="healthcheck.sh --connect --innodb_initialized --su-mysql" --health-interval=10s --health-timeout=5s --health-retries=3
+    #     options: --health-cmd="healthcheck.sh --defaults-file=healthcheck.cnf --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
 
 
     steps:
@@ -84,17 +84,17 @@ jobs:
 
     #     echo "ls -a ${{ github.workspace }}"
     #     ls -a ${{ github.workspace }}
-    #- uses: getong/mariadb-action@v1.1
-    #  with:
-    #    host port: 3306 # Optional, default value is 3306. The port of host
-    #    container port: 3306 # Optional, default value is 3306. The port of container
-    #    #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-    #    #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-    #    mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
-    #    mysql database: $DATABASE_DATABASE # Optional, default value is "test". The specified database which will be create
-    #   mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
-    #   mysql user: $DATABASE_USER # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, to
-    #    mysql password: $DATABASE_PASSWORD # Required if "mysql user" exists. The password for the "mysql user"
+    - uses: getong/mariadb-action@v1.1
+      with:
+        host port: 3306 # Optional, default value is 3306. The port of host
+        container port: 3306 # Optional, default value is 3306. The port of container
+        #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+        #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+        mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
+        mysql database: $DATABASE_DATABASE # Optional, default value is "test". The specified database which will be create
+        mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
+        mysql user: $DATABASE_USER # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, to
+        mysql password: $DATABASE_PASSWORD # Required if "mysql user" exists. The password for the "mysql user"
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
