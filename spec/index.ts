@@ -3,7 +3,6 @@ import find from 'find';
 import Jasmine from 'jasmine';
 import { parse } from 'ts-command-line-args';
 import logger from 'jet-logger';
-import tree from 'tree-node-cli';
 
 
 // **** Types **** //
@@ -17,12 +16,6 @@ interface IArgs {
 
 // ** Init ** //
 
-console.log(tree('./env/', {
-    allFiles: true,
-    exclude: [/node_modules/],
-    maxDepth: 1
-}))
-
 // NOTE: MUST BE FIRST!! Load env vars
 const result2 = dotenv.config({
     path: './env/test.env',
@@ -30,6 +23,8 @@ const result2 = dotenv.config({
 if (result2.error) {
     throw result2.error;
 }
+
+console.log(process.env.JET_LOGGER_MODE)
 
 // Setup command line options. 
 const args = parse<IArgs>({
