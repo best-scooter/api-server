@@ -86,4 +86,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - run: ls env/
     - run: npm test

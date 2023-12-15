@@ -17,7 +17,7 @@ interface IArgs {
 
 // ** Init ** //
 
-console.log(tree('../', {
+console.log(tree('.', {
     exclude: [/node_modules/],
     maxDepth: 4
 }))
