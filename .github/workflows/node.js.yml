@@ -42,29 +42,28 @@ jobs:
       run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
     - name: Create env file
       run: |
-        mkdir env
-        touch env/test2.env
-        echo NODE_ENV=$NODE_ENV >> env/test2.env
-        echo PORT=$ $PORT >> env/test2.env
-        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> env/test2.env
-        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> env/test2.env
-        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> env/test2.env
-        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> env/test2.env
-        echo DATABASE_HOST=$ $DATABASE_HOST >> env/test2.env
-        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> env/test2.env
-        echo DATABASE_USER=$DATABASE_USER >> env/test2.env
-        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test2.env
-        echo JWT_SECRET=$JWT_SECRET >> env/test2.env
-        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test2.env
-        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test2.env
-        echo GITHUB_APP_ID=$APP_ID >> env/test2.env
-        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test2.env
+        touch .env
+        echo NODE_ENV=$NODE_ENV >> .env
+        echo PORT=$ $PORT >> .env
+        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
+        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
+        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
+        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
+        echo DATABASE_HOST=$ $DATABASE_HOST >> .env
+        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
+        echo DATABASE_USER=$DATABASE_USER >> .env
+        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
+        echo JWT_SECRET=$JWT_SECRET >> .env
+        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
+        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
+        echo GITHUB_APP_ID=$APP_ID >> .env
+        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
 
-        echo "cat env/test2.env"
-        cat env/test2.env
+        echo "cat .env"
+        cat .env
 
-        echo "ls -a env/"
-        ls -a env/
+        echo "ls -a "
+        ls -a 
 
         echo "ls -a ${{ github.workspace }}"
         ls -a ${{ github.workspace }}

@@ -18,13 +18,14 @@ interface IArgs {
 // ** Init ** //
 
 console.log(tree('.', {
+    allFiles: true,
     exclude: [/node_modules/],
-    maxDepth: 4
+    maxDepth: 1
 }))
 
 // NOTE: MUST BE FIRST!! Load env vars
 const result2 = dotenv.config({
-    path: './env/test2.env',
+    path: './.env',
 });
 if (result2.error) {
     throw result2.error;
