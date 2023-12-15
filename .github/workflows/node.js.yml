@@ -43,25 +43,25 @@ jobs:
     - name: Create env file
       run: |
         mkdir env
-        touch env/test.env
-        echo NODE_ENV=$NODE_ENV >> env/test.env
-        echo PORT=$ $PORT >> env/test.env
-        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> env/test.env
-        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> env/test.env
-        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> env/test.env
-        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> env/test.env
-        echo DATABASE_HOST=$ $DATABASE_HOST >> env/test.env
-        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> env/test.env
-        echo DATABASE_USER=$DATABASE_USER >> env/test.env
-        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test.env
-        echo JWT_SECRET=$JWT_SECRET >> env/test.env
-        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test.env
-        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
-        echo GITHUB_APP_ID=$APP_ID >> env/test.env
-        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
+        touch env/test2.env
+        echo NODE_ENV=$NODE_ENV >> env/test2.env
+        echo PORT=$ $PORT >> env/test2.env
+        echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> env/test2.env
+        echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> env/test2.env
+        echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> env/test2.env
+        echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> env/test2.env
+        echo DATABASE_HOST=$ $DATABASE_HOST >> env/test2.env
+        echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> env/test2.env
+        echo DATABASE_USER=$DATABASE_USER >> env/test2.env
+        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test2.env
+        echo JWT_SECRET=$JWT_SECRET >> env/test2.env
+        echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test2.env
+        echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test2.env
+        echo GITHUB_APP_ID=$APP_ID >> env/test2.env
+        echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test2.env
 
-        echo "cat env/test.env"
-        cat env/test.env
+        echo "cat env/test2.env"
+        cat env/test2.env
 
         echo "ls -a env/"
         ls -a env/
