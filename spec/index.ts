@@ -25,6 +25,7 @@ if (result2.error) {
 }
 
 console.log(process.env.JET_LOGGER_MODE)
+logger.info("test")
 
 // Setup command line options. 
 const args = parse<IArgs>({
