@@ -19,7 +19,7 @@ env:
   JET_LOGGER_FORMAT: ${{ vars.JET_LOGGER_FORMAT }}
   DATABASE_SERVER: ${{ vars.DATABASE_SERVER }}
   DATABASE_DATABASE: ${{ vars.DATABASE_DATABASE }}
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
   DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
@@ -113,7 +113,7 @@ jobs:
         echo JET_LOGGER_FORMAT=$JET_LOGGER_FORMAT >> env/test.env
         echo DATABASE_SERVER=$DATABASE_SERVER >> env/test.env
         echo DATABASE_DATABASE=$DATABASE_DATABASE >> env/test.env
-        echo DATABASE_USER=$DATABASE_USER >> env/test.env
+        echo DATABASE_USERNAME=$DATABASE_USERNAME >> env/test.env
         echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test.env
         echo JWT_SECRET=$JWT_SECRET >> env/test.env
         echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test.env
