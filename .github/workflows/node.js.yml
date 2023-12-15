@@ -84,7 +84,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
+    - run: npm install --production=false
     - name: Set up environment and run test
       run: |
         touch env/test.env
