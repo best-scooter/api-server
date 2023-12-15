@@ -96,8 +96,8 @@ jobs:
         echo JET_LOGGER_FORMAT=$JET_LOGGER_FORMAT >> env/test.env
         echo DATABASE_SERVER=127.0.0.1 >> env/test.env
         echo DATABASE_DATABASE=$DATABASE_DATABASE >> env/test.env
-        echo DATABASE_USER=$DATABASE_USER >> env/test.env
-        echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test.env
+        echo DATABASE_USER=root >> env/test.env
+        echo DATABASE_PASSWORD=example >> env/test.env
         echo JWT_SECRET=$JWT_SECRET >> env/test.env
         echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test.env
         echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
