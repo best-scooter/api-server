@@ -103,4 +103,5 @@ jobs:
         echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
         echo GITHUB_APP_ID=$APP_ID >> env/test.env
         echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
-        npm test
+        npm run dev
+        npm run test:no-reloading
