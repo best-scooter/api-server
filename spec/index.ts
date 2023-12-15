@@ -25,7 +25,7 @@ console.log(tree('.', {
 
 // NOTE: MUST BE FIRST!! Load env vars
 const result2 = dotenv.config({
-    path: './.env',
+    path: './env/test.env',
 });
 if (result2.error) {
     throw result2.error;
