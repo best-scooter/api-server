@@ -4,58 +4,120 @@
 name: Node.js CI
 
 on:
-    push:
-        branches: [ "main", "development", "development2" ]
-    pull_request:
-        branches: [ "main", "development", "development2" ]
+  push:
+    branches: [ "main", "development", "development2" ]
+  pull_request:
+    branches: [ "main", "development", "development2" ]
+  workflow_dispatch:
 
 env:
-    NODE_ENV: ${{ env.NODE_ENV }}
-    PORT: ${{ env.PORT }}
-    JET_LOGGER_MODE: ${{ env.JET_LOGGER_MODE }}
-    JET_LOGGER_FILEPATH: ${{ env.JET_LOGGER_FILEPATH }}
-    JET_LOGGER_TIMESTAMP: ${{ env.JET_LOGGER_TIMESTAMP }}
-    JET_LOGGER_FORMAT: ${{ env.JET_LOGGER_FORMAT }}
-    DATABASE_HOST: ${{ env.DATABASE_HOST }}
-    DATABASE_DATABASE: ${{ env.DATABASE_DATABASE }}
-    DATABASE_USER: ${{ secrets.DATABASE_USER }}
-    DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-    JWT_SECRET: ${{ secrets.JWT_SECRET }}
-    OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
-    OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
-    GITHUB_APP_ID: ${{ secrets.APP_ID }}
-    GITHUB_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  PORT: ${{ vars.PORT }}
+  JET_LOGGER_MODE: ${{ vars.JET_LOGGER_MODE }}
+  JET_LOGGER_FILEPATH: ${{ vars.JET_LOGGER_FILEPATH }}
+  JET_LOGGER_TIMESTAMP: ${{ vars.JET_LOGGER_TIMESTAMP }}
+  JET_LOGGER_FORMAT: ${{ vars.JET_LOGGER_FORMAT }}
+  DATABASE_SERVER: ${{ vars.DATABASE_SERVER }}
+  DATABASE_DATABASE: ${{ vars.DATABASE_DATABASE }}
+  DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+  OAUTH_CLIENT_SECRET: ${{ secrets.OAUTH_CLIENT_SECRET }}
+  APP_ID: ${{ secrets.APP_ID }}
+  PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
 jobs:
     build:
 
-        runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [20.x]
-                mariadb-version: [11.2.2]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+      strategy:
+          matrix:
+              node-version: [20.x]
+              mariadb-version: [11.2.2]
+              # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-        steps:
-        - name: Shutdown Ubuntu MySQL (SUDO)
-            run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-        - uses: getong/mariadb-action@v1.1
-            with:
-                host port: 3306 # Optional, default value is 3306. The port of host
-                container port: 3306 # Optional, default value is 3306. The port of container
-                #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-                #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-                mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
-                mysql database: 'test' # Optional, default value is "test". The specified database which will be create
-                mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
-                mysql user: ${{ secrets.DATABASE_USER }} # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-                mysql password: ${{ secrets.DATABASE_PASSWORD }} # Required if "mysql user" exists. The password for the "mysql user"
-        - uses: actions/checkout@v3
-        - name: Use Node.js ${{ matrix.node-version }}
-            uses: actions/setup-node@v3
-            with:
-                node-version: ${{ matrix.node-version }}
-                cache: 'npm'
-            - run: npm install
-            - run: npm test
+      services:
+        mariadb:
+          image: docker.io/missivaeak/bestscooter-database
+          ports:
+            - 3306:3306
+          env:
+            MARIADB_ROOT_PASSWORD: example
+            MARIADB_DATABASE: test
+            MARIADB_USER: user
+            MARIADB_PASSWORD: password
+            MARIADB_MYSQL_LOCALHOST_USER: 1
+          # options: --health-cmd="healthcheck.sh --connect --innodb_initialized --su-mysql" --health-interval=10s --health-timeout=5s --health-retries=3
+          options: --health-cmd="healthcheck.sh --defaults-file=healthcheck.cnf --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      steps:
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+      # - name: Create env file
+      #   run: |
+      #     touch .env
+      #     echo NODE_ENV=$NODE_ENV >> .env
+      #     echo PORT=$ $PORT >> .env
+      #     echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
+      #     echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
+      #     echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
+      #     echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
+      #     echo DATABASE_HOST=$ $DATABASE_HOST >> .env
+      #     echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
+      #     echo DATABASE_USER=$DATABASE_USER >> .env
+      #     echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
+      #     echo JWT_SECRET=$JWT_SECRET >> .env
+      #     echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
+      #     echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
+      #     echo GITHUB_APP_ID=$APP_ID >> .env
+      #     echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
+
+      #     echo "cat .env"
+      #     cat .env
+
+      #     echo "ls -a "
+      #     ls -a 
+
+      #     echo "ls -a ${{ github.workspace }}"
+      #     ls -a ${{ github.workspace }}
+      # - uses: getong/mariadb-action@v1.1
+      #   with:
+      #     host port: 3306 # Optional, default value is 3306. The port of host
+      #     container port: 3306 # Optional, default value is 3306. The port of container
+      #     #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+      #     #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+      #     mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
+      #     mysql database: $DATABASE_DATABASE # Optional, default value is "test". The specified database which will be create
+      #     mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
+      #     mysql user: $DATABASE_USER # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, to
+      #     mysql password: $DATABASE_PASSWORD # Required if "mysql user" exists. The password for the "mysql user"
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install --production=false
+      - name: Set up environment and run test
+        run: |
+          touch env/test.env
+          echo NODE_ENV=$NODE_ENV >> env/test.env
+          echo PORT=$PORT >> env/test.env
+          echo JET_LOGGER_MODE=$JET_LOGGER_MODE >> env/test.env
+          echo JET_LOGGER_FILEPATH=$JET_LOGGER_FILEPATH >> env/test.env
+          echo JET_LOGGER_TIMESTAMP=$JET_LOGGER_TIMESTAMP >> env/test.env
+          echo JET_LOGGER_FORMAT=$JET_LOGGER_FORMAT >> env/test.env
+          echo DATABASE_SERVER=$DATABASE_SERVER >> env/test.env
+          echo DATABASE_DATABASE=$DATABASE_DATABASE >> env/test.env
+          echo DATABASE_USERNAME=$DATABASE_USERNAME >> env/test.env
+          echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> env/test.env
+          echo JWT_SECRET=$JWT_SECRET >> env/test.env
+          echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> env/test.env
+          echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> env/test.env
+          echo GITHUB_APP_ID=$APP_ID >> env/test.env
+          echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
+          cp env/test.env env/development.env
+          npm run dev
+          npm run test:no-reloading

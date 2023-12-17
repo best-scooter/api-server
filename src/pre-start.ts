@@ -8,6 +8,7 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import { parse } from 'ts-command-line-args';
+import logger from 'jet-logger';
 
 
 // **** Types **** //
