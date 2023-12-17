@@ -12,7 +12,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Test.valueOf()) {
     // console.log("server:", EnvVars.DbServer)
     // console.log("username:", EnvVars.DbUsername)
     // console.log("password:", EnvVars.DbPassword)
-    options = { logging: false };
+    // options = { logging: false };
 }
 
 // **** Instansiate sequelize **** //
