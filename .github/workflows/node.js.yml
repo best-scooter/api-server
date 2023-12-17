@@ -43,56 +43,17 @@ jobs:
         image: docker.io/missivaeak/bestscooter-database
         ports:
           - 3306:3306
-        env:
-          MARIADB_ROOT_PASSWORD: example
-          MARIADB_DATABASE: test
-          MARIADB_USER: user
-          MARIADB_PASSWORD: password
-          MARIADB_MYSQL_LOCALHOST_USER: 1
-        # options: --health-cmd="healthcheck.sh --connect --innodb_initialized --su-mysql" --health-interval=10s --health-timeout=5s --health-retries=3
+        #env:
+          #MARIADB_ROOT_PASSWORD: example
+          #MARIADB_DATABASE: test
+          #MARIADB_USER: user
+          #MARIADB_PASSWORD: password
+          #MARIADB_MYSQL_LOCALHOST_USER: 1
         options: --health-cmd="healthcheck.sh --defaults-file=healthcheck.cnf --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - name: Shutdown Ubuntu MySQL (SUDO)
       run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-    # - name: Create env file
-    #   run: |
-    #     touch .env
-    #     echo NODE_ENV=$NODE_ENV >> .env
-    #     echo PORT=$ $PORT >> .env
-    #     echo JET_LOGGER_MODE=$ $JET_LOGGER_MODE >> .env
-    #     echo JET_LOGGER_FILEPATH=$ $JET_LOGGER_FILEPATH >> .env
-    #     echo JET_LOGGER_TIMESTAMP=$ $JET_LOGGER_TIMESTAMP >> .env
-    #     echo JET_LOGGER_FORMAT=$ $JET_LOGGER_FORMAT >> .env
-    #     echo DATABASE_HOST=$ $DATABASE_HOST >> .env
-    #     echo DATABASE_DATABASE=$ $DATABASE_DATABASE >> .env
-    #     echo DATABASE_USER=$DATABASE_USER >> .env
-    #     echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
-    #     echo JWT_SECRET=$JWT_SECRET >> .env
-    #     echo OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID >> .env
-    #     echo OAUTH_CLIENT_SECRET=$OAUTH_CLIENT_SECRET >> .env
-    #     echo GITHUB_APP_ID=$APP_ID >> .env
-    #     echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> .env
-
-    #     echo "cat .env"
-    #     cat .env
-
-    #     echo "ls -a "
-    #     ls -a 
-
-    #     echo "ls -a ${{ github.workspace }}"
-    #     ls -a ${{ github.workspace }}
-    # - uses: getong/mariadb-action@v1.1
-    #   with:
-    #     host port: 3306 # Optional, default value is 3306. The port of host
-    #     container port: 3306 # Optional, default value is 3306. The port of container
-    #     #character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-    #     #collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-    #     mariadb version: ${{ matrix.mariadb-version }} # Optional, default value is "latest". The version of the MariaDB
-    #     mysql database: $DATABASE_DATABASE # Optional, default value is "test". The specified database which will be create
-    #     mysql root password: ${{ secrets.ROOT_PASSWORD }} # Required if "mysql user" is empty, default is empty. The root superuser password
-    #     mysql user: $DATABASE_USER # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, to
-    #     mysql password: $DATABASE_PASSWORD # Required if "mysql user" exists. The password for the "mysql user"
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
