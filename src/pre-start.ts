@@ -38,6 +38,3 @@ if (process.env.NODE_ENV !== "simulation") {
     throw result2.error;
   }
 }
-
-console.log(process.env.JET_LOGGER_MODE)
-logger.info("test")
