@@ -119,5 +119,4 @@ jobs:
         echo GITHUB_APP_ID=$APP_ID >> env/test.env
         echo GITHUB_PRIVATE_KEY=$PRIVATE_KEY >> env/test.env
         cp env/test.env env/development.env
-        npm run dev
         npm run test:no-reloading
