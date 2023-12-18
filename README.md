@@ -597,10 +597,7 @@ Pushar imagen till ACR.
 > {
 >   customerId: number,
 >   scooterId: number,
->   startPosition: [number, number],
->   priceInitial: number,
->   priceTime: number,
->   priceDistance: number
+>   startPosition: [number, number]
 > }
 > ```
 >
@@ -624,19 +621,11 @@ Pushar imagen till ACR.
 > 
 > `routeAppend` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
 >
-> > [!WARNING]
-> > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
+> [!WARNING]
+> Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
-> ```typescript
-> {
->   parkedCharging?: boolean,
->   timeEnded?: string,
->   distance?: number,
->   route?: [number, number][],
->   routeAppend?: [number, number][],
->   endPosition?: [number, number]
-> }
-> ```
+> ⬅️ Response body:
+> Se [/trip](#trip)
 
 > __DELETE__
 >
