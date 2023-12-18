@@ -602,11 +602,8 @@ Pushar imagen till ACR.
 > ```
 >
 > ⬅️ Response body:
-> ```typescript
-> { data: {
->   tripId: number
-> }}
-> ```
+>
+> Se [/trip](#trip)
 
 > __PUT__
 >
@@ -625,7 +622,16 @@ Pushar imagen till ACR.
 > > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
 > ⬅️ Response body:
-> Se [/trip](#trip)
+> ```typescript
+> {
+>   parkedCharging?: boolean,
+>   timeEnded?: string,
+>   distance?: number,
+>   route?: [number, number][],
+>   routeAppend?: [number, number][],
+>   endPosition?: [number, number]
+> }
+> ```
 
 > __DELETE__
 >
