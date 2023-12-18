@@ -691,7 +691,8 @@ Pushar imagen till ACR.
 >     colour: string,
 >     name: string,
 >     description: string,
->     parkingValue: number
+>     parkingValue: number,
+>     maxSpeed: number
 >   },
 >   ...
 > ]}
@@ -734,7 +735,8 @@ Pushar imagen till ACR.
 >   colour: string,
 >   name: string,
 >   description: string,
->   parkingValue: number
+>   parkingValue: number,
+>   maxSpeed: number
 > }}
 > ```
 
@@ -755,7 +757,8 @@ Pushar imagen till ACR.
 >   colour?: string,
 >   name?: string,
 >   description?: string,
->   parkingValue?: number
+>   parkingValue?: number,
+>   maxSpeed?: number
 > }
 > ```
 
