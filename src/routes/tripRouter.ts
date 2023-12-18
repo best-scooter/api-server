@@ -39,10 +39,7 @@ tripRouter.post(
     validate(
         ["customerId", "number"],
         ["scooterId", "number"],
-        ["startPosition", isPositionArray],
-        ["priceInitial", "number"],
-        ["priceTime", "number"],
-        ["priceDistance", "number"]
+        ["startPosition", isPositionArray]
     ),
     TripModel.onePost
 );

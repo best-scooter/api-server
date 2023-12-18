@@ -5,6 +5,7 @@ import TripORM from '../orm/Trip';
 import { isAdmin, isAdminLevel, isCustomer, isScooter, isThisIdentity, isThisCustomer, isThisScooter } from './validation';
 import { getBestZone } from './position';
 import { start } from 'repl';
+import EnvVars from '@src/constants/EnvVars';
 
 // **** Variables **** //
 
@@ -76,9 +77,6 @@ async function onePost(req: e.Request, res: e.Response) {
     const tripId = parseInt(req.params.tripId);
     const customerId = parseInt(req.body.customerId);
     const scooterId = parseInt(req.body.scooterId);
-    const priceInitial = parseFloat(req.body.priceInitial);
-    const priceTime = parseFloat(req.body.priceTime);
-    const priceDistance = parseFloat(req.body.priceDistance);
     // starts now
     const timeStarted = new Date();
     // create startposition as array with the first pair of coordinates
@@ -92,9 +90,9 @@ async function onePost(req: e.Request, res: e.Response) {
     const tripData = {
         customerId,
         scooterId,
-        priceInitial,
-        priceTime,
-        priceDistance,
+        priceInitial: EnvVars.PriceInitial,
+        priceTime: EnvVars.PriceTime,
+        priceDistance: EnvVars.PriceDistance,
         bestPickupZone,
         timeStarted,
         route: [startPosition],
@@ -118,7 +116,7 @@ async function onePost(req: e.Request, res: e.Response) {
     }
 
     return res.status(HttpStatusCodes.CREATED).json({
-        data: { tripId: trip.id }
+        data: trip
     });
 }
 
