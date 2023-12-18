@@ -621,8 +621,8 @@ Pushar imagen till ACR.
 > 
 > `routeAppend` lägger till nya punkter till resans rutt, `route` ersätter hela resans rutt.
 >
-> [!WARNING]
-> Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
+> > [!WARNING]
+> > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
 > ⬅️ Response body:
 > Se [/trip](#trip)
