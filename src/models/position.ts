@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import pointInPolygon from 'point-in-polygon';
 
 import ZoneORM from '../orm/Zone'
@@ -10,9 +9,7 @@ import ZoneORM from '../orm/Zone'
 async function getBestZone(scooterPosition: Array<number>) {
     const zoneIds = await getAllZonesByPosition(scooterPosition);
     const zones = await ZoneORM.findAll({ where: {
-        id: {
-            [Op.or]: zoneIds
-        }
+        id: zoneIds
     }})
     let bestZoneId = -1;
     let bestZoneValue = -1;
@@ -23,6 +20,8 @@ async function getBestZone(scooterPosition: Array<number>) {
             bestZoneId = zone.id;
         }
     }
+
+    if (bestZoneId === -1) { return null; }
 
     return bestZoneId;
 }

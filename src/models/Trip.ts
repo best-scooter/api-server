@@ -4,8 +4,7 @@ import HttpStatusCodes from '../constants/HttpStatusCodes';
 import TripORM from '../orm/Trip';
 import { isAdmin, isAdminLevel, isCustomer, isScooter, isThisIdentity, isThisCustomer, isThisScooter } from './validation';
 import { getBestZone } from './position';
-import { start } from 'repl';
-import EnvVars from '@src/constants/EnvVars';
+import EnvVars from '../constants/EnvVars';
 
 // **** Variables **** //
 
@@ -141,7 +140,7 @@ async function onePut(req: e.Request, res: e.Response) {
 
     let tripData = {};
     let routeAppend: number[][] = [];
-    let bestParkingZone = -1;
+    let bestParkingZone: number|null = -1;
 
     // routeAppend logic
     // this causes unexpected behaviour if both route and routeAppend
