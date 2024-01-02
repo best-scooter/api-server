@@ -472,10 +472,10 @@ Pushar imagen till ACR.
 >   positionY?: number,
 >   battery?: number,
 >   charging?: boolean,
->   available: boolean,
->   decomissioned: boolean,
->   beingServiced: boolean,
->   disabled: boolean,
+>   available?: boolean,
+>   decomissioned?: boolean,
+>   beingServiced?: boolean,
+>   disabled?: boolean,
 >   connected?: boolean
 > }
 > ```
