@@ -149,6 +149,10 @@ async function onePut(req: e.Request, res: e.Response) {
         const route = trip.route ?? [];
         const append = req.body["routeAppend"];
         routeAppend = route.concat(append);
+
+        console.log(route),
+        console.log(append),
+        console.log(routeAppend)
     }
 
     // endPosition logic

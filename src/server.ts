@@ -17,6 +17,7 @@ import HttpStatusCodes from './constants/HttpStatusCodes';
 import { NodeEnvs } from './constants/misc';
 import { RouteError } from './other/errors';
 import sequelize from './orm/Sequelize';
+import ScooterORM from './orm/Scooter';
 
 // **** Variables **** //
 
@@ -51,6 +52,15 @@ try {
     console.error(error);
     console.error("Database connection failed.");
 }
+
+// Make sure all scooters are disconnected
+ScooterORM.findAll().then((scooters) => {
+    for (const scooter of scooters) {
+        scooter.update({
+            connected: false
+        });
+    }
+})
 
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);
