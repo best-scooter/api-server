@@ -291,6 +291,7 @@ async function tokenPost(req: e.Request, res: e.Response) {
             token,
             email,
             customerId: customer.id,
+            oAuthEmail: emailFromOAuth ?? ""
         },
     });
 }
