@@ -275,7 +275,8 @@ async function tokenPost(req: e.Request, res: e.Response) {
         return res.status(HttpStatusCodes.UNAUTHORIZED).end();
     }
 
-    const email = oAuthToken ? emailFromOAuth : emailFromRequest;
+    // const email = oAuthToken ? emailFromOAuth : emailFromRequest;
+    const email = emailFromRequest;
 
     const customer = await CustomerORM.findOne({where: { email }});
 
