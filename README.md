@@ -472,10 +472,10 @@ Pushar imagen till ACR.
 >   positionY?: number,
 >   battery?: number,
 >   charging?: boolean,
->   available: boolean,
->   decomissioned: boolean,
->   beingServiced: boolean,
->   disabled: boolean,
+>   available?: boolean,
+>   decomissioned?: boolean,
+>   beingServiced?: boolean,
+>   disabled?: boolean,
 >   connected?: boolean
 > }
 > ```
@@ -597,19 +597,13 @@ Pushar imagen till ACR.
 > {
 >   customerId: number,
 >   scooterId: number,
->   startPosition: [number, number],
->   priceInitial: number,
->   priceTime: number,
->   priceDistance: number
+>   startPosition: [number, number]
 > }
 > ```
 >
 > ⬅️ Response body:
-> ```typescript
-> { data: {
->   tripId: number
-> }}
-> ```
+>
+> Se [/trip](#trip)
 
 > __PUT__
 >
@@ -627,6 +621,7 @@ Pushar imagen till ACR.
 > > [!WARNING]
 > > Använd inte `routeAppend` och `route` i samma PUT, det kan få oförutsedda resultat.
 > 
+> ⬅️ Response body:
 > ```typescript
 > {
 >   parkedCharging?: boolean,
@@ -696,7 +691,8 @@ Pushar imagen till ACR.
 >     colour: string,
 >     name: string,
 >     description: string,
->     parkingValue: number
+>     parkingValue: number,
+>     maxSpeed: number
 >   },
 >   ...
 > ]}
@@ -739,7 +735,8 @@ Pushar imagen till ACR.
 >   colour: string,
 >   name: string,
 >   description: string,
->   parkingValue: number
+>   parkingValue: number,
+>   maxSpeed: number
 > }}
 > ```
 
@@ -760,7 +757,8 @@ Pushar imagen till ACR.
 >   colour?: string,
 >   name?: string,
 >   description?: string,
->   parkingValue?: number
+>   parkingValue?: number,
+>   maxSpeed?: number
 > }
 > ```
 
