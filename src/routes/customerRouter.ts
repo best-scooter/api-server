@@ -46,6 +46,9 @@ customerRouter.put(Paths.Customer.One, CustomerModel.onePut);
 // Delete one customer
 customerRouter.delete(Paths.Customer.One, CustomerModel.oneDelete);
 
+// Customer callback for oauth
+customerRouter.get(Paths.Customer.Callback, CustomerModel.getCallback);
+
 // **** Export default **** //
 
 export default customerRouter;

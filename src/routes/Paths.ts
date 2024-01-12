@@ -8,7 +8,8 @@ export default {
         Base: '/customer',
         One: '/:customerId',
         Auth: '/auth',
-        Token: '/token'
+        Token: '/token',
+        Callback: '/callback'
     },
     Admin: {
         Base: '/admin',

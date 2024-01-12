@@ -18,5 +18,6 @@ export default {
   OAuthClientSecret: (process.env.OAUTH_CLIENT_SECRET ?? ''),
   PriceInitial: (parseFloat(process.env.PRICE_INITIAL ?? '')),
   PriceDistance: (parseFloat(process.env.PRICE_DISTANCE ?? '')),
-  PriceTime: (parseFloat(process.env.PRICE_TIME ?? ''))
+  PriceTime: (parseFloat(process.env.PRICE_TIME ?? '')),
+  UserIp: process.env.USER_IP ?? ''
 } as const;

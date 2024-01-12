@@ -296,6 +296,12 @@ async function tokenPost(req: e.Request, res: e.Response) {
     });
 }
 
+async function getCallback(req: e.Request, res: e.Response) {
+    const code = req.query.code;
+    const state = req.query.state;
+    return res.redirect(`exp://${EnvVars.UserIp}:8888/?code=${code}&state=${state}`);
+}
+
 // **** Export default **** //
 
 export default {
@@ -308,4 +314,5 @@ export default {
     authGet,
     authPost,
     tokenPost,
+    getCallback
 } as const;
