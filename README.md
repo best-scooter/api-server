@@ -36,6 +36,11 @@ Kör production-builden (måste vara byggt först).
 
 Kör production-builden med en annan .env-fil.
 
+### npm run docker:build
+### npm run docker:push
+
+Bygger och pushar image till dockerrepo. Ändra tag package.json efter behov.
+
 ## API-referens
 
 - [v1/customer](#customer)
