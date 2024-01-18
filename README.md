@@ -36,40 +36,28 @@ Kör production-builden (måste vara byggt först).
 
 Kör production-builden med en annan .env-fil.
 
-### `npm run docker:build`
-
-Bygger appen och bygger imagen.
-
-### `npm run docker:push`
-
-Pushar imagen till ACR.
-
-### `npm run database:populate`
-
-Återställer databasen med en superadmin (chefen:chefen), 1000 elsparkcyklar och 1000 kunder. OBS! Detta rensar databasen.
-
 ## API-referens
 
-- [/customer](#customer)
-  - [/customer/{customerId}](#customercustomerid)
-  - [/customer/auth](#customerauth)
-  - [/customer/token](#customertoken)
-- [/admin](#admin)
-  - [/admin/{adminId}](#adminadminid)
-  - [/admin/token](#admintoken)
-- [/scooter](#scooter)
-  - [/scooter/{scooterId}](#scooterscooterid)
-  - [/scooter/token](#scootertoken)
-- [/trip](#trip)
-  - [/trip/{tripId}](#triptripid)
-  - [/trip/by/customer/{customerId}](#tripbycustomercustomerid)
-  - [/trip/by/scooter/{scooterId}](#tripbyscooterscooterid)
-- [/zone](#zone)
-  - [/zone/{zoneId}](#zonezoneid)
-- [/parking](#parking)
-  - [/parking/{parkingId}](#parkingparkingid)
-  - [/parking/by/zone/{zoneId}](#parkingbyzonezoneid)
-  - [/parking/by/scooter/{scooterId}](#parkingbyscooterscooterid)
+- [v1/customer](#customer)
+  - [v1/customer/{customerId}](#customercustomerid)
+  - [v1/customer/auth](#customerauth)
+  - [v1/customer/token](#customertoken)
+- [v1/admin](#admin)
+  - [v1/admin/{adminId}](#adminadminid)
+  - [v1/admin/token](#admintoken)
+- [v1/scooter](#scooter)
+  - [v1/scooter/{scooterId}](#scooterscooterid)
+  - [v1/scooter/token](#scootertoken)
+- [v1/trip](#trip)
+  - [v1/trip/{tripId}](#triptripid)
+  - [v1/trip/by/customer/{customerId}](#tripbycustomercustomerid)
+  - [v1/trip/by/scooter/{scooterId}](#tripbyscooterscooterid)
+- [v1/zone](#zone)
+  - [v1/zone/{zoneId}](#zonezoneid)
+- [v1/parking](#parking)
+  - [v1/parking/{parkingId}](#parkingparkingid)
+  - [v1/parking/by/zone/{zoneId}](#parkingbyzonezoneid)
+  - [v1/parking/by/scooter/{scooterId}](#parkingbyscooterscooterid)
 - [JSON Web Token](#json-web-token)
   - [JWT-exempel](#jwt-exempel)
 
@@ -603,7 +591,7 @@ Pushar imagen till ACR.
 >
 > ⬅️ Response body:
 >
-> Se [/trip](#trip)
+> Se [v1/trip](#trip)
 
 > __PUT__
 >
@@ -654,7 +642,7 @@ Pushar imagen till ACR.
 > ```
 >
 > ⬅️ Response body:
-> Se [/trip](#trip)
+> Se [v1/trip](#trip)
 
 #### /trip/by/scooter/{scooterId}
 
@@ -668,7 +656,7 @@ Pushar imagen till ACR.
 > ```
 >
 > ⬅️ Response body:
-> Se [/trip](#trip)
+> Se [v1/trip](#trip)
 
 ### /zone
 
@@ -843,7 +831,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 >
-> Se [/parking](#parking)
+> Se [v1/parking](#parking)
 
 > __DELETE__
 >
@@ -867,7 +855,7 @@ Representerar en cykels parkering på en zon. Om en cykel är parkerad i flera z
 >
 > ⬅️ Response body:
 >
-> Se [/parking](#parking)
+> Se [v1/parking](#parking)
 
 > __POST__
 >
