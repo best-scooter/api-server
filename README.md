@@ -2,6 +2,8 @@
 
 REST API server till best-scooter.
 
+Inställningar för simulation görs i .env-filer. Använd `env/example.env` som mall och namnge den efter NODE_ENV, t.ex. `development.env` eller `production.env`.
+
 ## Scripts
 
 ### `npm run dev`
