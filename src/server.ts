@@ -33,10 +33,12 @@ app.use(cors({
     preflightContinue: true
 }));
 
-// Show routes called in console during development
-if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
-    app.use(morgan('dev'));
-}
+// // Show routes called in console during development
+// if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
+//     app.use(morgan('dev'));
+// }
+// Alwasy show routes called in console
+app.use(morgan('dev'));
 
 // Security
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
