@@ -18,6 +18,7 @@ import { NodeEnvs } from './constants/misc';
 import { RouteError } from './other/errors';
 import sequelize from './orm/Sequelize';
 import ScooterORM from './orm/Scooter';
+import TripORM from './orm/Trip';
 
 // **** Variables **** //
 
@@ -54,11 +55,25 @@ try {
 }
 
 // Make sure all scooters are disconnected
+// and assume 50% battery until the first update
 ScooterORM.findAll().then((scooters) => {
     for (const scooter of scooters) {
         scooter.update({
-            connected: false
+            connected: false,
+            battery: 0.5
         });
+    }
+})
+
+// Make sure all trips are closed
+TripORM.findAll().then((trips) => {
+    for (const trip of trips) {
+        // End all ongoing trips
+        if (trip.timeEnded === null) {
+            trip.update({
+                timeEnded: new Date()
+            });
+        }
     }
 })
 

@@ -104,7 +104,7 @@ async function byScooterGet(req: e.Request, res: e.Response) {
 }
 
 async function byScooterPost(req: e.Request, res: e.Response) {
-    const valid = await isAdmin(req.headers) || await isScooter(req.headers);
+    const valid = await isAdmin(req.headers) || await isScooter(req.headers) || await isCustomer(req.headers);
 
     if (!valid) {
         return res.status(HttpStatusCodes.FORBIDDEN).end();
